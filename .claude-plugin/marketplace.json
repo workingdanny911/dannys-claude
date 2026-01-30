@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dannys-claude",
+  "version": "1.0.0",
+  "description": "Danny's personal plugin marketplace for Claude Code",
+  "owner": {
+    "name": "Danny"
+  },
+  "plugins": [
+    {
+      "name": "sprint",
+      "description": "Kanban-style sprint management for multi-agent collaboration",
+      "version": "1.0.0",
+      "source": "./plugins/sprint",
+      "category": "productivity"
+    }
+  ]
+}

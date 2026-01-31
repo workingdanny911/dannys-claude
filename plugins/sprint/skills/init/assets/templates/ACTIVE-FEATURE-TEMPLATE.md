@@ -44,6 +44,20 @@ What we know about this feature right now.
 
 ---
 
+## Coordination
+
+> Cross-feature dependencies and agent collaboration notes.
+
+| Related | Topic | Status | Notes |
+|---------|-------|--------|-------|
+| | | | |
+
+### Handoff Notes
+
+<!-- Leave notes for the next agent working on this Feature -->
+
+---
+
 ## Related Files
 
 - `refs/designs/F{n}-*.md` - Design doc

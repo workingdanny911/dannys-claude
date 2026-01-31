@@ -6,10 +6,8 @@
 
 ## Before You Start (REQUIRED)
 
-- [ ] Read `BACKLOG.md` - Find your assigned or available tasks
-- [ ] Read `refs/decisions/F{n}-*.md` - If working on Feature n (if exists)
-- [ ] Read `refs/lessons/F{n}-*.md` - If working on Feature n (if exists)
-- [ ] Check `active/F{n}-*.md` - Feature context (if exists)
+- [ ] Check **Up Next** below - Pick highest priority task
+- [ ] Read `active/F{n}-*.md` - Feature context (if exists)
 - [ ] Check **Dependencies** below - Ensure nothing blocks your task
 
 ---
@@ -18,6 +16,18 @@
 
 Each agent may only have **one task in_progress** at a time.
 Complete or move to review before claiming another.
+
+---
+
+## Up Next
+
+> Priority-ordered tasks ready to claim. Update when tasks complete or unblock.
+
+| Priority | Task | Feature | Notes |
+|----------|------|---------|-------|
+| | | | |
+
+<!-- Keep top 3-5 claimable tasks. Remove when claimed. -->
 
 ---
 
@@ -83,8 +93,9 @@ Complete or move to review before claiming another.
 ### Complete a task
 1. Move from **In Progress** to **Recently Done** (or **In Review**)
 2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`
-3. Update `active/F{n}-name.md` with completion notes
-4. **END SESSION** - Do NOT claim next task automatically
+3. Update **Up Next**: Add newly unblocked tasks with priority
+4. Update `active/F{n}-name.md` with completion notes
+5. **END SESSION** - Do NOT claim next task automatically
 
 > One session = One task. Start new session with `@INSTRUCTION.md` for next task.
 

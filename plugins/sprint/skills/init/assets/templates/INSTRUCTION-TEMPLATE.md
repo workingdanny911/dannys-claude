@@ -74,8 +74,9 @@ Before claiming a new task, verify:
 1. Verify against Definition of Done
 2. Update HANDOFF.md: Move to In Review or Recently Done
 3. Update BACKLOG.md: Mark `[x]`, status to `review` or `done`
-4. Update `active/F{n}-*.md` with completion notes
-5. **END SESSION** - Do NOT automatically claim next task
+4. Update **Up Next** in HANDOFF.md: Add newly unblocked tasks with priority
+5. Update `active/F{n}-*.md` with completion notes
+6. **END SESSION** - Do NOT automatically claim next task
 
 > **One session = One task.** After completing a task, end the session.
 > User will start a new session with `@INSTRUCTION.md` for the next task.
@@ -101,6 +102,43 @@ Before claiming a new task, verify:
 2. Move lessons to `refs/lessons/F{n}-*.md`
 3. Only sprint-wide insights go to `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
 4. Delete `active/F{n}-*.md`
+
+---
+
+## Where to Record Information
+
+### HANDOFF.md (Sprint-Wide Status Board)
+
+Keep it concise - tables and short notes only:
+
+| Section | What to Update |
+|---------|----------------|
+| **Up Next** | Priority-ordered claimable tasks (top 3-5) |
+| **In Progress** | Your task row only |
+| **In Review** | Move task when ready for review |
+| **Recently Done** | Move completed (keep last 5) |
+| **Dependencies** | Sprint-wide task/feature dependencies |
+| **Blockers** | Sprint-wide blockers only |
+
+**Do NOT add to HANDOFF.md:**
+- Feature-specific decisions or rationale
+- Detailed coordination notes
+- Long explanations or context
+
+### active/F{n}-*.md (Feature Working Context)
+
+Record all detailed information here:
+
+| Information | Example |
+|-------------|---------|
+| Progress details | "Implemented login, testing refresh token" |
+| Decisions | "Chose JWT over sessions because..." |
+| Coordination | "Need to sync with F2 on order ID format" |
+| Handoff notes | "Next: implement rate limiting, see notes below" |
+| Open questions | "Redis vs DB for refresh tokens?" |
+| Files modified | "src/auth/*.ts - added validation" |
+
+> **Rule**: Feature-specific → `active/`. Sprint-wide → `HANDOFF.md` tables.
 
 ---
 

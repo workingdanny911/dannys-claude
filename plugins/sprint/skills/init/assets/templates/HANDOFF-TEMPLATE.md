@@ -92,9 +92,10 @@ Complete or move to review before claiming another.
 
 ### Complete a task
 1. Move from **In Progress** to **Recently Done** (or **In Review**)
-2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`
+2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`, remove `#agent`
+   - **No detailed notes** - just checkbox and status change
 3. Update **Up Next**: Add newly unblocked tasks with priority
-4. Update `active/F{n}-name.md` with completion notes
+4. Update `active/F{n}-name.md` with completion notes (details go here)
 5. **END SESSION** - Do NOT claim next task automatically
 
 > One session = One task. Start new session with `@INSTRUCTION.md` for next task.

@@ -73,9 +73,10 @@ Before claiming a new task, verify:
 
 1. Verify against Definition of Done
 2. Update HANDOFF.md: Move to In Review or Recently Done
-3. Update BACKLOG.md: Mark `[x]`, status to `review` or `done`
+3. Update BACKLOG.md: Mark `[x]`, status to `review` or `done`, remove `#agent`
+   - **Minimal only**: Just checkbox + status. NO completion notes here.
 4. Update **Up Next** in HANDOFF.md: Add newly unblocked tasks with priority
-5. Update `active/F{n}-*.md` with completion notes
+5. Update `active/F{n}-*.md` with completion notes (detailed work summary goes here)
 6. **END SESSION** - Do NOT automatically claim next task
 
 > **One session = One task.** After completing a task, end the session.

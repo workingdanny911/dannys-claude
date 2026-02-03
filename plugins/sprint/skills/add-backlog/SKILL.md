@@ -161,6 +161,25 @@ After user approval:
    Ready to work? Start with: @INSTRUCTION.md #your-name
    ```
 
+### Phase 5: Next Step (Optional)
+
+After confirming addition, offer to detail-plan Tasks:
+
+```
+Would you like to detail-plan any of the new Tasks now?
+1. Yes → Which Task? (runs /sprint:plan-backlog)
+2. No → End skill
+```
+
+If user selects Yes:
+- Ask which Task to plan
+- Invoke `/sprint:plan-backlog` for the selected Task
+- This breaks down the Task into Sub-tasks with detailed implementation plan
+
+If user selects No:
+- End the skill
+- User can run `/sprint:plan-backlog` later when needed
+
 ---
 
 ## Task Sizing Guidelines

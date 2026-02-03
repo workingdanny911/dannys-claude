@@ -16,6 +16,7 @@ When you receive `@INSTRUCTION.md #agent-name`:
    - `refs/decisions/F{n}-*.md` - Feature-specific decisions (if working on F{n})
    - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
    - `refs/decisions/_sprint.md` - Sprint-wide constraints (if exists)
+   - `refs/lessons/_sprint.md` - Sprint-wide lessons (if exists)
 3. **Find your task**:
    - Already assigned to you? Continue it.
    - Nothing assigned? Claim from backlog (highest priority first, `[URGENT]` first).

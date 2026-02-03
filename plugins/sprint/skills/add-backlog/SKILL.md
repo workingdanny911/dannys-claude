@@ -84,13 +84,16 @@ Enter Plan Mode to design the work structure.
 ### F{n}: {Feature Name}
 > {Brief description}
 
-**Type**: coding | docs | ideation | general
+**Design**: [refs/designs/F{n}-{name}.md](refs/designs/F{n}-{name}.md)
+**Context**: [active/F{n}-{name}.md](active/F{n}-{name}.md)
 
 - [ ] T{n}.1: {Task name} `backlog`
   - [ ] T{n}.1.1: {Sub-task if needed}
 - [ ] T{n}.2: {Task name} `backlog`
 - [ ] T{n}.3: Review & Refactor F{n} `backlog`  ← verification/refactoring
 ```
+
+> **Note**: Type, Goals, and detailed design information go in the Design doc, not BACKLOG.md.
 
 **Review & Refactor tasks (REQUIRED):**
 
@@ -129,32 +132,31 @@ Examples:
 After user approval:
 
 1. **Update BACKLOG.md**
-   - Add new Feature section
+   - Add new Feature section with Design and Context links
+   - Task list only (no detailed information)
    - Maintain priority ordering (new items at bottom unless specified)
 
-2. **Design doc decision**
+2. **Create Design doc** (`refs/designs/F{n}-{name}.md`)
+   - Use FEATURE-DESIGN-TEMPLATE.md
+   - Include Type (coding/docs/ideation/general)
+   - Fill in Goals, Non-Goals, Design approach from brainstorming
+   - Record any decisions made during brainstorming
 
-   | Condition | Action |
-   |-----------|--------|
-   | Feature has 1 simple task | Skip design doc |
-   | Feature has 2+ tasks | Recommend design doc |
-   | Architectural decisions needed | Require design doc |
-   | User requests | Create design doc |
+3. **Create Active context** (`active/F{n}-{name}.md`)
+   - Use ACTIVE-FEATURE-TEMPLATE.md
+   - Set Phase to "design" or "implementation"
+   - Link to Design doc in Related Files
 
-   Ask: "Create design doc for this feature?" (with recommendation based on above)
-
-   If yes:
-   - Create `refs/designs/F{n}-{name}.md` from template
-   - Fill in known information from brainstorming
-
-3. **Confirm addition**
+4. **Confirm addition**
    ```
    Added to BACKLOG.md:
    - F{n}: {Feature Name}
      - T{n}.1: {Task}
      - T{n}.2: {Task}
 
-   Design doc: refs/designs/F{n}-{name}.md (if created)
+   Created:
+   - refs/designs/F{n}-{name}.md (design doc)
+   - active/F{n}-{name}.md (working context)
 
    Ready to work? Start with: @INSTRUCTION.md #your-name
    ```

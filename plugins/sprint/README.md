@@ -43,10 +43,6 @@ sprints/<sprint-name>/
 | review-backlog | `/sprint:review-backlog` | Review completed tasks/features |
 | update-version | `/sprint:update-version` | Update sprint to latest template version |
 
-### Commands
-
-1:1 mapping to skills (`commands/` folder) for `/sprint:` autocompletion support.
-
 ---
 
 ## Quick Start

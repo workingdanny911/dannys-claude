@@ -240,6 +240,11 @@ Since context is cleared after plan approval, plan files must be **self-containe
 - Specify sprint path as **absolute path** (e.g., `sprints/payment-system/`)
 - Include Feature/Task identifier (e.g., `F1/T2`)
 - List all files to reference (absolute paths)
+- Read and reference relevant decisions/lessons (summarize key points in plan):
+  - `refs/decisions/_sprint.md` - Sprint-wide constraints
+  - `refs/lessons/_sprint.md` - Sprint-wide lessons
+  - `refs/decisions/F{n}-*.md` - Feature-specific decisions (if working on F{n})
+  - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
 - Include work context summary
 - Include updating sprint files(i.e. HANDOFF.md, BACKLOG.md, etc.) according to the instruction file(<sprint>/INSTRUCTION.md)
 

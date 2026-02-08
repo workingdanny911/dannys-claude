@@ -33,12 +33,24 @@ Apply template updates to existing sprints when sprint-init templates are update
 3. **Check latest version**
    - Read version from `## Version` section in `../init/SKILL.md`
 
-4. **Report version comparison**
+4. **Read changelog**
+   - Read `../init/CHANGELOG.md` for changes between current and latest version
+   - Extract relevant entries (versions > current)
+
+5. **Report version comparison with changelog**
    ```
    Current sprint version: 1.0.0
    Latest template version: 1.1.0
 
-   Update required. Would you like to preview the changes?
+   Changes since your version:
+
+   ## [1.1.0]
+   ### Changed
+   - ...
+   ### Added
+   - ...
+
+   Would you like to preview the changes?
    ```
 
 ---
@@ -198,6 +210,7 @@ Restore from backup if issues occur.
 
 **Reference files:**
 - Version info: `../init/SKILL.md` `## Version` section
+- Changelog: `../init/CHANGELOG.md`
 - Template files: `../init/assets/templates/*.md`
 
 ---

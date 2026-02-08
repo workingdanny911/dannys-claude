@@ -248,16 +248,46 @@ What Claude does:
 Claude: Completed T1.1: Login API.
 
 Updates:
-- BACKLOG.md: T1.1 → done
-- HANDOFF.md: Moved to Recently Done
+- BACKLOG.md: T1.1 → review
+- HANDOFF.md: Moved to In Review
 - active/F1-user-auth.md: Added completion notes
 
-Ending session. Start new session for next Task.
+Summary of work done:
+- Implemented JWT-based login endpoint
+- Added input validation and error handling
+- All tests passing
+
+Please review when ready. Ending session.
 ```
 
-**Important**: Agent does NOT auto-start next Task!
+**Important**: Agent marks task as `review`, NOT `done`. The task becomes `done` only after user review.
 
-### 3.5 Next Task
+### 3.5 User Review
+
+User reviews the `review` task in the next session:
+
+```
+User: @sprints/payment-system/INSTRUCTION.md #danny
+
+Claude: Starting session as #danny.
+
+Found T1.1: Login API in `review` status.
+
+Here's what was done:
+- Implemented POST /auth/login endpoint
+- JWT access token (15min) + refresh token (7day)
+- Input validation with rate limiting
+- Tests: 12 passing
+
+Please review. Approve to mark done, or let me know what needs changes.
+```
+
+| User Decision | What Happens |
+|---------------|--------------|
+| Approve | T1.1 → `done`, moved to Recently Done |
+| Request changes | Improvement tasks created or fixes applied, then re-mark `review` |
+
+### 3.6 Next Task
 
 Start new session:
 

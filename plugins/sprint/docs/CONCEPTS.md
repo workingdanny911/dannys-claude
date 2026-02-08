@@ -78,8 +78,8 @@ backlog ──────► in_progress ──────► review ───
 | `backlog` | Not started, anyone can claim | `\`backlog\`` |
 | `in_progress` | In progress, agent assigned | `#agent \`in_progress\`` |
 | `blocked` | Cannot proceed, waiting on dependency | `\`blocked\`` |
-| `review` | Complete, awaiting review | `\`review\`` |
-| `done` | Complete and approved | `[x]` `\`done\`` |
+| `review` | Work complete, **mandatory** before done — awaiting user review | `\`review\`` |
+| `done` | User reviewed and approved | `[x]` `\`done\`` |
 
 ---
 
@@ -129,12 +129,12 @@ backlog ──────► in_progress ──────► review ───
          │
          ▼
   ┌─────────────┐
-  │ Complete    │ ◄── Update BACKLOG, HANDOFF
+  │ Mark Review │ ◄── Update BACKLOG, HANDOFF (status: review)
   └─────────────┘
          │
          ▼
   ┌─────────────┐
-  │ End Session │ ◄── Do NOT auto-start next Task
+  │ End Session │ ◄── Report to user, do NOT auto-start next Task
   └─────────────┘
 ```
 

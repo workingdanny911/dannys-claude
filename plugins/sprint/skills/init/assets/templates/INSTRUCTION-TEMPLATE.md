@@ -63,7 +63,7 @@ Before claiming a new task, verify:
 
 ### Completing a Task
 
-**Definition of Done** - Before marking `done`:
+**Self-Check** - Before marking `review`:
 
 - [ ] Task works as described
 - [ ] Self-verified (tested, reviewed own work)
@@ -72,16 +72,40 @@ Before claiming a new task, verify:
 
 **Steps**:
 
-1. Verify against Definition of Done
-2. Update HANDOFF.md: Move to In Review or Recently Done
-3. Update BACKLOG.md: Mark `[x]`, status to `review` or `done`, remove `#agent`
-   - **Minimal only**: Just checkbox + status. NO completion notes here.
+1. Verify against Self-Check
+2. Update HANDOFF.md: Move to **In Review**
+3. Update BACKLOG.md: Keep `[ ]`, status to `review`, remove `#agent`
+   - **Minimal only**: Just status change. NO completion notes here.
 4. Update **Up Next** in HANDOFF.md: Add newly unblocked tasks with priority
 5. Update `active/F{n}-*.md` with completion notes (detailed work summary goes here)
-6. **END SESSION** - Do NOT automatically claim next task
+6. **Report to user**: Summarize what was done and request review
+7. **END SESSION** - Do NOT automatically claim next task
 
-> **One session = One task.** After completing a task, end the session.
-> User will start a new session with `@INSTRUCTION.md` for the next task.
+> **One session = One task.** After completing a task, mark `review` and end the session.
+> The task becomes `done` only after user review.
+
+---
+
+### Handling Review Tasks
+
+When you encounter `review` status tasks — either directly assigned or as part of a Feature:
+
+**Trigger conditions:**
+- User instructs you to work on a `review` task
+- User instructs you to work on a Feature that contains `review` tasks
+
+**Steps:**
+
+1. Read `active/F{n}-*.md`, related plan/design files to understand what was done
+2. **Explain in detail** to the user what was accomplished in the task
+3. **Request user review** — wait for their decision
+
+**Based on user response:**
+
+| User Decision | Action |
+|---------------|--------|
+| **Approve** | Mark `[x]` `done`, move to Recently Done in HANDOFF.md |
+| **Request changes** | Create improvement sub-tasks or fix directly, then re-mark `review` |
 
 ---
 

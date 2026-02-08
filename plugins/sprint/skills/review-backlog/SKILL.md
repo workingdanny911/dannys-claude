@@ -85,6 +85,26 @@ Collect information about the user's selected item:
 - Record pass/fail for each item
 - Provide detailed explanation for failed items
 
+#### Agent Teams for Review
+
+Consider using agent teams when:
+
+- **Large scope** — Entire Feature or multiple Tasks to review
+- **Critical deliverable** — High-risk work where thorough review matters (security, data integrity, core business logic)
+- **Other cases** — When deeper or multi-perspective review would add value
+
+**Always propose to the user and get approval before spawning agent teams.**
+
+Parallelization strategies:
+
+| Strategy | Description | Example |
+|----------|-------------|---------|
+| **By aspect** | Each agent reviews a different quality dimension | functionality, security, performance, code quality |
+| **By target** | Each agent reviews a different Task or component | Agent A: T1.1~T1.2, Agent B: T1.3~T1.4 |
+| **Cross-verification** | A separate agent validates the primary reviewer's findings | Reduces false positives and missed issues |
+
+After parallel review, **merge results into a single report** in Step 4.
+
 ---
 
 ### Step 4: Organize Review Results

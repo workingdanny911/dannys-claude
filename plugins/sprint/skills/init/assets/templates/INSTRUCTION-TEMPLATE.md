@@ -274,6 +274,29 @@ Since context is cleared after plan approval, plan files must be **self-containe
 
 When writing plan files, always fill in the Sprint Context section of the `refs/plans/F{n}-T{m}-*.md` template.
 
+### Agent Teams (Parallel Execution)
+
+When writing a plan, **evaluate whether sub-tasks can run in parallel**. If so, actively use agent teams to divide work and accelerate execution.
+
+**Use agent teams when:**
+
+- 2+ sub-tasks are independent of each other
+- Roles are clearly separable (e.g., frontend/backend, research/implementation, test/code)
+- Parallel execution would meaningfully reduce total time
+
+**Document in plan file:**
+
+| Item | Description |
+|------|-------------|
+| **Team composition** | Agent names, roles, and assigned sub-tasks |
+| **Dependencies** | Which tasks block others (use `blockedBy` / `blocks`) |
+| **Merge point** | When and how team results are integrated |
+
+**Do NOT use agent teams when:**
+
+- All sub-tasks have sequential dependencies
+- Task is simple enough that team coordination overhead exceeds benefit
+
 ---
 
 ## Core Principles

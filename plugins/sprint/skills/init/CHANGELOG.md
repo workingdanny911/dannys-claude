@@ -11,6 +11,14 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.4.0] - 2026-02-08
+
+### Added
+
+- **Agent Teams (Parallel Execution)** section in INSTRUCTION-TEMPLATE.md: Guides agents to evaluate parallelizable sub-tasks during Plan Mode and use agent teams (TeamCreate, Task with team_name) when beneficial. Includes criteria for when to use/skip teams and required plan file documentation (team composition, dependencies, merge points).
+
+---
+
 ## [1.3.0] - 2025-02-08
 
 ### Changed

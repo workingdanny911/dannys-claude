@@ -44,6 +44,22 @@ Step-by-step execution plan:
 
 ---
 
+## Agent Teams (if applicable)
+
+> Remove this section if single-agent execution is sufficient.
+
+**Purpose:** {speed | quality | both}
+
+| Agent | Role | Sub-tasks |
+|-------|------|-----------|
+| lead | {role} | {sub-tasks} |
+| worker-1 | {role} | {sub-tasks} |
+
+**Dependencies:** {which sub-tasks block others}
+**Merge point:** {when/how results are integrated}
+
+---
+
 ## Files to Modify
 
 | File | Change |

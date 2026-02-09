@@ -171,6 +171,21 @@ Now entering Plan Mode to write the detailed plan.
 | ... | ... | ... |
 ```
 
+#### Agent Teams Consideration
+
+Evaluate whether Sub-tasks would benefit from agent teams:
+
+For speed:
+- Are 2+ Sub-tasks independent and parallelizable?
+- Are roles clearly separable? (e.g., frontend vs backend)
+
+For quality:
+- Would separating implementation and testing across agents produce better tests?
+- Would cross-verification catch issues a single agent might miss?
+
+If applicable, add an Agent Teams section to the plan (see TASK-PLAN-TEMPLATE.md).
+Skip if single-agent execution is sufficient.
+
 **Wait for user approval.**
 
 > **CRITICAL: This skill only handles design. It does NOT perform actual implementation.**

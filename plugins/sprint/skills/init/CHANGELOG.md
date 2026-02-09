@@ -11,6 +11,21 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.5.0] - 2026-02-09
+
+### Changed
+
+- **Agent Teams** section in INSTRUCTION-TEMPLATE.md: Reframed from speed-only ("Parallel Execution") to include quality benefits (cross-verification, independent testing, multi-perspective exploration)
+
+### Added
+
+- **Agent Teams** section in TASK-PLAN-TEMPLATE.md: Optional section with Purpose field (speed/quality/both) that agents must consider when writing plans
+- **Agent Teams Consideration** in add-backlog and plan-backlog skills: Guidance to evaluate agent teams for both speed and quality during Feature/Task design
+- **Agent Teams** concept in CONCEPTS.md: Defines agent teams with dual purpose (speed + quality), distinguishes from session-based multi-agent coordination
+- Cross-reference from Multi-Agent Workflow to Agent Teams in INSTRUCTION-TEMPLATE.md
+
+---
+
 ## [1.4.0] - 2026-02-08
 
 ### Added

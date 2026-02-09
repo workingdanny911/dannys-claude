@@ -84,6 +84,8 @@ Before claiming a new task, verify:
 > **One session = One task.** After completing a task, mark `review` and end the session.
 > The task becomes `done` only after user review.
 
+> **Note**: For agent teams *within* a single plan (parallel execution or cross-verification), see [Agent Teams](#agent-teams) under Plan Mode Rule.
+
 ---
 
 ### Handling Review Tasks
@@ -274,15 +276,21 @@ Since context is cleared after plan approval, plan files must be **self-containe
 
 When writing plan files, always fill in the Sprint Context section of the `refs/plans/F{n}-T{m}-*.md` template.
 
-### Agent Teams (Parallel Execution)
+### Agent Teams
 
-When writing a plan, **evaluate whether sub-tasks can run in parallel**. If so, actively use agent teams to divide work and accelerate execution.
+When writing a plan, **evaluate whether agent teams would improve speed or quality**.
 
 **Use agent teams when:**
 
+For speed:
 - 2+ sub-tasks are independent of each other
-- Roles are clearly separable (e.g., frontend/backend, research/implementation, test/code)
+- Roles are clearly separable (e.g., frontend/backend, research/implementation)
 - Parallel execution would meaningfully reduce total time
+
+For quality:
+- Implementation and testing benefit from independent perspectives (one agent implements, another writes tests without seeing implementation)
+- Cross-verification would catch issues a single agent might miss
+- Multiple approaches worth exploring in parallel before choosing
 
 **Document in plan file:**
 
@@ -295,7 +303,8 @@ When writing a plan, **evaluate whether sub-tasks can run in parallel**. If so, 
 **Do NOT use agent teams when:**
 
 - All sub-tasks have sequential dependencies
-- Task is simple enough that team coordination overhead exceeds benefit
+- Task is simple enough that coordination overhead exceeds benefit
+- Single-perspective work is sufficient (straightforward implementation)
 
 ---
 

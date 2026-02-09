@@ -127,6 +127,25 @@ Examples:
 - **Show verification tasks** - explain why they're placed there
 - Ask for approval or adjustments
 
+#### Agent Teams Consideration
+
+When designing the Feature structure, evaluate whether Tasks would benefit from agent teams:
+
+For speed:
+- Feature has 3+ independent Tasks that can run in parallel
+- Tasks don't share file dependencies
+
+For quality:
+- Implementation and testing can be split across agents for independent perspectives
+- Cross-verification would improve reliability (e.g., security-critical features)
+
+If applicable, include in the proposal to user:
+- Which Tasks can run in parallel vs. must be sequential
+- Suggested team composition (agent roles and purpose)
+
+> Agent teams execute during `@INSTRUCTION.md`, not during this skill.
+> This step only identifies opportunities and documents them in the design.
+
 ### Phase 4: Add to Backlog
 
 After user approval:

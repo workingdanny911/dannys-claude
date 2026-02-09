@@ -138,6 +138,33 @@ backlog ──────► in_progress ──────► review ───
   └─────────────┘
 ```
 
+### Agent Teams (Within a Session)
+
+Multi-agent workflow coordinates **separate sessions** via files. Agent teams run **within a single session** using TeamCreate.
+
+Agent teams serve two purposes:
+
+| Purpose | Example |
+|---------|---------|
+| **Speed** | Independent sub-tasks run in parallel |
+| **Quality** | Separate agents for implementation vs testing, cross-verification |
+
+```
+┌─────────────────────────────────────────┐
+│  Single Session                         │
+│  ┌──────┐  ┌──────────┐  ┌──────────┐  │
+│  │ lead │  │ worker-1 │  │ worker-2 │  │
+│  │T1.1.1│  │ T1.1.2   │  │ T1.1.3   │  │
+│  └──┬───┘  └────┬─────┘  └────┬─────┘  │
+│     └────────────┼─────────────┘        │
+│                  ▼                      │
+│          Merge results                  │
+└─────────────────────────────────────────┘
+```
+
+**Use when:** Independent sub-tasks (speed), or independent perspectives needed (quality).
+**Skip when:** Sequential dependencies, simple tasks, coordination overhead exceeds benefit.
+
 ---
 
 ## 4. Core Files

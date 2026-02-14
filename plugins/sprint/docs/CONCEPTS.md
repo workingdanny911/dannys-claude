@@ -118,9 +118,10 @@ backlog ──────► in_progress ──────► review ───
   └─────────────┘
          │
          ▼
-  ┌─────────────┐
-  │ Select Task │ ◄── Already assigned? Continue. None? Claim.
-  └─────────────┘
+  ┌──────────────────┐
+  │ Determine Scope  │ ◄── Feature? Assess parallelism → Teams or narrow to Task
+  │                  │     Task? Proceed. None? Claim highest priority.
+  └──────────────────┘
          │
          ▼
   ┌─────────────┐
@@ -166,6 +167,7 @@ Feature Assignment (Tasks in parallel)    Task Assignment (Sub-tasks in parallel
 **Use when:** 2+ independent sub-items (speed), or independent perspectives needed (quality).
 **Skip when:** Sequential dependencies, simple work, coordination overhead exceeds benefit.
 **User approval:** Always required before creating teams.
+**Without teams:** When a Feature is assigned but agent teams are skipped, the agent narrows scope to a single Task — the highest-priority incomplete Task within that Feature. The remaining Tasks are left for subsequent sessions.
 
 ---
 

@@ -16,7 +16,7 @@ When you receive `@INSTRUCTION.md #agent-name`:
    - `refs/decisions/_sprint.md` - Sprint-wide constraints (if exists)
    - `refs/lessons/_sprint.md` - Sprint-wide lessons (if exists)
 3. **Determine your assignment**:
-   - User assigned a Feature? → Your assignment is that Feature
+   - User assigned a Feature? → Your assignment is that Feature (scope may narrow — see Step 5)
    - User assigned a Task? → Your assignment is that Task
    - Nothing specified? → Claim highest priority Task from backlog
 4. **Read context**:
@@ -28,7 +28,7 @@ When you receive `@INSTRUCTION.md #agent-name`:
 5. **Assess parallelism** — Does your assignment have 2+ independent sub-items?
    - Feature with independent Tasks → consider [Agent Teams](#agent-teams)
    - Task with independent Sub-tasks → consider [Agent Teams](#agent-teams)
-   - Otherwise → proceed directly
+   - **No agent teams?** → [Narrow scope to a single Task](#scope-narrowing)
 6. **State your assignment and approach** before starting work
 
 ---
@@ -300,6 +300,25 @@ When writing a task plan that uses agent teams, document in the plan file:
 | **Team composition** | Agent names, roles, and assigned sub-items |
 | **Dependencies** | Which sub-items block others (use `blockedBy` / `blocks`) |
 | **Merge point** | When and how results are integrated |
+
+---
+
+## Scope Narrowing
+
+When assigned a Feature but **not using agent teams** (sequential dependencies, simple work, or user declines), narrow your working scope to a single Task.
+
+**Rule**: One solo agent = one Task per session, even within a Feature assignment.
+
+**Steps**:
+
+1. Acknowledge the Feature assignment and overall context
+2. Select the highest-priority incomplete Task within the Feature
+3. Work on that single Task only
+4. Mark it `review` and end session — next Task starts in a new session
+
+**Why**: A Feature is multi-Task scope designed for agent teams or multi-session work. A single agent in one session is most effective focused on one Task.
+
+> This does not apply when agent teams are used — teams can work the full Feature scope in parallel.
 
 ---
 

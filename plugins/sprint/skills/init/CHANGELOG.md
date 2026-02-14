@@ -11,6 +11,24 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.8.0] - 2026-02-15
+
+### Added
+
+- **Scope Narrowing** section in INSTRUCTION-TEMPLATE.md: When a Feature is assigned
+  but agent teams are not used, the agent narrows working scope to a single Task
+- Solo agent scope guidance in add-backlog skill for the no-teams case
+
+### Changed
+
+- **Session Start Step 5**: "Otherwise → proceed directly" replaced with explicit
+  scope narrowing reference
+- **Session Start Step 3**: Feature assignment now references Step 5 for scope narrowing
+- **Agent Session Lifecycle** in CONCEPTS.md: "Select Task" → "Determine Scope"
+- **Agent Teams** in CONCEPTS.md: Added "Without teams" clause
+
+---
+
 ## [1.6.0] - 2026-02-14
 
 ### Changed

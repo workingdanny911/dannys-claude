@@ -143,6 +143,11 @@ If applicable, include in the proposal to user:
 - Which Tasks can run in parallel vs. must be sequential
 - Suggested team composition (agent roles and purpose)
 
+If agent teams are **not** applicable (sequential dependencies or simple scope):
+- Note that a solo agent will work **one Task per session**
+- Ensure each Task is properly sized for single-session completion
+- Document recommended Task order (priority/dependency) in the design
+
 > Agent teams execute during `@INSTRUCTION.md`, not during this skill.
 > This step only identifies opportunities and documents them in the design.
 

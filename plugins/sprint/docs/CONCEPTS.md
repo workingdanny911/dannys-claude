@@ -93,9 +93,9 @@ backlog ──────► in_progress ──────► review ───
 ### WIP (Work In Progress) Limit
 
 ```
-┌────────────────────────────────────────┐
-│  Max concurrent Tasks per agent: 1     │
-└────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│  Max concurrent assignments per agent: 1    │
+└─────────────────────────────────────────────┘
 ```
 
 **Why 1?**
@@ -140,30 +140,32 @@ backlog ──────► in_progress ──────► review ───
 
 ### Agent Teams (Within a Session)
 
-Multi-agent workflow coordinates **separate sessions** via files. Agent teams run **within a single session** using TeamCreate.
+Multi-agent workflow coordinates **separate sessions** via files. Agent teams run **within a single session** using `TeamCreate`.
 
 Agent teams serve two purposes:
 
 | Purpose | Example |
 |---------|---------|
-| **Speed** | Independent sub-tasks run in parallel |
+| **Speed** | Independent sub-items run in parallel |
 | **Quality** | Separate agents for implementation vs testing, cross-verification |
 
+Agent teams apply at any scope:
+
 ```
-┌─────────────────────────────────────────┐
-│  Single Session                         │
-│  ┌──────┐  ┌──────────┐  ┌──────────┐  │
-│  │ lead │  │ worker-1 │  │ worker-2 │  │
-│  │T1.1.1│  │ T1.1.2   │  │ T1.1.3   │  │
-│  └──┬───┘  └────┬─────┘  └────┬─────┘  │
-│     └────────────┼─────────────┘        │
-│                  ▼                      │
-│          Merge results                  │
-└─────────────────────────────────────────┘
+Feature Assignment (Tasks in parallel)    Task Assignment (Sub-tasks in parallel)
+┌──────────────────────────────────┐     ┌──────────────────────────────────┐
+│ lead    worker-1   worker-2      │     │ lead    worker-1   worker-2      │
+│ T1.1    T1.2       T1.3         │     │ T1.1.1  T1.1.2     T1.1.3       │
+│   └───────┼─────────┘           │     │   └───────┼─────────┘           │
+│           ▼                      │     │           ▼                      │
+│    Lead merges, continues        │     │    Merge results                 │
+│    with T1.4, T1.5               │     └──────────────────────────────────┘
+└──────────────────────────────────┘
 ```
 
-**Use when:** Independent sub-tasks (speed), or independent perspectives needed (quality).
-**Skip when:** Sequential dependencies, simple tasks, coordination overhead exceeds benefit.
+**Use when:** 2+ independent sub-items (speed), or independent perspectives needed (quality).
+**Skip when:** Sequential dependencies, simple work, coordination overhead exceeds benefit.
+**User approval:** Always required before creating teams.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "sprint",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Sprint management with kanban-style backlog for multi-agent collaboration",
   "author": {
     "name": "danny"

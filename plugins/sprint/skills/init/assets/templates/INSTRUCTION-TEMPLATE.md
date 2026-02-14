@@ -11,20 +11,25 @@ When you receive `@INSTRUCTION.md #agent-name`:
 
 1. **Identify yourself** as `#agent-name` (or `#agent` if not specified)
 2. **Read required files**:
-   - `BACKLOG.md` - Find your task or available work
+   - `BACKLOG.md` - Find your assignment or available work
    - `HANDOFF.md` - Current work status
-   - `refs/decisions/F{n}-*.md` - Feature-specific decisions (if working on F{n})
-   - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
    - `refs/decisions/_sprint.md` - Sprint-wide constraints (if exists)
    - `refs/lessons/_sprint.md` - Sprint-wide lessons (if exists)
-3. **Find your task**:
-   - Already assigned to you? Continue it.
-   - Nothing assigned? Claim from backlog (highest priority first, `[URGENT]` first).
-4. **Read task context** (if exists):
+3. **Determine your assignment**:
+   - User assigned a Feature? → Your assignment is that Feature
+   - User assigned a Task? → Your assignment is that Task
+   - Nothing specified? → Claim highest priority Task from backlog
+4. **Read context**:
    - `refs/designs/F{n}-*.md` - Feature design
-   - `refs/plans/F{n}-T{m}-*.md` - Task plan
+   - `refs/plans/F{n}-T{m}-*.md` - Task plan (if exists)
+   - `refs/decisions/F{n}-*.md` - Feature-specific decisions
+   - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
    - `active/F{n}-*.md` - Feature working context
-5. **State your task** before starting work
+5. **Assess parallelism** — Does your assignment have 2+ independent sub-items?
+   - Feature with independent Tasks → consider [Agent Teams](#agent-teams)
+   - Task with independent Sub-tasks → consider [Agent Teams](#agent-teams)
+   - Otherwise → proceed directly
+6. **State your assignment and approach** before starting work
 
 ---
 
@@ -40,15 +45,15 @@ Identify yourself as `#yourname` consistently in:
 
 ### WIP Limit
 
-**You may only have 1 task in_progress at a time.**
+**You may only have 1 assignment in_progress at a time.**
 
-Before claiming a new task, verify:
+Before claiming new work, verify:
 
-- [ ] I have NO current task in_progress
-- [ ] My previous task is `done`, `review`, or `blocked`
+- [ ] I have NO current assignment in_progress
+- [ ] My previous work is `done`, `review`, or `blocked`
 - [ ] If blocked, I documented it and am NOT claiming another
 
-> **Violation**: If you have a task in_progress, you MUST complete it before claiming another.
+> **Violation**: If you have an assignment in_progress, you MUST complete it before claiming another.
 
 ### Claiming Tasks (Pull)
 
@@ -61,11 +66,11 @@ Before claiming a new task, verify:
 5. Create/update context files as needed
 6. Begin work
 
-### Completing a Task
+### Completing Your Work
 
 **Self-Check** - Before marking `review`:
 
-- [ ] Task works as described
+- [ ] Work functions as described (for each Task in assignment)
 - [ ] Self-verified (tested, reviewed own work)
 - [ ] No obvious bugs or regressions
 - [ ] Code/docs clean and readable
@@ -78,13 +83,12 @@ Before claiming a new task, verify:
    - **Minimal only**: Just status change. NO completion notes here.
 4. Update **Up Next** in HANDOFF.md: Add newly unblocked tasks with priority
 5. Update `active/F{n}-*.md` with completion notes (detailed work summary goes here)
-6. **Report to user**: Summarize what was done and request review
-7. **END SESSION** - Do NOT automatically claim next task
+6. If agent teams were used: **shut down teammates** (see [Agent Teams Lifecycle](#lifecycle))
+7. **Report to user**: Summarize what was done and request review
+8. **END SESSION** - Do NOT automatically claim next work
 
-> **One session = One task.** After completing a task, mark `review` and end the session.
-> The task becomes `done` only after user review.
-
-> **Note**: For agent teams *within* a single plan (parallel execution or cross-verification), see [Agent Teams](#agent-teams) under Plan Mode Rule.
+> **One session = One assignment.** Complete your assignment, mark `review`, and end the session.
+> Tasks become `done` only after user review.
 
 ---
 
@@ -218,6 +222,87 @@ When multiple agents work in parallel:
 
 ---
 
+## Agent Teams
+
+When your assignment has **2+ independent sub-items**, consider forming a team for speed or quality.
+
+This applies at any scope:
+- **Feature assignment** — independent Tasks run in parallel
+- **Task assignment** — independent Sub-tasks run in parallel
+
+### When to Use
+
+For speed:
+- 2+ sub-items are independent of each other
+- Roles are clearly separable (e.g., frontend/backend, research/implementation)
+- Parallel execution would meaningfully reduce total time
+
+For quality:
+- Implementation and testing benefit from independent perspectives
+- Cross-verification would catch issues a single agent might miss
+- Multiple approaches worth exploring in parallel before choosing
+
+**Do NOT use when:**
+- All sub-items have sequential dependencies
+- Work is simple enough that coordination overhead exceeds benefit
+- Single-perspective work is sufficient
+
+### Proposing a Team
+
+**Always propose to the user and get approval before creating a team.**
+
+Present:
+1. Dependency analysis of sub-items (independent vs sequential)
+2. Proposed team composition:
+
+| Agent | Role | Sub-items |
+|-------|------|-----------|
+| lead (me) | {role} + coordination | {sub-items} |
+| worker-1 | {role} | {sub-items} |
+
+3. Execution plan (parallel phase → sequential phase → completion)
+
+### Execution
+
+After user approval:
+
+| Step | Tool | Purpose |
+|------|------|---------|
+| 1 | `TeamCreate` | Create team + task list |
+| 2 | `TaskCreate` | Add work items to team task list |
+| 3 | `Task` (with `team_name`, `name`) | Spawn teammates |
+| 4 | `TaskUpdate` (with `owner`) | Assign work to teammates |
+| 5 | `SendMessage` | Communicate with teammates |
+
+**Responsibilities:**
+
+| | Lead | Teammate |
+|-|------|----------|
+| Sprint files (BACKLOG.md, HANDOFF.md, active/) | Updates | Does NOT touch |
+| Implementation (code, tests) | Yes | Yes |
+| Completion reporting | Reports to user | Reports to lead via `SendMessage` |
+
+Lead works on their own sub-item while coordinating teammates.
+
+### Lifecycle {#lifecycle}
+
+- Teammates go **idle after every turn** — this is normal. Send a message to wake them.
+- When teammate reports completion: review their work, update sprint files, assign next sub-item or shut down.
+- **Shutdown**: `SendMessage` with type `shutdown_request` to each teammate before ending session.
+- **Lead merges results**: Verify integration, resolve conflicts, update `active/F{n}-*.md`.
+
+### In Plan Files
+
+When writing a task plan that uses agent teams, document in the plan file:
+
+| Item | Description |
+|------|-------------|
+| **Team composition** | Agent names, roles, and assigned sub-items |
+| **Dependencies** | Which sub-items block others (use `blockedBy` / `blocks`) |
+| **Merge point** | When and how results are integrated |
+
+---
+
 ## Context Compaction Recovery
 
 When context compaction occurs (you notice memory loss or conversation reset):
@@ -225,18 +310,19 @@ When context compaction occurs (you notice memory loss or conversation reset):
 1. **Re-read essential files** in order:
 
    - `INSTRUCTION.md` - Restore your guidelines
-   - `BACKLOG.md` - Find your assigned task
+   - `BACKLOG.md` - Find your assigned work
    - `HANDOFF.md` - Current work status
    - `active/F{n}-*.md` - Your working context (most important)
 
 2. **Restore your state**:
 
    - Identify yourself as the same `#agent-name`
-   - Continue the task you were working on
-   - Do NOT claim a new task
+   - Continue the assignment you were working on
+   - Do NOT claim a new assignment
+   - If using agent teams: read team config (`~/.claude/teams/{team-name}/config.json`), check `TaskList` for teammate status
 
 3. **Verify before continuing**:
-   - [ ] I know which task I was working on
+   - [ ] I know which assignment I was working on
    - [ ] I read the active context file
    - [ ] I understand where I left off
 
@@ -274,43 +360,14 @@ Since context is cleared after plan approval, plan files must be **self-containe
 - Include work context summary
 - Include updating sprint files(i.e. HANDOFF.md, BACKLOG.md, etc.) according to the instruction file(<sprint>/INSTRUCTION.md)
 
-When writing plan files, always fill in the Sprint Context section of the `refs/plans/F{n}-T{m}-*.md` template.
-
-### Agent Teams
-
-When writing a plan, **evaluate whether agent teams would improve speed or quality**.
-
-**Use agent teams when:**
-
-For speed:
-- 2+ sub-tasks are independent of each other
-- Roles are clearly separable (e.g., frontend/backend, research/implementation)
-- Parallel execution would meaningfully reduce total time
-
-For quality:
-- Implementation and testing benefit from independent perspectives (one agent implements, another writes tests without seeing implementation)
-- Cross-verification would catch issues a single agent might miss
-- Multiple approaches worth exploring in parallel before choosing
-
-**Document in plan file:**
-
-| Item | Description |
-|------|-------------|
-| **Team composition** | Agent names, roles, and assigned sub-tasks |
-| **Dependencies** | Which tasks block others (use `blockedBy` / `blocks`) |
-| **Merge point** | When and how team results are integrated |
-
-**Do NOT use agent teams when:**
-
-- All sub-tasks have sequential dependencies
-- Task is simple enough that coordination overhead exceeds benefit
-- Single-perspective work is sufficient (straightforward implementation)
+When writing plan files, always fill in the Sprint Context section of the `refs/plans/F{n}-T{m}-*.md` template. If using agent teams, include the team composition (see [Agent Teams > In Plan Files](#in-plan-files)).
 
 ---
 
 ## Core Principles
 
-1. **Small, Fast Feedback Loops** - Complete tasks incrementally, verify often
+1. **Small, Fast Feedback Loops** - Complete work incrementally, verify often
 2. **Document as You Go** - Keep HANDOFF.md and active/ current
-3. **Respect WIP Limits** - One task at a time per agent
+3. **Respect WIP Limits** - One assignment at a time per agent
 4. **Ask Before Deciding** - Unclear? Ask user before making big decisions
+5. **User Approval for Teams** - Never auto-spawn agent teams; always propose and wait for approval

@@ -11,6 +11,30 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.6.0] - 2026-02-14
+
+### Changed
+
+- **Scope generalization**: Core rules generalized from "Task" to "assignment"
+  — same rules now naturally apply to Feature and Task scope without exceptions
+- **Session Start**: "Find your task" → "Determine your assignment" with parallelism
+  assessment built into the flow (Step 5)
+- **WIP Limit**: "1 task at a time" → "1 assignment at a time"
+- **Completing Work**: "One session = One task" → "One session = One assignment"
+
+### Added
+
+- **Agent Teams** as top-level section (elevated from Plan Mode Rule subsection)
+  — covers both Feature→Task and Task→Sub-task with execution tools,
+  responsibilities, and lifecycle guidance
+- Example 8 in EXAMPLES.md: Feature-level agent teams end-to-end scenario
+
+### Removed
+
+- Agent Teams subsection from Plan Mode Rule (moved to top-level, cross-referenced)
+
+---
+
 ## [1.5.0] - 2026-02-09
 
 ### Changed

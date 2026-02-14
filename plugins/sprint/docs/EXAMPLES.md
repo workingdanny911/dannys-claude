@@ -512,3 +512,112 @@ Update complete!
 Version: 1.0.0 → 1.1.0
 All user data preserved.
 ```
+
+---
+
+## Example 8: Agent Teams (Feature Assignment)
+
+### Scenario
+
+User assigns a Feature with multiple independent Tasks. The agent uses agent teams to parallelize work.
+
+### Difference from Example 3
+
+- **Example 3**: Separate Claude Code sessions (multi-agent via files)
+- **Example 8**: Single session with sub-agents (agent teams via `TeamCreate`)
+
+### Step 1: Feature Assignment
+
+```
+User: @sprints/my-sprint/INSTRUCTION.md #danny, work on Feature F1
+
+Claude: Starting session as #danny.
+
+[Loading context]
+
+F1: User Authentication (5 tasks)
+- [ ] T1.1: Login API `backlog`
+- [ ] T1.2: Signup API `backlog`
+- [ ] T1.3: Password Reset API `backlog`
+- [ ] T1.4: Auth Integration Tests `backlog`
+- [ ] T1.5: Review & Refactor F1 `backlog`
+
+My assignment is Feature F1.
+```
+
+### Step 2: Parallelism Assessment (Session Start Step 5)
+
+```
+Claude: Assessing parallelism for F1...
+
+Dependency analysis:
+- T1.1 (Login), T1.2 (Signup), T1.3 (Password Reset) → independent of each other
+- T1.4 (Integration Tests) → depends on T1.1, T1.2, T1.3
+- T1.5 (Review) → depends on all above
+
+T1.1, T1.2, T1.3 are independent — agent teams would improve speed.
+
+Proposed team:
+
+| Agent | Role | Tasks |
+|-------|------|-------|
+| lead (me) | Login + coordination | T1.1 |
+| worker-1 | Signup | T1.2 |
+| worker-2 | Password Reset | T1.3 |
+
+Execution plan:
+1. Parallel phase: T1.1, T1.2, T1.3 simultaneously
+2. Sequential phase: T1.4 (integration tests) — lead handles after merge
+3. Completion: T1.5 (review) — lead handles
+
+Create agent team?
+
+User: Yes
+```
+
+### Step 3: Team Execution
+
+```
+Claude: [TeamCreate: f1-auth]
+[TaskCreate: T1.1, T1.2, T1.3]
+[Spawning worker-1, worker-2]
+[Assigning T1.2 → worker-1, T1.3 → worker-2]
+
+Starting T1.1: Login API...
+
+[Working on T1.1 while teammates work in parallel]
+```
+
+### Step 4: Teammate Completion
+
+```
+worker-1 → lead: T1.2 Signup API complete. Files: src/routes/signup.ts,
+  src/services/signup.ts. All validation implemented.
+
+Claude: Reviewing worker-1's work on T1.2...
+[Updates BACKLOG.md: T1.2 → review]
+[Updates active/F1-authentication.md with T1.2 progress]
+
+[SendMessage to worker-1: shutdown_request]
+```
+
+### Step 5: Sequential Phase + Completion
+
+```
+Claude: T1.1, T1.2, T1.3 all complete. Teammates shut down.
+
+Starting T1.4: Auth Integration Tests...
+
+[Working on integration tests...]
+
+T1.4 complete. All tasks in F1 verified.
+
+Sprint file updates:
+- BACKLOG.md: T1.1-T1.4 → `review`
+- HANDOFF.md: F1 moved to In Review
+- active/F1-authentication.md: Full completion notes
+
+Feature F1: User Authentication is ready for review.
+
+Ending session.
+```

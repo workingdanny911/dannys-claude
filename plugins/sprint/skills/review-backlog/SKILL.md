@@ -269,6 +269,7 @@ Call @INSTRUCTION.md in your next session to start improvement work.
 - `/sprint:init` - Sprint initialization
 - `/sprint:add-backlog` - Add backlog items
 - `/sprint:plan-backlog` - Design items in detail
+- `/sprint:review-work` - Same-session review, improve, and mark done
 - `@INSTRUCTION.md` - Execute improvement work
 
 ---

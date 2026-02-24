@@ -61,6 +61,17 @@ Claude will ask:
    e.g., #danny, #agent-1, #agent-2
    ```
 
+### 1.2a Provide Information (Worktree Mode)
+
+Claude will ask:
+
+1. **Sprint name**: kebab-case recommended
+2. **Location**: Default `sprints/<sprint-name>/`
+3. **Team** (optional): Agent names
+4. **Mode**: `worktree` selected
+   - Sprint path added to `.gitignore`
+   - `.sprint-config` created with worktree mode
+
 ### 1.3 Result
 
 ```
@@ -152,6 +163,14 @@ User: Yes
 Claude: Created refs/designs/F1-authentication.md
 ```
 
+### 2.1a Add Features (Worktree Mode)
+
+Additional steps when adding features in worktree mode:
+
+1. Worktree selection: Create new or use existing
+2. Branch/worktree path recorded in BACKLOG.md
+3. Auto-added: Merge worktree Task as final Task
+
 ### 2.2 Detailed Task Planning (Optional)
 
 For complex Tasks, use `/sprint:plan-backlog`:
@@ -201,6 +220,17 @@ Claude: I propose the following plan:
 
 ```
 User: @sprints/payment-system/INSTRUCTION.md #danny
+```
+
+### 3.1a Start Session (Worktree Mode)
+
+```
+User: @sprints/my-sprint/INSTRUCTION.md #danny
+
+Claude: Starting session as #danny.
+
+[Reading sprint files from Sprint Root: /abs/path/sprints/my-sprint/]
+[Code work in worktree: /abs/path/worktrees/F1-user-auth/]
 ```
 
 ### 3.2 Agent Behavior

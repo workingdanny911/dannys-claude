@@ -9,6 +9,9 @@
 - **Phase**: design | implementation | review
 - **Started**: YYYY-MM-DD
 - **Agents**: #agent1, #agent2
+<!-- Worktree mode only: -->
+- **Branch**: feature/F{n}-{name}
+- **Worktree**: /path/to/worktree/
 
 ---
 

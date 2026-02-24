@@ -621,3 +621,132 @@ Feature F1: User Authentication is ready for review.
 
 Ending session.
 ```
+
+---
+
+## Example 9: Worktree Mode
+
+### Scenario
+
+"Feature별로 독립된 worktree에서 작업하고 싶다."
+
+### Step 1: Initialize Sprint (Worktree Mode)
+
+```
+User: /sprint:init
+
+Claude: Sprint name?
+User: payment-api
+
+Claude: Location?
+User: sprints/payment-api/
+
+Claude: Mode?
+1. default - Sprint and code in same directory
+2. worktree - Each Feature gets its own git worktree
+
+User: 2
+
+Claude: How should worktrees be created?
+1. Default (git worktree add) - recommended
+2. Custom command
+
+User: 1
+
+Claude: Where should worktrees be placed?
+Suggested: ../payment-api-worktrees/
+
+User: OK
+
+Claude: Sprint created (worktree mode).
+- Added sprints/ to .gitignore
+- Sprint files are not git-tracked
+- .sprint-config created:
+  {
+    "mode": "worktree",
+    "sprintRoot": "/Users/.../sprints/payment-api/",
+    "worktree": {
+      "command": "git worktree add {path} -b {branch}",
+      "pathPrefix": "../payment-api-worktrees"
+    }
+  }
+```
+
+### Step 2: Add Feature with Worktree
+
+```
+User: /sprint:add-backlog
+
+Claude: What do you want to build?
+User: Payment processing
+
+[... brainstorming ...]
+
+Claude: [Plan Mode]
+
+Worktree for this Feature:
+1. Create new worktree (default)
+2. Use existing worktree
+
+User: 1
+
+Claude: Suggested:
+- Branch: feature/F1-payment
+- Worktree: ../payment-api-worktrees/F1-payment/
+
+User: OK
+
+### F1: Payment Processing
+> Card payment and refund handling
+
+**Branch**: feature/F1-payment
+**Worktree**: /Users/.../payment-api-worktrees/F1-payment/
+
+- [ ] T1.1: Payment Gateway Setup `backlog`
+- [ ] T1.2: Process Payment API `backlog`
+- [ ] T1.3: Refund API `backlog`
+- [ ] T1.4: Review & Refactor F1 `backlog`
+- [ ] T1.5: Merge feature/F1-payment and clean up worktree `backlog`
+
+Claude: Worktree created. Feature added to BACKLOG.md.
+```
+
+### Step 3: Work in Worktree
+
+```
+User: @sprints/payment-api/INSTRUCTION.md #danny
+
+Claude: Starting session as #danny.
+
+[Sprint Root: /Users/.../sprints/payment-api/]
+[Reading BACKLOG.md, HANDOFF.md from Sprint Root]
+
+F1: Payment Processing
+- Worktree: /Users/.../payment-api-worktrees/F1-payment/
+- T1.1: Payment Gateway Setup ← Top priority
+
+Claiming T1.1. Working in worktree: /Users/.../payment-api-worktrees/F1-payment/
+
+[Code work in worktree, sprint updates in Sprint Root]
+```
+
+### Step 4: Merge (Final Task)
+
+```
+User: @sprints/payment-api/INSTRUCTION.md #danny
+
+Claude: Starting session as #danny.
+
+T1.5: Merge feature/F1-payment and clean up worktree
+
+Working from main worktree (Sprint Root):
+
+Steps:
+1. git merge feature/F1-payment  ← from main worktree
+2. git worktree remove /Users/.../payment-api-worktrees/F1-payment/
+3. git branch -d feature/F1-payment
+
+[Executing merge...]
+
+Merge complete. Worktree removed. F1 done.
+```

@@ -33,6 +33,42 @@ When you receive `@INSTRUCTION.md #agent-name`:
 
 ---
 
+## Worktree Mode
+
+> **This section applies only when `.sprint-config` has `"mode": "worktree"`.**
+> In default mode, ignore this section entirely.
+
+**Sprint Root**: `{sprintRoot}` ← absolute path, set during init
+
+### Rules
+
+1. **Code work** → Only in your assigned worktree
+2. **Sprint files** (BACKLOG.md, HANDOFF.md, active/, refs/) → Read/write via Sprint Root absolute path
+3. **Other worktrees** → **DO NOT access**. Each worktree belongs to its Feature owner.
+
+### Working Pattern
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Agent Session (Worktree Mode)                       │
+│                                                      │
+│  1. Read sprint files ← Sprint Root                  │
+│  2. Code in worktree  ← Feature's worktree path      │
+│  3. Update sprint files ← Sprint Root                │
+│  4. Commit code ← worktree branch                    │
+└─────────────────────────────────────────────────────┘
+```
+
+### Context Compaction Recovery (Worktree Mode)
+
+Re-read in order:
+1. `{sprintRoot}/INSTRUCTION.md` — Restore guidelines + Sprint Root path
+2. `{sprintRoot}/BACKLOG.md` — Find your assignment + worktree path
+3. `{sprintRoot}/HANDOFF.md` — Current status
+4. `{sprintRoot}/active/F{n}-*.md` — Working context + worktree path
+
+---
+
 ## Multi-Agent Workflow
 
 ### Your Identity
@@ -328,10 +364,17 @@ When context compaction occurs (you notice memory loss or conversation reset):
 
 1. **Re-read essential files** in order:
 
+   **Default mode** (relative paths):
    - `INSTRUCTION.md` - Restore your guidelines
    - `BACKLOG.md` - Find your assigned work
    - `HANDOFF.md` - Current work status
    - `active/F{n}-*.md` - Your working context (most important)
+
+   **Worktree mode** (Sprint Root absolute paths — see [Worktree Mode](#worktree-mode)):
+   - `{sprintRoot}/INSTRUCTION.md` - Restore guidelines + Sprint Root path
+   - `{sprintRoot}/BACKLOG.md` - Find your assignment + worktree path
+   - `{sprintRoot}/HANDOFF.md` - Current status
+   - `{sprintRoot}/active/F{n}-*.md` - Working context + worktree path
 
 2. **Restore your state**:
 

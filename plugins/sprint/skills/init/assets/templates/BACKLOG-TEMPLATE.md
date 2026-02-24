@@ -78,6 +78,23 @@ backlog ──────► in_progress ──────► review ───
 
 -->
 
+<!-- Worktree mode example:
+
+### F1: Feature Name
+> Brief description
+
+**Design**: [{sprintRoot}/refs/designs/F1-feature-name.md]({sprintRoot}/refs/designs/F1-feature-name.md)
+**Context**: [{sprintRoot}/active/F1-feature-name.md]({sprintRoot}/active/F1-feature-name.md)
+**Branch**: feature/F1-feature-name
+**Worktree**: /path/to/worktrees/F1-feature-name
+
+- [ ] T1.1: Task name `backlog`
+- [ ] T1.2: Task name `backlog`
+- [ ] T1.3: Review & Refactor F1 `backlog`
+- [ ] T1.4: Merge feature/F1-feature-name and clean up worktree `backlog`
+
+-->
+
 ---
 
 ## Done

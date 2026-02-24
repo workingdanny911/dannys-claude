@@ -5,7 +5,7 @@ description: Initialize a sprint with kanban-style structure for multi-agent col
 
 ## Version
 
-Current: **1.8.0**
+Current: **1.9.0**
 
 > Update this version when templates change:
 > - **Major** (2.0.0): Breaking changes to file structure
@@ -56,6 +56,21 @@ Ask the user:
    - Agent names: `#danny`, `#agent-1`, etc.
    - If not specified, use default `#agent`
 
+4. **Mode** - How do you want to manage code?
+   - `default` - Sprint and code in same working directory (existing behavior)
+   - `worktree` - Each Feature gets its own git worktree
+     - Sprint files stay in main worktree (Single Source of Truth)
+     - Code work happens in separate worktrees per Feature
+   - If worktree selected: Add sprint path to `.gitignore`
+
+5. **Worktree creation method** (worktree mode only)
+   - "How should worktrees be created?"
+     - Default: `git worktree add` (recommended)
+     - Custom: User provides command template
+   - "Where should worktrees be placed?"
+     - Suggest: `../<project>-worktrees/` (outside main repo)
+     - Allow custom path prefix
+
 ### Phase 2: Create Structure
 
 Create the following files from templates:
@@ -89,10 +104,46 @@ Create the following files from templates:
    - Create `.sprint-version` with current template version (from ## Version section above)
    - Format: just the version number (e.g., `1.0.0`)
 
+7. **.sprint-config**
+   - JSON config storing sprint mode and worktree settings
+   - Created for both modes (to make mode explicit)
+
+   Default mode:
+   ```json
+   {
+     "mode": "default"
+   }
+   ```
+
+   Worktree mode:
+   ```json
+   {
+     "mode": "worktree",
+     "sprintRoot": "<absolute-path-to-sprint-dir>",
+     "worktree": {
+       "command": "git worktree add {path} -b {branch}",
+       "pathPrefix": "../<project>-worktrees"
+     }
+   }
+   ```
+
+   - `worktree.command`: Worktree creation command
+     - Default: `"git worktree add {path} -b {branch}"`
+     - Custom example: `"./scripts/create-worktree.sh {branch} {path}"`
+     - Placeholders: `{path}` = worktree path, `{branch}` = branch name
+   - `worktree.pathPrefix`: Parent path where worktrees are created
+     - Default: `"../<project>-worktrees"`
+     - Feature worktrees are created under this path
+
+**Worktree mode additional steps:**
+- Add sprint path to project `.gitignore`
+- Include Sprint Root absolute path + Worktree Mode section in INSTRUCTION.md
+
 ### Phase 3: Confirm
 
 Show created structure and explain next steps:
 
+**Default mode:**
 ```
 Sprint created at: sprints/<sprint-name>/
 
@@ -100,6 +151,23 @@ Files:
 - BACKLOG.md - Add work items with /sprint:add-backlog
 - HANDOFF.md - Work board (current status)
 - INSTRUCTION.md - Start work sessions with @INSTRUCTION.md #agent-name
+
+Next steps:
+1. Add work items: /sprint:add-backlog
+2. Start working: @INSTRUCTION.md #your-name
+```
+
+**Worktree mode:**
+```
+Sprint created at: sprints/<sprint-name>/ (worktree mode)
+
+Files:
+- BACKLOG.md - Add work items with /sprint:add-backlog
+- HANDOFF.md - Work board (current status)
+- INSTRUCTION.md - Start work sessions with @INSTRUCTION.md #agent-name
+- .sprint-config - Sprint configuration (mode: worktree)
+
+Sprint path added to .gitignore (sprint files are not git-tracked).
 
 Next steps:
 1. Add work items: /sprint:add-backlog

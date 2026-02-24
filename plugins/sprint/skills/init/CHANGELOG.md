@@ -11,6 +11,25 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.9.0] - 2026-02-24
+
+### Added
+
+- **Worktree Mode**: Sprint init now asks for mode selection (default / worktree)
+  - Worktree mode: Sprint files gitignored, each Feature gets its own git worktree
+  - `.sprint-config` file stores mode, Sprint Root, worktree command, and path prefix
+  - Sprint Root absolute path recorded in INSTRUCTION.md
+- **Worktree Mode** section in INSTRUCTION-TEMPLATE.md: Agent rules for worktree isolation
+  (code in own worktree, sprint files via Sprint Root, no cross-worktree access)
+- **Branch/Worktree** fields in BACKLOG-TEMPLATE.md and ACTIVE-FEATURE-TEMPLATE.md
+- **Worktree selection** in add-backlog skill: Choose existing or create new worktree,
+  auto-adds "Merge worktree" as final Task
+- Worktree Mode concept in CONCEPTS.md
+- Worktree workflow and example in WORKFLOW-GUIDE.md, EXAMPLES.md
+- Worktree troubleshooting in TROUBLESHOOTING.md
+
+---
+
 ## [1.8.0] - 2026-02-15
 
 ### Added

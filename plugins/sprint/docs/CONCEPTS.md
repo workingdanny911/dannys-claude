@@ -323,3 +323,44 @@ Claude Code sessions are independent → no knowledge of previous sessions
 | Decisions | `refs/decisions/` | "JWT vs Session → chose JWT" |
 | Lessons | `refs/lessons/` | "Need to unify API response format" |
 | Blockers | `HANDOFF.md` | "T2.1 blocked: DB schema undefined" |
+
+---
+
+## 9. Worktree Mode
+
+### What is Worktree Mode?
+
+Git worktree를 활용해 Feature별로 독립된 코드 작업 공간을 제공하는 모드.
+
+### Default Mode vs Worktree Mode
+
+| | Default | Worktree |
+|-|---------|----------|
+| Code location | Sprint과 같은 디렉토리 | Feature별 독립 worktree |
+| Sprint files | 상대 경로 | Sprint Root 절대 경로 |
+| Git tracking | Sprint files tracked | Sprint files gitignored |
+| Branch strategy | 자유 | Feature당 1 branch |
+| Isolation | 없음 | Feature별 코드 격리 |
+
+### Architecture
+
+```
+Main Worktree (Sprint Root)          Feature Worktrees
+┌────────────────────────┐          ┌────────────────────┐
+│ sprints/my-sprint/     │          │ ../worktrees/F1/   │
+│   ├── BACKLOG.md       │ ◄─────  │   ├── src/         │
+│   ├── HANDOFF.md       │  read/  │   └── ...          │
+│   ├── INSTRUCTION.md   │  write  └────────────────────┘
+│   ├── active/          │          ┌────────────────────┐
+│   └── refs/            │ ◄─────  │ ../worktrees/F2/   │
+│                        │  read/  │   ├── src/         │
+│ .gitignore             │  write  │   └── ...          │
+│   └── sprints/         │          └────────────────────┘
+└────────────────────────┘
+```
+
+### Agent Rules (Worktree Mode)
+
+1. Code → own worktree only
+2. Sprint files → Sprint Root only
+3. Other worktrees → access forbidden

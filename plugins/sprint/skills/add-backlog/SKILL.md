@@ -26,6 +26,15 @@ This skill guides you through:
 2. If found, confirm: "Add to this sprint?"
 3. If not found, ask: "Which sprint? (path or name)"
 
+### Phase 1.5: Detect Mode (Worktree Sprint Only)
+
+1. Read `.sprint-config` in sprint directory
+2. If `"mode": "worktree"`:
+   - Continue to Phase 2 with worktree awareness
+   - Worktree selection happens in Phase 3 (Plan Mode)
+3. If `"mode": "default"` or no config:
+   - Continue with existing workflow (no change)
+
 ### Phase 2: Brainstorming (Built-in)
 
 Use conversational discovery to understand what to build.
@@ -127,6 +136,48 @@ Examples:
 - **Show verification tasks** - explain why they're placed there
 - Ask for approval or adjustments
 
+#### Worktree Selection (Worktree Mode Only)
+
+When sprint is in worktree mode:
+
+1. Read `.sprint-config` → get `worktree.command` and `worktree.pathPrefix`
+
+2. **Worktree for this Feature**:
+   - Show existing worktrees: `git worktree list`
+   - Options:
+     a. Create new worktree (default)
+     b. Use existing worktree → select from list
+
+3. **If creating new worktree**:
+   - Use command from `.sprint-config` (`worktree.command`)
+     - No need to ask user — already configured at init
+   - Suggest branch name: `feature/F{n}-{kebab-name}`
+   - Derive worktree path from `worktree.pathPrefix` + `F{n}-{kebab-name}`
+
+4. **Record in Feature**:
+   - Add `Branch:` and `Worktree:` fields to Feature in BACKLOG.md
+
+#### Merge Task (Worktree Mode Only, REQUIRED)
+
+Every Feature in worktree mode MUST have a final merge Task:
+
+```markdown
+- [ ] T{n}.X: Merge {branch-name} and clean up worktree `backlog`
+```
+
+This Task:
+- Merges the Feature branch into the base branch
+- Removes the worktree (`git worktree remove`)
+- Is always the LAST Task (after Review & Refactor)
+
+Task order:
+```
+- [ ] T1.1: ... `backlog`
+- [ ] T1.2: ... `backlog`
+- [ ] T1.3: Review & Refactor F1 `backlog`           ← review/refactor
+- [ ] T1.4: Merge feature/F1-name and clean up worktree `backlog`  ← merge (last)
+```
+
 #### Agent Teams Consideration
 
 When designing the Feature structure, evaluate whether Tasks would benefit from agent teams:
@@ -171,7 +222,12 @@ After user approval:
    - Set Phase to "design" or "implementation"
    - Link to Design doc in Related Files
 
-4. **Confirm addition**
+4. **Create worktree** (worktree mode, if "create new" selected)
+   - Execute worktree creation command (default or custom from `.sprint-config`)
+   - Verify worktree was created successfully
+   - Record worktree path in BACKLOG.md Feature fields
+
+5. **Confirm addition**
    ```
    Added to BACKLOG.md:
    - F{n}: {Feature Name}

@@ -13,6 +13,7 @@ The Sprint plugin is a kanban-style work management system designed for Claude C
 - **WIP Limit**: 1 Task per agent (maintain focus)
 - **Session-Based Work**: Complete one Task per session
 - **Context Management**: Document structure for knowledge transfer between sessions
+- **Worktree Mode**: Isolate Feature work in separate git worktrees while keeping Sprint as Single Source of Truth
 
 ### Generated Structure
 
@@ -54,7 +55,7 @@ sprints/<sprint-name>/
 /sprint:init
 ```
 
-Interactively set Sprint name and location.
+Interactively set Sprint name, location, and mode (default or worktree).
 
 ### 2. Add Work Items
 

@@ -368,6 +368,65 @@ git commit -m "Add sprint for feature X"
 - [ ] T1.2: Still in progress `in_progress`
 ```
 
+### Worktree Mode Issues
+
+**Q: Agent can't find sprint files in worktree**
+
+**Cause**: Sprint files are in Sprint Root (main worktree), not in feature worktree.
+
+**Solution**: Agent must use Sprint Root absolute path from INSTRUCTION.md.
+```
+Sprint Root: /Users/.../sprints/my-sprint/
+# Read: {sprintRoot}/BACKLOG.md, NOT ./BACKLOG.md
+```
+
+---
+
+**Q: Worktree creation fails**
+
+**Cause**: Branch already exists, or path conflict.
+
+**Solution**:
+```bash
+# Check existing worktrees
+git worktree list
+
+# Check existing branches
+git branch -a
+
+# Remove stale worktree reference
+git worktree prune
+```
+
+---
+
+**Q: Merge conflict during Merge Task**
+
+**Solution**:
+1. Resolve conflicts in the worktree
+2. Complete the merge
+3. Then remove worktree
+4. Do NOT remove worktree before resolving conflicts
+
+---
+
+**Q: How to switch from default to worktree mode?**
+
+**Solution**: Edit `.sprint-config` manually:
+```json
+{
+  "mode": "worktree",
+  "sprintRoot": "/absolute/path/to/sprint/",
+  "worktree": {
+    "command": "git worktree add {path} -b {branch}",
+    "pathPrefix": "../<project>-worktrees"
+  }
+}
+```
+Then add sprint path to `.gitignore`.
+
+---
+
 ### Q: Need to reference Task from different Sprint
 
 **Answer**: Record cross-reference in refs/decisions/_sprint.md

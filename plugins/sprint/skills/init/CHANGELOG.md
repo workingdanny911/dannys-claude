@@ -11,6 +11,15 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.10.0] - 2026-03-08
+
+### Changed
+
+- **Review criteria priority**: `review-backlog` coding checklist restructured — "목적 달성 (Goal Achievement)" promoted to Section 1, "설계 품질 (Design Quality)" moved to Section 2
+- **Severity classification**: Both `review-work` and `review-backlog` now explicitly classify goal/acceptance-criteria failure as 🔴 Critical
+
+---
+
 ## [1.9.0] - 2026-02-24
 
 ### Added

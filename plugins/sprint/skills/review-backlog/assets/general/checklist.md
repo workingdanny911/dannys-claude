@@ -1,43 +1,43 @@
 # General Review Checklist
 
-> 일반 Task/Feature 검토용 (coding/docs/ideation에 해당하지 않는 경우)
+> Review checklist for general Tasks/Features (not coding, docs, or ideation).
 
 ---
 
-## 1. 완료 조건 충족 (Completion Criteria)
+## 1. Completion Criteria
 
-- [ ] 정의된 완료 조건을 모두 만족하는가?
-- [ ] 누락된 요구사항이 있는가?
-- [ ] 범위를 벗어난 작업이 있는가?
-
----
-
-## 2. 결과물 품질 (Deliverable Quality)
-
-- [ ] 결과물이 명확하게 정의되어 있는가?
-- [ ] 결과물의 품질이 기대 수준을 충족하는가?
-- [ ] 결과물이 사용 가능한 상태인가?
+- [ ] Are all defined completion criteria satisfied?
+- [ ] Are there missing requirements?
+- [ ] Is there any out-of-scope work?
 
 ---
 
-## 3. 문서화 상태 (Documentation)
+## 2. Deliverable Quality
 
-- [ ] 필요한 문서가 작성되었는가?
-- [ ] 결정 사항이 기록되었는가?
-- [ ] 다른 사람이 이해할 수 있는가?
-
----
-
-## 4. 후속 작업 (Follow-up)
-
-- [ ] 다음 단계가 명확한가?
-- [ ] 의존성이 해결되었는가?
-- [ ] 블로커가 있는가?
+- [ ] Are deliverables clearly defined?
+- [ ] Do deliverables meet the expected quality level?
+- [ ] Are deliverables in a usable state?
 
 ---
 
-## 5. 학습 및 개선 (Lessons Learned)
+## 3. Documentation
 
-- [ ] 이 Task에서 배운 점이 있는가?
-- [ ] 프로세스 개선점이 있는가?
-- [ ] `refs/lessons/`에 기록할 내용이 있는가?
+- [ ] Is the necessary documentation written?
+- [ ] Are decisions properly recorded?
+- [ ] Can someone else understand the work?
+
+---
+
+## 4. Follow-up
+
+- [ ] Are next steps clear?
+- [ ] Are dependencies resolved?
+- [ ] Are there any blockers?
+
+---
+
+## 5. Lessons Learned
+
+- [ ] Are there takeaways from this Task?
+- [ ] Are there process improvements to note?
+- [ ] Is there anything to record in `refs/lessons/`?

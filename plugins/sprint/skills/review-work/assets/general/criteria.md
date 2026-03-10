@@ -1,42 +1,42 @@
 # General Review Criteria
 
-> 일반 Task 리뷰 기준 (coding/design/docs에 해당하지 않는 경우)
+> Review criteria for general Tasks (not coding, design, or docs).
 
 ---
 
-## 1. 목적 달성 (Goal Achievement)
+## 1. Goal Achievement
 
-- [ ] 정의된 목적을 충분히 달성했는가?
-- [ ] 완료 조건을 모두 만족하는가?
-- [ ] 범위를 벗어났거나 누락된 작업이 있는가?
-
----
-
-## 2. 문제 여부 (Issues)
-
-- [ ] 결과물에 오류나 문제가 있는가?
-- [ ] 의존성이 올바르게 처리되었는가?
-- [ ] 다른 작업에 부정적 영향을 주는가?
+- [ ] Does the work sufficiently achieve the defined goal?
+- [ ] Are all completion criteria satisfied?
+- [ ] Is there any out-of-scope or missing work?
 
 ---
 
-## 3. 결과물 품질 (Deliverable Quality)
+## 2. Issues
 
-- [ ] 결과물이 명확하고 이해하기 쉬운가?
-- [ ] 다른 사람이 이어서 작업할 수 있는 상태인가?
-- [ ] 적절히 문서화되었는가?
-
----
-
-## 4. 가이드라인 준수 (Guidelines Compliance)
-
-- [ ] 프로젝트 규칙/가이드라인을 따르는가?
-- [ ] 기존 결정사항과 일관적인가?
+- [ ] Are there errors or problems in the deliverables?
+- [ ] Are dependencies properly handled?
+- [ ] Does it negatively affect other work?
 
 ---
 
-## 5. Stale/Dead 정리 (Cleanup)
+## 3. Deliverable Quality
 
-- [ ] 더 이상 필요하지 않은 산출물이 남아있는가?
-- [ ] 업데이트해야 할 관련 파일이 있는가?
-- [ ] 정리해야 할 임시 파일/메모가 있는가?
+- [ ] Are deliverables clear and easy to understand?
+- [ ] Is the work in a state where someone else can continue?
+- [ ] Is it properly documented?
+
+---
+
+## 4. Guidelines Compliance
+
+- [ ] Does it follow project rules and guidelines?
+- [ ] Is it consistent with existing decisions?
+
+---
+
+## 5. Stale/Dead Cleanup
+
+- [ ] Are there deliverables that are no longer needed?
+- [ ] Are there related files that need updating?
+- [ ] Are there temporary files or notes that should be cleaned up?

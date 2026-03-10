@@ -92,7 +92,7 @@ Leverage information already in the session. Read additional files as needed:
 
 | Category | Description |
 |----------|-------------|
-| 🔴 **Critical** | Must fix — goal not met, acceptance criteria failed, bugs, security issues, broken functionality. **목적/완료조건 미달성은 항상 Critical.** |
+| 🔴 **Critical** | Must fix — goal not met, acceptance criteria failed, bugs, security issues, broken functionality. **Failure to meet goals or acceptance criteria is always Critical.** |
 | 🟡 **Improvement** | Should fix — readability, maintainability, quality |
 | 🟢 **Minor** | Nice to fix — naming, formatting, small cleanups |
 | 💡 **Suggestion** | Future consideration only — not for this session |

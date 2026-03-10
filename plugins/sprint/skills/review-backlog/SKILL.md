@@ -115,7 +115,7 @@ Categorize findings:
 
 | Category | Description | Examples |
 |----------|-------------|----------|
-| 🔴 **Critical** | Immediate fix required, functional/security issues. **목적/완료조건 미달성은 항상 Critical.** | Goal not met, acceptance criteria failed, bugs, security vulnerabilities, data loss risk |
+| 🔴 **Critical** | Immediate fix required, functional/security issues. **Failure to meet goals or acceptance criteria is always Critical.** | Goal not met, acceptance criteria failed, bugs, security vulnerabilities, data loss risk |
 | 🟡 **Improvement** | Would be better if improved, quality enhancement | Refactoring candidates, performance improvements, readability |
 | 🟢 **Minor** | Minor improvements | Naming, comments, formatting |
 | 💡 **Suggestion** | Future considerations | New feature ideas, technical debt |

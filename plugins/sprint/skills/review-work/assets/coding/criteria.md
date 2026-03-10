@@ -1,59 +1,99 @@
 # Coding Review Criteria
 
-> 코딩 Task 리뷰 기준 — 핵심 질문에 집중합니다.
+> Focused review criteria for coding Tasks — concentrate on essential questions.
 
 ---
 
-## 1. 목적 달성 (Goal Achievement)
+## 1. Goal Achievement
 
-- [ ] 정의된 목적을 충분히 달성했는가?
-- [ ] 완료 조건(acceptance criteria)을 모두 만족하는가?
-- [ ] 범위를 벗어난 작업이나 누락된 작업이 있는가?
-
----
-
-## 2. 문제 여부 (Issues)
-
-- [ ] 기능적 버그가 있는가?
-- [ ] 에러 핸들링이 적절한가? (엣지 케이스 포함)
-- [ ] 보안 취약점이 있는가? (입력 검증, 인증/인가, 민감정보 노출)
-- [ ] 성능 문제가 예상되는가? (N+1, 불필요한 연산, 메모리 누수)
-- [ ] 기존 기능에 영향(regression)을 주는가?
+- [ ] Does the work sufficiently achieve the defined goal?
+- [ ] Are all acceptance criteria satisfied?
+- [ ] Is there any out-of-scope or missing work?
 
 ---
 
-## 3. 코드 가독성 & 유지보수성 (Code Quality)
+## 2. Issues
 
-- [ ] 네이밍이 의도를 명확히 드러내는가?
-- [ ] 함수/메서드가 단일 책임을 가지며 적절한 크기인가?
-- [ ] 복잡한 로직에 불필요한 중첩/조건문이 있는가?
-- [ ] 다른 개발자가 쉽게 이해하고 수정할 수 있는가?
-- [ ] 중복 코드가 있는가?
-
----
-
-## 4. 테스트 가독성 & 유지보수성 (Test Quality)
-
-- [ ] 핵심 동작과 엣지 케이스가 테스트되는가?
-- [ ] 테스트 이름이 검증 대상을 명확히 설명하는가?
-- [ ] 테스트가 구현 세부사항이 아닌 동작/결과를 검증하는가? (blackbox)
-- [ ] Mock이 최소한으로, 경계(I/O)에서만 사용되는가?
-- [ ] 테스트가 독립적이고 결정적인가?
+- [ ] Are there functional bugs?
+- [ ] Is error handling adequate? (including edge cases)
+- [ ] Are there security vulnerabilities? (input validation, authentication/authorization, sensitive data exposure)
+- [ ] Are there anticipated performance issues? (N+1 queries, unnecessary computation, memory leaks)
+- [ ] Does the change cause regressions in existing functionality?
 
 ---
 
-## 5. 가이드라인 준수 (Guidelines Compliance)
+## 3. Code Readability & Maintainability
 
-- [ ] 프로젝트 코딩 컨벤션을 따르는가?
-- [ ] CLAUDE.md 또는 프로젝트 가이드라인의 규칙을 준수하는가?
-- [ ] `refs/decisions/`의 결정사항과 일관적인가?
-- [ ] 기존 코드베이스 패턴과 일관적인가?
+- [ ] Do names clearly convey intent? (Mysterious Name)
+- [ ] Do functions/methods have a single responsibility and appropriate size? (Long Function)
+- [ ] Are there unnecessary nesting or conditional chains in complex logic?
+- [ ] Can another developer easily understand and modify this code?
+- [ ] Is there duplicated code? (Duplicated Code)
 
 ---
 
-## 6. Stale/Dead 정리 (Cleanup)
+## 3-1. Code Smells (Fowler's Refactoring)
 
-- [ ] 사용하지 않는 코드(dead code)가 남아있는가?
-- [ ] 주석 처리된 코드가 있는가? (삭제해야 함)
-- [ ] 더 이상 유효하지 않은 TODO/FIXME가 있는가?
-- [ ] 불필요해진 import, 변수, 파일이 있는가?
+> Flag any of the following as 🟡 Improvement or higher.
+
+**Bloaters:**
+- [ ] Large Class — Does the class carry too many fields, methods, or responsibilities?
+- [ ] Long Parameter List — Are there more than 3 parameters where fewer would suffice?
+- [ ] Primitive Obsession — Are domain concepts represented as primitive types (string, number)?
+- [ ] Data Clumps — Is the same group of data passed together in multiple places?
+
+**Object-Orientation Abusers:**
+- [ ] Repeated Switches — Does the same switch/if-else chain appear in multiple locations?
+- [ ] Temporary Field — Are there fields only populated under certain conditions?
+- [ ] Refused Bequest — Does a subclass inherit methods/properties it does not use?
+- [ ] Alternative Classes with Different Interfaces — Do classes serving the same role have different interfaces?
+
+**Change Preventers:**
+- [ ] Divergent Change — Is a single module frequently changed for unrelated reasons?
+- [ ] Shotgun Surgery — Does a single change require scattered modifications across many modules?
+- [ ] Parallel Inheritance Hierarchies — Does adding a class to one hierarchy require adding one to another?
+
+**Dispensables:**
+- [ ] Lazy Element — Are there classes/functions that don't justify their existence?
+- [ ] Data Class — Are there classes with only getters/setters and no behavior?
+- [ ] Speculative Generality — Are there abstractions built for hypothetical future needs?
+
+**Couplers:**
+- [ ] Feature Envy — Does a method use another object's data more than its own?
+- [ ] Inappropriate Intimacy — Do two classes excessively reference each other's internals?
+- [ ] Message Chains — Do long method chains (a.b().c().d()) expose internal structure?
+- [ ] Middle Man — Does a class delegate most of its methods to another object?
+
+**Other:**
+- [ ] Global Data — Is there mutable data accessible from anywhere via globals or singletons?
+- [ ] Mutable Data — Is there data that could be made immutable but isn't?
+- [ ] Insider Trading — Do modules exchange internal information without formal interfaces?
+- [ ] Loops — Are there imperative loops replaceable with pipelines (map/filter/reduce)?
+
+---
+
+## 4. Test Readability & Maintainability
+
+- [ ] Are core behaviors and edge cases covered by tests?
+- [ ] Do test names clearly describe what is being verified?
+- [ ] Do tests verify behavior/outcomes rather than implementation details? (blackbox)
+- [ ] Are mocks used minimally and only at boundaries (I/O)?
+- [ ] Are tests independent and deterministic?
+
+---
+
+## 5. Guidelines Compliance
+
+- [ ] Does the code follow project coding conventions?
+- [ ] Does it comply with CLAUDE.md or project guideline rules?
+- [ ] Is it consistent with decisions recorded in `refs/decisions/`?
+- [ ] Is it consistent with existing codebase patterns?
+
+---
+
+## 6. Stale/Dead Cleanup
+
+- [ ] Is there unused code (dead code) remaining?
+- [ ] Is there commented-out code? (should be deleted)
+- [ ] Are there obsolete TODO/FIXME comments?
+- [ ] Are there unnecessary imports, variables, or files?

@@ -1,48 +1,48 @@
 # Ideation Review Checklist
 
-> 아이디어/탐색/브레인스토밍 Task/Feature 검토용
+> Review checklist for brainstorming and exploration Tasks/Features.
 
 ---
 
-## 1. 목표 달성 (Goal Achievement)
+## 1. Goal Achievement
 
-- [ ] 정의된 질문/문제에 답변했는가?
-- [ ] 탐색 범위가 충분했는가?
-- [ ] 결론이 명확한가?
-- [ ] 다음 단계가 정의되었는가?
-
----
-
-## 2. 탐색 품질 (Exploration Quality)
-
-- [ ] 충분한 대안을 검토했는가?
-- [ ] 각 옵션의 장단점을 분석했는가?
-- [ ] 근거/출처가 명시되어 있는가?
-- [ ] 가정(assumption)이 명확히 기술되어 있는가?
+- [ ] Does the work answer the defined question/problem?
+- [ ] Was the exploration scope sufficient?
+- [ ] Are conclusions clear?
+- [ ] Are next steps defined?
 
 ---
 
-## 3. 실현 가능성 (Feasibility)
+## 2. Exploration Quality
 
-- [ ] 제안된 아이디어가 현실적인가?
-- [ ] 필요한 리소스가 파악되었는가?
-- [ ] 제약 조건이 고려되었는가?
-- [ ] 리스크가 식별되었는가?
-
----
-
-## 4. 문서화 (Documentation)
-
-- [ ] 결정 사항이 기록되었는가?
-- [ ] 기각된 대안도 기록되었는가? (이유 포함)
-- [ ] 향후 참고할 수 있는 형태인가?
-- [ ] 관련 자료/링크가 포함되어 있는가?
+- [ ] Were enough alternatives examined?
+- [ ] Were the pros and cons of each option analyzed?
+- [ ] Are sources/evidence cited?
+- [ ] Are assumptions explicitly stated?
 
 ---
 
-## 5. 다음 단계 명확성 (Next Steps)
+## 3. Feasibility
 
-- [ ] 액션 아이템이 정의되었는가?
-- [ ] 우선순위가 명확한가?
-- [ ] 담당자/일정이 명시되어 있는가? (해당 시)
-- [ ] 의존성이 파악되었는가?
+- [ ] Are the proposed ideas realistic?
+- [ ] Are required resources identified?
+- [ ] Are constraints accounted for?
+- [ ] Are risks identified?
+
+---
+
+## 4. Documentation
+
+- [ ] Are decisions recorded?
+- [ ] Are rejected alternatives recorded? (with rationale)
+- [ ] Is the output in a form useful for future reference?
+- [ ] Are related materials/links included?
+
+---
+
+## 5. Next Steps Clarity
+
+- [ ] Are action items defined?
+- [ ] Are priorities clear?
+- [ ] Are owners/timelines specified? (when applicable)
+- [ ] Are dependencies identified?

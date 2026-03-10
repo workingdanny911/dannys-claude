@@ -1,187 +1,246 @@
 # Coding Review Checklist
 
-> 소프트웨어 개발 Task/Feature 검토용
+> Comprehensive review checklist for software development Tasks/Features.
 
 ---
 
-## 1. 목적 달성 (Goal Achievement) ⭐
+## 1. Goal Achievement ⭐
 
-> 가장 중요한 질문: "이 Task가 하려던 것을 제대로 했는가?"
-> 목적/완료조건 미달성은 항상 🔴 Critical입니다.
+> The most important question: "Did this Task accomplish what it set out to do?"
+> Failure to meet goals or acceptance criteria is always 🔴 Critical.
 
-- [ ] 정의된 목표를 정확히 달성했는가?
-- [ ] 모든 성공 기준(acceptance criteria)을 만족하는가?
-- [ ] 범위를 벗어난 부분이 있는가? (scope creep)
-- [ ] 누락된 요구사항이 있는가?
-
----
-
-## 2. 설계 품질 (Design Quality) ⭐
-
-> 설계 품질은 코드의 기반입니다. 목적 달성을 확인한 후 검토합니다.
-
-**설계 원칙:**
-- [ ] **SOLID 원칙** 준수 여부
-  - Single Responsibility: 하나의 책임만 가지는가?
-  - Open/Closed: 확장에 열려있고 수정에 닫혀있는가?
-  - Liskov Substitution: 대체 가능성을 보장하는가?
-  - Interface Segregation: 인터페이스가 적절히 분리되어 있는가?
-  - Dependency Inversion: 추상화에 의존하는가?
-- [ ] **YAGNI** - 실제로 필요한 것만 구현했는가?
-- [ ] **DRY** - 불필요한 반복이 있는가?
-- [ ] **KISS** - 불필요하게 복잡한 부분이 있는가?
-
-**아키텍처 품질:**
-- [ ] 레이어/모듈 간 책임 분리가 명확한가?
-- [ ] 의존성 방향이 올바른가? (안쪽으로 향하는가?)
-- [ ] 순환 의존성이 있는가?
-- [ ] 결합도(Coupling)가 적절한가?
-- [ ] 응집도(Cohesion)가 높은가?
-
-**확장성 & 유지보수성:**
-- [ ] 새 기능 추가 시 수정 범위가 제한적인가?
-- [ ] 변경에 취약한 부분이 있는가?
-- [ ] 테스트하기 쉬운 구조인가?
-- [ ] 다른 개발자가 이해하기 쉬운가?
-
-**일관성:**
-- [ ] `refs/decisions/`의 결정사항과 충돌하는가?
-- [ ] 프로젝트 전체 아키텍처와 일관적인가?
-- [ ] 기존 패턴을 따르는가, 새로운 패턴을 도입했는가?
+- [ ] Does the work accurately achieve the defined goals?
+- [ ] Are all acceptance criteria satisfied?
+- [ ] Is there any scope creep?
+- [ ] Are there missing requirements?
 
 ---
 
-## 3. 코드 품질 (Code Quality) ⭐
+## 2. Design Quality ⭐
 
-> 코드는 설계의 구현체입니다. 설계 의도가 코드에 잘 반영되었는지 검토합니다.
+> Design quality is the foundation of code. Review after confirming goal achievement.
 
-**기능 정확성:**
-- [ ] 요구사항을 정확히 구현했는가?
-- [ ] 모든 엣지 케이스를 처리했는가?
-- [ ] 에러 핸들링이 적절하고 일관적인가?
-- [ ] 예외 상황에서 시스템이 안전하게 동작하는가?
+**Design Principles:**
+- [ ] **SOLID** compliance
+  - Single Responsibility: Does each unit have exactly one responsibility?
+  - Open/Closed: Is it open for extension, closed for modification?
+  - Liskov Substitution: Is substitutability guaranteed?
+  - Interface Segregation: Are interfaces properly separated?
+  - Dependency Inversion: Does it depend on abstractions?
+- [ ] **YAGNI** — Is only what's actually needed implemented?
+- [ ] **DRY** — Is there unnecessary repetition?
+- [ ] **KISS** — Are there unnecessarily complex parts?
 
-**코드 구조:**
-- [ ] 함수/메서드가 단일 책임을 가지는가?
-- [ ] 함수/메서드 길이가 적절한가? (너무 길지 않은가?)
-- [ ] 중첩 깊이(depth)가 적절한가?
-- [ ] 조건문이 복잡하지 않은가?
-- [ ] 중복 코드가 있는가?
+**Architecture Quality:**
+- [ ] Is the separation of responsibilities between layers/modules clear?
+- [ ] Is the direction of dependencies correct? (pointing inward?)
+- [ ] Are there circular dependencies?
+- [ ] Is coupling appropriate?
+- [ ] Is cohesion high?
 
-**가독성:**
-- [ ] 네이밍이 명확하고 의도를 드러내는가?
-- [ ] 주석이 필요한 곳에 있는가? (코드로 설명 안 되는 부분)
-- [ ] 불필요한 주석이 있는가? (코드로 충분히 설명되는 부분)
-- [ ] 매직 넘버/스트링이 있는가?
-- [ ] 코드 포맷팅이 일관적인가?
+**Extensibility & Maintainability:**
+- [ ] Is the scope of modification limited when adding new features?
+- [ ] Are there parts that are fragile to change?
+- [ ] Is the structure easy to test?
+- [ ] Is it easy for other developers to understand?
 
-**컨벤션 준수:**
-- [ ] 프로젝트의 코딩 스타일과 일치하는가?
-- [ ] 린터/포맷터 경고가 있는가?
-
-**보안:**
-- [ ] 입력값 검증이 충분한가?
-- [ ] SQL Injection, XSS 등 취약점이 있는가?
-- [ ] 민감 정보가 하드코딩되어 있는가?
-- [ ] 인증/인가 로직이 올바른가?
-- [ ] 로깅에 민감 정보가 포함되는가?
-
-**성능:**
-- [ ] 불필요한 연산/호출이 있는가?
-- [ ] N+1 쿼리 문제가 있는가?
-- [ ] 메모리 누수 가능성이 있는가?
-- [ ] 병목이 예상되는 부분이 있는가?
-- [ ] 캐싱이 필요한 부분이 있는가?
-
-**에러 처리:**
-- [ ] 모든 에러 경로가 처리되는가?
-- [ ] 에러 메시지가 사용자/개발자에게 유용한가?
-- [ ] 에러 로깅이 적절한가?
-- [ ] 에러 복구 전략이 있는가?
+**Consistency:**
+- [ ] Does it conflict with decisions recorded in `refs/decisions/`?
+- [ ] Is it consistent with the overall project architecture?
+- [ ] Does it follow existing patterns, or does it introduce new ones?
 
 ---
 
-## 4. 테스트 품질 (Test Quality) ⭐
+## 3. Code Quality ⭐
 
-> 테스트는 설계와 코드의 품질을 보장합니다. 테스트 자체의 품질도 중요합니다.
+> Code is the embodiment of design. Review whether design intent is properly reflected in code.
 
-**테스트 커버리지:**
-- [ ] 핵심 비즈니스 로직이 테스트되는가?
-- [ ] 모든 public API가 테스트되는가?
-- [ ] 엣지 케이스가 테스트되는가?
-- [ ] 에러 경로가 테스트되는가?
-- [ ] 경계값이 테스트되는가?
+**Functional Correctness:**
+- [ ] Does the code accurately implement the requirements?
+- [ ] Are all edge cases handled?
+- [ ] Is error handling adequate and consistent?
+- [ ] Does the system behave safely under exceptional conditions?
 
-**구현 정확성 검증:**
-- [ ] 테스트가 실제 요구사항을 정확히 검증하는가?
-- [ ] 테스트가 통과하면 기능이 올바르게 동작한다고 확신할 수 있는가?
-- [ ] 잘못된 구현도 통과시키는 약한 테스트가 있는가?
-- [ ] 테스트의 assertion이 충분히 구체적인가?
+**Code Structure:**
+- [ ] Do functions/methods have a single responsibility?
+- [ ] Are functions/methods an appropriate length? (not too long?)
+- [ ] Is nesting depth reasonable?
+- [ ] Are conditionals free of unnecessary complexity?
+- [ ] Is there duplicated code?
 
-**테스트 설계:**
-- [ ] 테스트가 독립적인가? (서로 영향 없이 실행 가능)
-- [ ] 테스트가 결정적인가? (항상 같은 결과)
-- [ ] 테스트가 빠른가? (피드백 루프 유지)
-- [ ] 테스트가 의미 있는 단위로 분리되어 있는가?
+**Readability:**
+- [ ] Are names clear and intention-revealing?
+- [ ] Are comments present where needed? (parts not self-evident from code)
+- [ ] Are there unnecessary comments? (parts already clear from code)
+- [ ] Are there magic numbers or magic strings?
+- [ ] Is code formatting consistent?
 
-**테스트 품질:**
-- [ ] 테스트 이름이 의도를 명확히 드러내는가?
-- [ ] Given-When-Then / Arrange-Act-Assert 구조를 따르는가?
-- [ ] 하나의 테스트가 하나의 동작만 검증하는가?
-- [ ] 테스트 코드의 가독성이 좋은가? (테스트도 문서다)
-- [ ] 테스트 의도가 명확히 드러나는가?
+**Convention Compliance:**
+- [ ] Does it match the project's coding style?
+- [ ] Are there linter/formatter warnings?
 
-**Blackbox Testing 원칙:**
-- [ ] 테스트가 구현 세부사항이 아닌 **동작/결과**를 검증하는가?
-- [ ] 내부 상태가 아닌 **공개 인터페이스**를 통해 검증하는가?
-- [ ] 구현 변경 시 테스트가 불필요하게 깨지지 않는가?
-- [ ] 테스트가 "어떻게"가 아닌 "무엇을"에 집중하는가?
+**Security:**
+- [ ] Is input validation sufficient?
+- [ ] Are there SQL Injection, XSS, or similar vulnerabilities?
+- [ ] Is sensitive information hardcoded?
+- [ ] Is authentication/authorization logic correct?
+- [ ] Does logging include sensitive information?
 
-**Mock/Stub 최소화:**
-- [ ] Mock이 **꼭 필요한 곳에만** 사용되었는가? (외부 의존성, I/O 등)
-- [ ] 과도한 Mock으로 테스트가 의미 없어지지 않았는가?
-- [ ] Mock 대신 실제 객체를 사용할 수 있는 곳은 없는가?
-- [ ] Mock의 동작이 실제 구현과 일치하는가?
+**Performance:**
+- [ ] Are there unnecessary computations or calls?
+- [ ] Are there N+1 query problems?
+- [ ] Is there potential for memory leaks?
+- [ ] Are there anticipated bottlenecks?
+- [ ] Are there parts that need caching?
 
-**테스트 유지보수성:**
-- [ ] 테스트가 깨지기 쉬운 구조인가? (brittle tests)
-- [ ] 테스트 코드에 중복이 많은가?
-- [ ] 테스트 헬퍼/픽스처가 적절히 사용되는가?
-- [ ] 테스트 실패 시 원인 파악이 쉬운가?
-
-**테스트 종류 균형:**
-- [ ] 단위 테스트가 충분한가?
-- [ ] 통합 테스트가 적절한가?
-- [ ] E2E 테스트가 필요한 곳에 있는가?
-- [ ] 테스트 피라미드 균형이 적절한가?
+**Error Handling:**
+- [ ] Are all error paths handled?
+- [ ] Are error messages useful to users/developers?
+- [ ] Is error logging adequate?
+- [ ] Is there an error recovery strategy?
 
 ---
 
-## 5. 추가 검토 기준 (상황별 적용)
+## 3-1. Code Smells (Fowler's Refactoring) ⭐
 
-> 프로젝트 특성에 따라 아래 기준들도 적극 적용하세요.
+> Code smells are surface symptoms of deeper problems. Consider refactoring when any of the following are detected.
 
-**동시성/병렬성** (해당 시):
-- [ ] Race condition 가능성이 있는가?
-- [ ] Deadlock 가능성이 있는가?
-- [ ] Thread-safe한가?
+**Bloaters:**
+- [ ] Long Function — Is the function excessively long or handling multiple stages at once?
+- [ ] Large Class — Does the class carry too many fields, methods, or responsibilities?
+- [ ] Long Parameter List — Are there too many parameters? (can they be grouped into an object?)
+- [ ] Primitive Obsession — Are domain concepts represented as primitives (string, number, boolean)?
+  - e.g., `status: string` → `Status` enum/union; `money: number` → `Money` value object
+- [ ] Data Clumps — Is the same group of data passed together in multiple places?
+  - e.g., if `(startDate, endDate)` recurs, extract a `DateRange`
 
-**데이터베이스** (해당 시):
-- [ ] 스키마 설계가 정규화되어 있는가?
-- [ ] 인덱스가 적절한가?
-- [ ] 트랜잭션 경계가 올바른가?
+**Object-Orientation Abusers:**
+- [ ] Repeated Switches — Does the same switch/if-else chain appear in multiple locations?
+  - Can it be replaced with polymorphism?
+- [ ] Temporary Field — Are there fields only populated under certain conditions?
+  - Should they be extracted into a separate class or expressed as Optional?
+- [ ] Refused Bequest — Does a subclass inherit methods/properties it does not use?
+  - Should inheritance be replaced with composition?
+- [ ] Alternative Classes with Different Interfaces — Do classes serving the same role have different interfaces?
+  - Can they be unified under a common interface?
 
-**API 설계** (해당 시):
-- [ ] RESTful 원칙을 따르는가?
-- [ ] 버전 관리 전략이 있는가?
-- [ ] 에러 응답이 일관적인가?
+**Change Preventers:**
+- [ ] Divergent Change — Is a single module frequently changed for unrelated reasons?
+  - Symptom of SRP violation. Does it need to be split by responsibility?
+- [ ] Shotgun Surgery — Does a single change require scattered modifications across many modules?
+  - Should related logic be consolidated in one place?
+- [ ] Parallel Inheritance Hierarchies — Does adding a class to one hierarchy require adding one to another?
 
-**UI/UX** (해당 시):
-- [ ] 접근성(a11y)을 고려했는가?
-- [ ] 반응형 디자인인가?
-- [ ] 로딩/에러 상태가 처리되는가?
+**Dispensables:**
+- [ ] Lazy Element — Are there classes, functions, or interfaces that don't justify their existence?
+  - Elements that only delegate or contain too little substance
+- [ ] Data Class — Are there classes with only getters/setters and no behavior?
+  - Should the logic that uses this data be moved into the class?
+- [ ] Speculative Generality — Are there abstractions, parameters, or interfaces built for hypothetical future needs?
+  - Abstractions created "just in case" without current justification
+- [ ] Dead Code — Is there unused code? (functions, variables, imports, conditional branches)
+- [ ] Comments (as smell) — Are there comments compensating for poor code structure?
+  - Is the need for a comment caused by the code itself being unclear?
 
-**기타:**
-- [ ] 로깅이 충분하고 적절한가?
-- [ ] 설정이 환경별로 분리되어 있는가?
-- [ ] 배포 준비가 되어 있는가?
+**Couplers:**
+- [ ] Feature Envy — Does a method use another object's data more than its own?
+  - Should the method be moved to the class that owns the data?
+- [ ] Inappropriate Intimacy — Do two classes/modules excessively reference each other's internals?
+- [ ] Message Chains — Do long method chains (a.b().c().d()) expose internal structure?
+  - Violation of the Law of Demeter
+- [ ] Middle Man — Does a class delegate most of its methods to another object?
+  - Would removing the intermediary and calling directly be better?
+- [ ] Insider Trading — Do modules exchange internal information excessively?
+  - Does one module depend on another's implementation without a formal interface?
+
+**Other:**
+- [ ] Global Data — Is there mutable shared data accessible from anywhere via globals or singletons?
+- [ ] Mutable Data — Is there data that could be made immutable but isn't?
+- [ ] Loops — Are there imperative loops replaceable with pipelines (map/filter/reduce)?
+
+---
+
+## 4. Test Quality ⭐
+
+> Tests safeguard the quality of design and code. The quality of tests themselves matters equally.
+
+**Test Coverage:**
+- [ ] Is core business logic tested?
+- [ ] Are all public APIs tested?
+- [ ] Are edge cases tested?
+- [ ] Are error paths tested?
+- [ ] Are boundary values tested?
+
+**Implementation Correctness Verification:**
+- [ ] Do tests accurately verify actual requirements?
+- [ ] Can you be confident the feature works correctly when tests pass?
+- [ ] Are there weak tests that would pass even with an incorrect implementation?
+- [ ] Are assertions sufficiently specific?
+
+**Test Design:**
+- [ ] Are tests independent? (can run without affecting each other)
+- [ ] Are tests deterministic? (always produce the same result)
+- [ ] Are tests fast? (maintaining the feedback loop)
+- [ ] Are tests separated into meaningful units?
+
+**Test Quality:**
+- [ ] Do test names clearly reveal their intent?
+- [ ] Do tests follow the Given-When-Then / Arrange-Act-Assert structure?
+- [ ] Does each test verify exactly one behavior?
+- [ ] Is test code readable? (tests are documentation too)
+- [ ] Is the test's intent immediately clear?
+
+**Blackbox Testing Principles:**
+- [ ] Do tests verify **behavior/outcomes** rather than implementation details?
+- [ ] Do tests verify through the **public interface** rather than internal state?
+- [ ] Will tests break unnecessarily when implementation changes?
+- [ ] Do tests focus on "what" rather than "how"?
+
+**Mock/Stub Minimization:**
+- [ ] Are mocks used **only where essential**? (external dependencies, I/O, etc.)
+- [ ] Do excessive mocks render any test meaningless?
+- [ ] Are there places where real objects could replace mocks?
+- [ ] Does mock behavior match the actual implementation?
+
+**Test Maintainability:**
+- [ ] Are there brittle tests prone to breaking?
+- [ ] Is there excessive duplication in test code?
+- [ ] Are test helpers/fixtures used appropriately?
+- [ ] Is it easy to diagnose the root cause when a test fails?
+
+**Test Type Balance:**
+- [ ] Are there sufficient unit tests?
+- [ ] Are integration tests appropriate?
+- [ ] Are E2E tests present where needed?
+- [ ] Is the test pyramid balanced?
+
+---
+
+## 5. Additional Review Criteria (Apply as Applicable)
+
+> Apply the following criteria based on project characteristics.
+
+**Concurrency/Parallelism** (when applicable):
+- [ ] Is there a risk of race conditions?
+- [ ] Is there a risk of deadlocks?
+- [ ] Is it thread-safe?
+
+**Database** (when applicable):
+- [ ] Is the schema design properly normalized?
+- [ ] Are indexes appropriate?
+- [ ] Are transaction boundaries correct?
+
+**API Design** (when applicable):
+- [ ] Does it follow RESTful principles?
+- [ ] Is there a versioning strategy?
+- [ ] Are error responses consistent?
+
+**UI/UX** (when applicable):
+- [ ] Is accessibility (a11y) considered?
+- [ ] Is the design responsive?
+- [ ] Are loading/error states handled?
+
+**Other:**
+- [ ] Is logging sufficient and appropriate?
+- [ ] Is configuration separated by environment?
+- [ ] Is it ready for deployment?

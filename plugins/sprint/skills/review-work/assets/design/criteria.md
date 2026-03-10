@@ -1,53 +1,53 @@
 # Design Review Criteria
 
-> 디자인/설계 Task 리뷰 기준 — 핵심 질문에 집중합니다.
+> Focused review criteria for design/architecture Tasks — concentrate on essential questions.
 
 ---
 
-## 1. 목적 달성 (Goal Achievement)
+## 1. Goal Achievement
 
-- [ ] 정의된 목적을 충분히 달성했는가?
-- [ ] 결론이 명확하고 다음 단계가 구체적인가?
-- [ ] 범위를 벗어났거나 누락된 내용이 있는가?
-
----
-
-## 2. 문제 여부 (Issues)
-
-- [ ] 논리적 비약이나 근거 없는 가정이 있는가?
-- [ ] 중요한 대안이 누락되었는가?
-- [ ] 리스크가 적절히 식별되었는가?
-- [ ] 실현 가능성에 문제가 있는가?
+- [ ] Does the work sufficiently achieve the defined goal?
+- [ ] Are conclusions clear and next steps concrete?
+- [ ] Is there any out-of-scope or missing content?
 
 ---
 
-## 3. 유연성 & 확장성 (Flexibility & Extensibility)
+## 2. Issues
 
-- [ ] 디자인이 충분히 유연하고 확장 가능한가?
-- [ ] 변경에 취약한 부분이 있는가?
-- [ ] 관심사 분리(separation of concerns)가 적절한가?
-- [ ] 의존성 방향이 올바른가?
-
----
-
-## 4. YAGNI/KISS 원칙 (Simplicity)
-
-- [ ] 현재 필요하지 않은 것을 설계하지 않았는가? (YAGNI)
-- [ ] 불필요하게 복잡한 부분이 있는가? (KISS)
-- [ ] 더 단순한 대안이 있는가?
+- [ ] Are there logical leaps or unfounded assumptions?
+- [ ] Are important alternatives missing from consideration?
+- [ ] Are risks properly identified and assessed?
+- [ ] Are there feasibility concerns?
 
 ---
 
-## 5. 가이드라인 준수 (Guidelines Compliance)
+## 3. Flexibility & Extensibility
 
-- [ ] 프로젝트 디자인 원칙/패턴과 일관적인가?
-- [ ] `refs/decisions/`의 기존 결정사항과 충돌하는가?
-- [ ] 프로젝트 아키텍처와 일관적인가?
+- [ ] Is the design sufficiently flexible and extensible?
+- [ ] Are there parts that are fragile to change?
+- [ ] Is separation of concerns adequate?
+- [ ] Is the direction of dependencies correct?
 
 ---
 
-## 6. Stale/Dead 정리 (Cleanup)
+## 4. YAGNI/KISS (Simplicity)
 
-- [ ] 더 이상 유효하지 않은 디자인 결정이 남아있는가?
-- [ ] 이전 탐색에서 무효화된 내용이 있는가?
-- [ ] 업데이트해야 할 관련 문서가 있는가?
+- [ ] Does the design include things not currently needed? (YAGNI)
+- [ ] Are there unnecessarily complex parts? (KISS)
+- [ ] Is there a simpler alternative?
+
+---
+
+## 5. Guidelines Compliance
+
+- [ ] Is it consistent with project design principles and patterns?
+- [ ] Does it conflict with existing decisions in `refs/decisions/`?
+- [ ] Is it consistent with the overall project architecture?
+
+---
+
+## 6. Stale/Dead Cleanup
+
+- [ ] Are there design decisions that are no longer valid?
+- [ ] Is there content invalidated by previous exploration?
+- [ ] Are there related documents that need updating?

@@ -11,6 +11,25 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.11.0] - 2026-03-10
+
+### Changed
+
+- **Language**: All review criteria and checklists rewritten from Korean to English for consistency across the entire plugin
+- **SKILL.md inline text**: Korean severity notes in `review-work` and `review-backlog` SKILL.md replaced with English equivalents
+
+### Added
+
+- **Code Smells section**: Added comprehensive Fowler's Refactoring code smells to both `review-work` coding criteria (Section 3-1) and `review-backlog` coding checklist (Section 3-1)
+  - Bloaters: Long Function, Large Class, Long Parameter List, Primitive Obsession, Data Clumps
+  - Object-Orientation Abusers: Repeated Switches, Temporary Field, Refused Bequest, Alternative Classes with Different Interfaces
+  - Change Preventers: Divergent Change, Shotgun Surgery, Parallel Inheritance Hierarchies
+  - Dispensables: Lazy Element, Data Class, Speculative Generality, Dead Code, Comments (as smell)
+  - Couplers: Feature Envy, Inappropriate Intimacy, Message Chains, Middle Man, Insider Trading
+  - Other: Global Data, Mutable Data, Loops
+
+---
+
 ## [1.10.0] - 2026-03-08
 
 ### Changed

@@ -1,47 +1,47 @@
 # Documentation Review Criteria
 
-> 문서 작성 Task 리뷰 기준 — 핵심 질문에 집중합니다.
+> Focused review criteria for documentation Tasks — concentrate on essential questions.
 
 ---
 
-## 1. 목적 달성 (Goal Achievement)
+## 1. Goal Achievement
 
-- [ ] 정의된 목적을 충분히 달성했는가?
-- [ ] 대상 독자에게 필요한 정보를 모두 다루었는가?
-- [ ] 범위를 벗어났거나 누락된 내용이 있는가?
-
----
-
-## 2. 문제 여부 (Issues)
-
-- [ ] 내용이 실제 구현/상태와 일치하는가?
-- [ ] 코드 예제가 실제로 동작하는가?
-- [ ] 링크가 모두 유효한가?
-- [ ] 모호하거나 오해를 불러일으킬 수 있는 표현이 있는가?
+- [ ] Does the work sufficiently achieve the defined goal?
+- [ ] Does it cover all information the target audience needs?
+- [ ] Is there any out-of-scope or missing content?
 
 ---
 
-## 3. 가독성 & 유지보수성 (Quality)
+## 2. Issues
 
-- [ ] 논리적 흐름으로 구성되어 있는가?
-- [ ] 정보를 찾기 쉬운 구조인가? (제목, 섹션, 목차)
-- [ ] 전문 용어가 적절히 설명되어 있는가?
-- [ ] 예시/다이어그램이 충분한가?
-- [ ] 업데이트하기 쉬운 구조인가?
-
----
-
-## 4. 가이드라인 준수 (Guidelines Compliance)
-
-- [ ] 프로젝트 문서 작성 컨벤션을 따르는가?
-- [ ] 기존 문서와 스타일/포맷이 일관적인가?
-- [ ] 올바른 위치에 저장되어 있는가?
+- [ ] Does the content accurately reflect the actual implementation/state?
+- [ ] Do code examples actually work?
+- [ ] Are all links valid?
+- [ ] Are there ambiguous or misleading expressions?
 
 ---
 
-## 5. Stale/Dead 정리 (Cleanup)
+## 3. Readability & Maintainability
 
-- [ ] 더 이상 유효하지 않은 내용이 남아있는가?
-- [ ] 중복된 내용이 있는가?
-- [ ] 참조가 깨진 곳이 있는가?
-- [ ] 삭제하거나 통합해야 할 문서가 있는가?
+- [ ] Is the content organized in a logical flow?
+- [ ] Is the structure easy to navigate? (headings, sections, table of contents)
+- [ ] Are technical terms properly explained?
+- [ ] Are there sufficient examples and diagrams?
+- [ ] Is the structure easy to update?
+
+---
+
+## 4. Guidelines Compliance
+
+- [ ] Does it follow project documentation conventions?
+- [ ] Is the style and format consistent with existing documentation?
+- [ ] Is it stored in the correct location?
+
+---
+
+## 5. Stale/Dead Cleanup
+
+- [ ] Is there content that is no longer valid?
+- [ ] Is there duplicated content?
+- [ ] Are there broken references?
+- [ ] Are there documents that should be deleted or consolidated?

@@ -22,9 +22,8 @@ When you receive `@INSTRUCTION.md #agent-name`:
 4. **Read context**:
    - `refs/designs/F{n}-*.md` - Feature design
    - `refs/plans/F{n}-T{m}-*.md` - Task plan (if exists)
-   - `refs/decisions/F{n}-*.md` - Feature-specific decisions
-   - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
-   - `active/F{n}-*.md` - Feature working context
+   - `active/F{n}-*.md` - Feature working context (contains decisions)
+   - `refs/archive/F{n}-*.md` - Archived context from prior Features (if relevant)
 5. **Assess parallelism** — Does your assignment have 2+ independent sub-items?
    - Feature with independent Tasks → consider [Agent Teams](#agent-teams)
    - Task with independent Sub-tasks → consider [Agent Teams](#agent-teams)
@@ -166,10 +165,12 @@ When you encounter `review` status tasks — either directly assigned or as part
 
 ### When Feature is done:
 
-1. Move decisions to `refs/decisions/F{n}-*.md`
-2. Move lessons to `refs/lessons/F{n}-*.md`
-3. Only sprint-wide insights go to `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
-4. Delete `active/F{n}-*.md`
+1. Move `active/F{n}-*.md` → `refs/archive/F{n}-name.md` (preserve as-is)
+2. Add **Lessons Learned** section to the archived file (what worked, what didn't, recommendations)
+3. Review and finalize the **Decisions Made** section in the archived file
+4. Sprint-wide insights only → `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
+5. Remove Feature section from BACKLOG.md, add one-line summary to Done:
+   `F1: Feature Name - completed YYYY-MM-DD`
 
 ---
 
@@ -217,7 +218,7 @@ Before ending your session:
 1. **Update BACKLOG.md** - Task status accurate
 2. **Update HANDOFF.md** - Progress documented
 3. **Update active/ context** - Notes for next session
-4. **If Feature done**: Move decisions to `refs/decisions/F{n}-*.md`, lessons to `refs/lessons/F{n}-*.md`
+4. **If Feature done**: Archive active context (see [Feature Context Management](#feature-context-management))
 
 ---
 
@@ -417,8 +418,8 @@ Since context is cleared after plan approval, plan files must be **self-containe
 - Read and reference relevant decisions/lessons (summarize key points in plan):
   - `refs/decisions/_sprint.md` - Sprint-wide constraints
   - `refs/lessons/_sprint.md` - Sprint-wide lessons
-  - `refs/decisions/F{n}-*.md` - Feature-specific decisions (if working on F{n})
-  - `refs/lessons/F{n}-*.md` - Feature-specific lessons (if exists)
+  - `active/F{n}-*.md` - Feature-specific decisions (in Decisions Made section)
+  - `refs/archive/F{n}-*.md` - Archived context from prior Features (if relevant)
 - Include work context summary
 - Include updating sprint files(i.e. HANDOFF.md, BACKLOG.md, etc.) according to the instruction file(<sprint>/INSTRUCTION.md)
 

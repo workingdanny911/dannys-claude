@@ -148,20 +148,16 @@ You already have a Task in progress. Complete it before starting another.
 **Solution**:
 
 ```markdown
-# 1. Move decisions
-active/F1-*.md decisions → refs/decisions/F1-*.md
+# 1. Archive active context
+active/F1-*.md → refs/archive/F1-auth.md (move as-is)
 
-# 2. Move lessons
-active/F1-*.md lessons → refs/lessons/F1-*.md
+# 2. Add Lessons Learned section to archived file
+# 3. Finalize Decisions Made section in archived file
+# 4. Sprint-wide insights only → refs/decisions/_sprint.md or refs/lessons/_sprint.md
 
-# 3. Archive Feature
-BACKLOG.md F1 full content → refs/archive/F1-*.md
-
-# 4. Clean BACKLOG.md
-## Done section - leave one-line summary only
+# 5. Clean BACKLOG.md
+# Remove Feature section, add one-line to Done:
 - F1: Authentication - completed 2024-01-28
-
-# 5. Delete active/ file
 rm active/F1-authentication.md
 ```
 

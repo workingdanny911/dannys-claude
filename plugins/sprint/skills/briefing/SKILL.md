@@ -5,532 +5,175 @@ description: "Explain work done on a Feature, Task, or topic using diagrams and 
 
 # Sprint Briefing Skill
 
-Explain work done on a specific Feature, Task, or topic in a detailed but approachable way, using diagrams and storytelling.
-
-## Overview
-
-This skill generates a structured briefing that tells the **story** of work — what happened, why decisions were made, what changed, and what lies ahead. Designed for review, understanding, and future planning.
-
-**Two modes:**
-- **Sprint-bound** — Target is a Feature/Task ID within a sprint
-- **General** — No sprint; explain based on git history and code analysis
-
----
+Explain work done on a Feature, Task, or topic using diagrams and storytelling.
 
 ## When to Use
 
-- When you need to understand what happened on a Feature or Task
-- When reviewing progress before planning next steps
-- When you want a clear explanation of code structure and changes
-- When preparing a saved document summarizing a body of work
+- Understand what happened on a Feature or Task
+- Review progress before planning next steps
+- Get a clear explanation of code structure and changes
+- Prepare a saved document summarizing a body of work
 
 ---
 
-## Prerequisites
+## Step 1: Detect Mode & Identify Target
 
-### Sprint-bound Mode
+### Mode Detection
 
-This skill operates in a sprint folder containing:
-- `BACKLOG.md` — Feature/Task structure and status
-- `HANDOFF.md` — Current progress status
-- `active/` — Feature working contexts
-- `refs/` — Designs, plans, decisions, lessons
+```
+Sprint files exist (BACKLOG.md, HANDOFF.md)?
+├── YES → Sprint-bound mode
+└── NO  → General mode (git/code analysis)
+```
 
-### General Mode
+### Target Identification
 
-No sprint required. Operates on:
-- Git repository with commit history
-- Source code files in the working directory
+**User specifies target** → use it directly:
+
+| Input | Action |
+|-------|--------|
+| `F{n}` | Feature-level briefing |
+| `T{n}.{m}` | Task-level briefing |
+| `F{n}, F{m}` | Feature group briefing |
+| Module/path/topic | Code/git-based briefing |
+
+**No target specified** → show available targets and ask. Do NOT assume.
 
 ---
 
-## Workflow
+## Step 2: Gather Information
 
-### Step 1: Detect Mode & Identify Target
+> **CRITICAL: Read ALL sources BEFORE generating any explanation.**
+> - Only state facts confirmed by sources
+> - Mark inferences: "[inferred from commit message]"
+> - Missing information → state honestly, never fabricate
 
-#### 1.1 Detect Mode
+### Sprint-bound Sources (read in order)
 
-```
-User specifies sprint?
-├── YES → Sprint-bound mode (use specified sprint)
-└── NO
-    └── Check current directory for sprint files (BACKLOG.md, HANDOFF.md)
-        ├── Found → Sprint-bound mode
-        └── Not found → General mode
-```
+| Priority | Source | What to Read |
+|----------|--------|-------------|
+| 1. Always | Sprint status | `BACKLOG.md`, `HANDOFF.md` |
+| 2. Target | Design & plans | `refs/designs/F{n}-*.md`, `refs/plans/F{n}-T{m}-*.md` |
+| 3. Target | Working context | `active/F{n}-*.md` (contains decisions, progress, notes) |
+| 4. Target | Archived context | `refs/archive/F{n}-*.md` (completed Features) |
+| 5. Sprint-wide | Decisions & lessons | `refs/decisions/_sprint.md`, `refs/lessons/_sprint.md` |
+| 6. Code | Git & source | `git log`, `git diff --stat`, source files, test files |
+| 7. Related | Adjacent Features | Previous/next Features from BACKLOG.md ordering |
 
-#### 1.2 Identify Target
+### General Mode Sources
 
-**If user specifies a target** (e.g., "briefing F1", "explain T2.3", "explain auth module"):
+| Source | Method |
+|--------|--------|
+| Git history | `git log --oneline -30 -- <path>`, `git log --stat -10 -- <path>` |
+| Code structure | Glob/read directory, entry points, main modules |
+| Documentation | README, docs if present |
+| Tests | Test files for verified behavior |
 
-| Input | Mode | Action |
-|-------|------|--------|
-| `F{n}` | Sprint-bound | Feature-level briefing |
-| `T{n}.{m}` | Sprint-bound | Task-level briefing |
-| `F{n}, F{m}` | Sprint-bound | Feature group briefing |
-| Module/path/topic | General | Code/git-based briefing |
+### Fact Registry (internal, not shown to user)
 
-**If user does NOT specify a target:**
-
-Do NOT assume. Show recommendations and ask user to pick.
-
-Sprint-bound recommendations:
-```
-Available briefing targets:
-
-Recently Active
-1. F1: User Authentication (T1.3 in_progress, 2/4 tasks done)
-2. T2.1: Profile API (done 2024-01-28)
-
-All Features
-3. F1: User Authentication (2 done, 1 in_progress, 1 backlog)
-4. F2: User Profile (0/3 tasks, backlog)
-
-Which would you like a briefing on?
-```
-
-General mode recommendations:
-```
-No sprint detected. Analyzing git history...
-
-Recent activity:
-1. src/auth/ — 15 commits in last 2 weeks
-2. src/api/routes/ — 8 commits in last 2 weeks
-3. docs/ — 5 commits in last week
-
-Which area would you like a briefing on?
-```
+Before generating, mentally verify you have: Status, Timeline, Decisions, Architecture, Remaining work, Risks/blockers, Gaps, Inferences (with source).
 
 ---
 
-### Step 2: Gather & Analyze Information
+## Step 3: Generate Briefing
 
-> **CRITICAL: This is the accuracy step. Thoroughness here prevents hallucination.**
->
-> **Rules:**
-> 1. Read ALL relevant sources BEFORE generating any explanation
-> 2. Only state facts confirmed by sources
-> 3. Mark inferences explicitly: "[inferred from commit message]"
-> 4. Missing information → state honestly: "No design doc found for F2"
-> 5. Never present guesses as facts
+### Sections
 
-#### 2.1 Sprint-bound: Information Sources
+| # | Section | When | Purpose |
+|---|---------|------|---------|
+| 1 | 🎯 **Overview** | Always | What + current status |
+| 2 | 📍 **Where We Are** | Always | Big picture position (ASCII diagram) |
+| 3 | 📖 **The Story So Far** | Always | Narrative with chapters |
+| 4 | 🔍 **Key Changes** | Always | Files changed, patterns introduced |
+| 5 | 🧩 **Code Map** | Code only | Unit relationships and roles |
+| 6 | 🗺️ **What's Ahead** | Always | Remaining work, related Features |
+| 7 | 💡 **Good to Know** | Always | Decisions, lessons, risks, open questions |
+| 8 | 📋 **At a Glance** | Always | Summary table |
 
-Read in order. Track what each source contributes.
+### Section Guidelines
 
-**Phase A — Sprint context (always read):**
+**🎯 Overview** — One paragraph: what this is + where it stands.
 
-| Source | File | Information |
-|--------|------|-------------|
-| Backlog | `BACKLOG.md` | Feature/Task list, status, ordering, dependencies |
-| Work Board | `HANDOFF.md` | Current progress, recent completions, blockers |
-
-**Phase B — Target-specific:**
-
-| Source | File Pattern | Information |
-|--------|-------------|-------------|
-| Feature Design | `refs/designs/F{n}-*.md` | Goals, architecture, API design |
-| Task Plans | `refs/plans/F{n}-T{m}-*.md` | Implementation approach, sub-tasks |
-| Active Context | `active/F{n}-*.md` | Status, notes, modified files, open questions |
-| Decisions | `refs/decisions/F{n}-*.md` | Decisions made, rationale |
-| Sprint Decisions | `refs/decisions/_sprint.md` | Sprint-wide decisions |
-| Lessons | `refs/lessons/F{n}-*.md` | Lessons learned |
-| Sprint Lessons | `refs/lessons/_sprint.md` | Sprint-wide lessons |
-
-**Phase C — Code-level (when target involves coding):**
-
-| Source | Method | Information |
-|--------|--------|-------------|
-| Git log | `git log --oneline -- <modified-files>` | Commit history |
-| Git diff summary | `git diff --stat <range>` | Files changed, scope |
-| Source files | Read files from active context | Actual implementation |
-| Test files | Read corresponding test files | Coverage, behavior |
-
-**Phase D — Related Features:**
-
-From BACKLOG.md ordering:
-- **Previous Feature**: Feature listed immediately before the target
-- **Next Feature**: Feature listed immediately after the target
-- Include their status and connection to the target
-
-#### 2.2 General Mode: Information Sources
-
-| Source | Method | Information |
-|--------|--------|-------------|
-| Git log | `git log --oneline -30 -- <path>` | Recent history |
-| Git log detailed | `git log --stat -10 -- <path>` | Per-commit changes |
-| Code structure | Glob/read directory | Layout, modules |
-| README/docs | Read if present | Documented purpose |
-| Source files | Read key files (entry points, main modules) | Architecture |
-| Test files | Read test files | Verified behavior |
-
-#### 2.3 Build Fact Registry
-
-Before generating the briefing, mentally compile:
-
-```
-Fact Registry (internal — not shown to user):
-├── Status: [confirmed from BACKLOG.md / git]
-├── Timeline: [confirmed from git log / HANDOFF.md]
-├── Decisions: [confirmed from refs/decisions/]
-├── Architecture: [confirmed from code + design docs]
-├── Remaining work: [confirmed from BACKLOG.md]
-├── Risks/blockers: [confirmed from HANDOFF.md / active/]
-├── Gaps: [information NOT found]
-└── Inferences: [things inferred, with source noted]
-```
-
-> If a section cannot be substantiated, omit it or explicitly mark uncertainty.
-
----
-
-### Step 3: Generate Briefing
-
-#### 3.1 Output Sections
-
-| # | Section | Always? | Description |
-|---|---------|---------|-------------|
-| 1 | 🎯 **Overview** | Yes | What this is, current status summary |
-| 2 | 📍 **Where We Are** | Yes | Big picture position, ASCII diagram |
-| 3 | 📖 **The Story So Far** | Yes | Narrative of progress |
-| 4 | 🔍 **Key Changes** | Yes | What changed (diff perspective) |
-| 5 | 🧩 **Code Map** | Code only | Unit relationships, roles, responsibilities |
-| 6 | 🗺️ **What's Ahead** | Yes | Remaining work, related Features |
-| 7 | 💡 **Good to Know** | Yes | Decisions, lessons, risks |
-| 8 | 📋 **At a Glance** | Yes | Summary table |
-
-#### 3.2 Section Details
-
-**🎯 Overview**
-
-Always the first section. Brief summary of what this Feature/Task/topic is and where it stands now.
-
-```
-## 🎯 Overview
-
-F1: User Authentication — JWT-based auth system with login, signup, and token refresh.
-Currently 60% complete (2/4 tasks done, T1.3 in progress).
-```
-
----
-
-**📍 Where We Are**
-
-Show the target's position in the bigger picture using an ASCII diagram.
-
-Sprint progress example:
+**📍 Where We Are** — ASCII diagram showing position in sprint or architecture.
 ```
 Sprint: payment-system
 ========================================
 F1: User Auth .......... [####====--] 60%
-F2: User Profile ....... [----------]  0%  <-- depends on F1
-F3: Payment ............ [----------]  0%
+F2: User Profile ....... [----------]  0%
 ========================================
-                          ^ YOU ARE HERE: F1
+                          ^ YOU ARE HERE
 ```
+> ASCII diagrams: **ENGLISH ONLY** (Korean breaks alignment). Verify alignment is correct.
 
-Architecture overview example:
+**📖 The Story So Far** — Narrative chapters per completed task. Past tense for done, present tense for in-progress. Reference decision sources.
 ```
-+-------------+     +----------------+     +-----------+
-|   Client    |---->|   Auth API     |---->|    DB     |
-+-------------+     +----------------+     +-----------+
-                    | POST /login    |
-                    | POST /signup   |
-                    | POST /refresh  |
-                    +----------------+
-```
-
-> **ASCII diagram rules:**
-> - **ENGLISH ONLY** — Korean characters break monospace alignment
-> - Take care that alignment is correct and the diagram renders cleanly
-
----
-
-**📖 The Story So Far**
-
-Narrative-style description. Tell it as a story with chapters.
-
-```
-### 📖 The Story So Far
-
 **Chapter 1: Foundation (T1.1 — DB Schema)**
-The journey started with designing the data model. We needed a users table
-with email uniqueness and bcrypt-hashed passwords...
+The journey started with designing the data model...
 
-**Chapter 2: First Endpoint (T1.2 — Login API)**
-With the schema in place, login came next. The team chose JWT over sessions
-because of horizontal scaling requirements [from refs/decisions/F1-auth.md]...
-
-**Chapter 3: Now (T1.3 — Token Refresh)**
-Currently implementing refresh token rotation to prevent stolen token reuse...
+**Chapter 2: Now (T1.3 — Token Refresh)**
+Currently implementing refresh token rotation...
 ```
 
-- Use past tense for completed work, present tense for in-progress
-- Reference source of decisions when available
-- For a single Task: tell that task's journey instead of chapters
+**🔍 Key Changes** — Table of files changed + key patterns introduced.
 
----
+**🧩 Code Map** — Unit relationship diagram + roles table. Omit for non-code briefings.
 
-**🔍 Key Changes**
+**🗺️ What's Ahead** — Remaining tasks + related Features (previous/next with connections).
 
-What was built or modified, from a diff perspective.
+**💡 Good to Know** — Decisions (with source), lessons, open questions, risks. If none recorded, say so honestly.
 
+**📋 At a Glance** — Key-value summary table (target, status, tasks, key files, decisions count, blockers, next up).
+
+### Depth Rules (automatic, do NOT ask user)
+
+| Target | Depth |
+|--------|-------|
+| Feature (many tasks) | Full — each task gets a chapter |
+| Feature (few tasks) | Concise — combine small tasks |
+| Single Task | Focused — that task's journey |
+| Feature Group | Comparative — each summarized, connections highlighted |
+| General (module) | Git-driven |
+
+### Missing Information
+
+Never skip a section silently. Show it with explanation:
 ```
-### 🔍 Key Changes
-
-Files Changed:
-| Area | Files | Changes |
-|------|-------|---------|
-| Routes | src/routes/auth.ts | 3 endpoints added |
-| Services | src/services/auth.service.ts | JWT + bcrypt logic |
-| Middleware | src/middleware/auth.ts | Token verification |
-| Tests | src/tests/auth.test.ts | 12 test cases |
-
-Key Patterns Introduced:
-- Request validation middleware at route level
-- Service layer handles all business logic (no logic in routes)
-```
-
----
-
-**🧩 Code Map** *(code-related briefings only)*
-
-Show unit relationships and each unit's role. This section helps the reader understand the structure of what was built.
-
-Unit relationship diagram:
-```
-### 🧩 Code Map
-
-    +------------------+
-    |   auth.routes    |  Entry point — route definitions
-    +--------+---------+
-             |
-    +--------v---------+
-    | auth.validator   |  Input validation (email, password format)
-    +--------+---------+
-             |
-    +--------v---------+
-    | auth.service     |  Core logic — login, signup, token mgmt
-    +--------+---------+
-             |
-    +--------v---------+     +------------------+
-    |   user.repo      |     |   jwt.util       |
-    |  DB operations    |     |  Sign / Verify   |
-    +------------------+     +------------------+
-```
-
-Unit roles:
-| Unit | Role | Key Functions |
-|------|------|---------------|
-| `auth.routes` | HTTP layer | `POST /login`, `POST /signup`, `POST /refresh` |
-| `auth.validator` | Validation | `validateLogin()`, `validateSignup()` |
-| `auth.service` | Business logic | `login()`, `signup()`, `refreshToken()` |
-| `user.repo` | Data access | `findByEmail()`, `create()`, `updateToken()` |
-| `jwt.util` | Token utility | `sign()`, `verify()`, `decode()` |
-
-> Omit this section entirely when the briefing is not code-related.
-
----
-
-**🗺️ What's Ahead**
-
-Remaining work and related Features from the BACKLOG.
-
-```
-### 🗺️ What's Ahead
-
-Remaining in F1:
-- [ ] T1.3: Token Refresh API (in_progress)
-- [ ] T1.4: Review & Refactor F1 (backlog)
-
-Related Features:
-| Relation | Feature | Status | Connection |
-|----------|---------|--------|------------|
-| Previous | -- | -- | F1 is the first Feature |
-| Next | F2: User Profile | backlog | Depends on F1 auth |
-| Next | F3: Payment | backlog | Depends on F1 + F2 |
-```
-
----
-
-**💡 Good to Know**
-
-Decisions, lessons, risks, and open questions.
-
-```
-### 💡 Good to Know
-
-Key Decisions:
-| Decision | Rationale | Source |
-|----------|-----------|--------|
-| JWT over Sessions | Stateless, horizontal scaling | refs/decisions/F1-auth.md |
-| bcrypt cost=12 | Security/performance balance | refs/decisions/F1-auth.md |
-
-Lessons Learned:
-- Token expiry edge case: must check exp before DB lookup (refs/lessons/F1-auth.md)
-
-Open Questions:
-- Refresh token storage: DB now, Redis later?
-
-Risks:
-- F2 blocked until F1 completes
-```
-
-If no decisions/lessons are recorded, say so honestly:
-```
-Key Decisions:
-No decision records found. Decisions may have been made informally.
-```
-
----
-
-**📋 At a Glance**
-
-Summary table.
-
-```
-### 📋 At a Glance
-
-| Key | Value |
-|-----|-------|
-| Target | F1: User Authentication |
-| Status | In Progress (60%) |
-| Tasks | 2 done, 1 in_progress, 1 backlog |
-| Key Files | src/routes/auth.ts, src/services/auth.service.ts |
-| Decisions | 2 recorded |
-| Blockers | None |
-| Next Up | T1.3 completion, then T1.4 review |
-```
-
-#### 3.3 Depth Rules (Automatic)
-
-The skill decides depth based on scope. Do NOT ask the user.
-
-| Target | Depth | Notes |
-|--------|-------|-------|
-| Feature (many tasks) | Full | Each completed task gets a chapter |
-| Feature (few tasks) | Concise | Combine small tasks into one chapter |
-| Single Task | Focused | Story of that single task |
-| Feature Group | Comparative | Each Feature summarized, connections highlighted |
-| General (module) | Git-driven | Based on available git/code information |
-
-#### 3.4 Handling Missing Information
-
-Never skip a section silently. Always show it with an explanation:
-
-```
-### 💡 Good to Know
-
 Key Decisions:
 No decision records found for F2.
-
-[inferred from commit abc123]
-Chose REST over GraphQL based on commit message: "Add REST endpoints for profile"
+[inferred from commit abc123] Chose REST over GraphQL based on commit message.
 ```
 
 ---
 
-### Step 4: Save Session (Optional)
+## Step 4: Save (Optional)
 
-After the briefing is displayed:
+After displaying the briefing, ask if user wants to save.
 
-```
----
-Would you like to save this briefing as a document?
-```
+**If yes:**
+1. Suggest location: `refs/briefings/F{n}-briefing-YYYY-MM-DD.md` (sprint) or ask user (general)
+2. Convert ASCII diagrams → Mermaid for the saved document
+3. Add metadata header (Generated date, Target, Mode, Sprint) and Sources footer
 
-**If user says yes:**
+**ASCII → Mermaid mapping:**
 
-1. Ask where to save. Suggest a default:
-   - Sprint-bound: `refs/briefings/F{n}-briefing-YYYY-MM-DD.md`
-   - General: user must specify (no default assumed)
-
-2. If directory does not exist, confirm creation with the user.
-
-#### 4.1 Saved Document Format
-
-Convert ASCII diagrams to Mermaid. Same content, document-formatted.
-
-**ASCII → Mermaid conversion examples:**
-
-Sprint progress → Gantt:
-```mermaid
-gantt
-    title Sprint: payment-system
-    dateFormat YYYY-MM-DD
-    section F1: User Auth
-        T1.1: DB Schema        :done,    t11, 2024-01-27, 1d
-        T1.2: Login API        :done,    t12, 2024-01-28, 1d
-        T1.3: Token Refresh    :active,  t13, 2024-01-29, 2d
-        T1.4: Review           :         t14, after t13, 1d
-    section F2: User Profile
-        T2.1: Get Profile      :         t21, after t14, 1d
-```
-
-Architecture box → Flowchart:
-```mermaid
-flowchart LR
-    Client --> AuthAPI[Auth API]
-    AuthAPI --> DB[(Database)]
-    AuthAPI --> JWT[JWT Service]
-```
-
-Unit map → Flowchart:
-```mermaid
-flowchart TD
-    Routes[auth.routes] --> Validator[auth.validator]
-    Validator --> Service[auth.service]
-    Service --> Repo[user.repo]
-    Service --> JWT[jwt.util]
-```
-
-Request flow → Sequence:
-```mermaid
-sequenceDiagram
-    Client->>Validator: Request
-    Validator->>Route: Validated input
-    Route->>Service: Business logic
-    Service->>DB: Query
-    DB-->>Client: Response
-```
-
-**Saved document structure:**
-
-```markdown
-# [Feature/Topic Name] — Briefing
-
-> Generated: YYYY-MM-DD
-> Target: F{n}: [Feature Name] | T{n}.{m}: [Task Name] | [Topic]
-> Mode: Sprint-bound | General
-> Sprint: [sprint-name] (if applicable)
-
----
-
-[Same sections as terminal output, with Mermaid diagrams]
-
----
-
-## Sources
-
-Files analyzed for this briefing:
-- BACKLOG.md — Feature/Task status
-- active/F1-user-auth.md — Working context
-- refs/designs/F1-user-auth.md — Design document
-- refs/decisions/F1-decisions.md — Decision records
-- Git history: N commits analyzed (date range)
-```
+| ASCII | Mermaid |
+|-------|---------|
+| Sprint progress bar | `gantt` |
+| Architecture box diagram | `flowchart LR` |
+| Unit dependency map | `flowchart TD` |
+| Request/sequence flow | `sequenceDiagram` |
 
 ---
 
 ## Key Principles
 
-- **Accuracy over creativity** — Every fact must trace to a source. Mark inferences explicitly. Never fabricate progress, decisions, or file changes.
-- **Read-only** — This skill does NOT modify sprint files (BACKLOG.md, HANDOFF.md, etc.). It only reads and optionally saves a briefing document.
+- **Accuracy > creativity** — Every fact traces to a source. Mark inferences. Never fabricate.
+- **Read-only** — Does NOT modify sprint files. Only reads and optionally saves briefing.
 - **Story-driven** — Tell the story of the work, not just list facts.
-- **Diagrams in English** — ASCII diagrams use English only. Take care that monospace alignment is correct.
-- **User controls save** — Never auto-save. Always ask. Never assume save location.
-- **Automatic depth** — The skill decides the appropriate level of detail.
-- **Show gaps honestly** — If information is missing, say so. Never fill gaps with assumptions presented as facts.
+- **Diagrams in English** — ASCII uses English only. Verify monospace alignment.
+- **User controls save** — Never auto-save. Always ask.
+- **Automatic depth** — Skill decides detail level based on scope.
+- **Show gaps honestly** — Missing info stated clearly, never filled with assumptions.
 
 ---
 

@@ -11,6 +11,19 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.10.0] - 2026-03-26
+
+### Changed
+
+- **Feature completion: Active File archival**: Active files (`active/F{n}-*.md`) are now moved to `refs/archive/` as-is when a Feature completes, instead of being deleted. Lessons Learned and Decisions Made sections are finalized in the archived file. No separate `refs/decisions/F{n}-*.md` or `refs/lessons/F{n}-*.md` files needed (sprint-wide files remain).
+- **Feature completion: BACKLOG.md cleanup**: Feature section is removed from BACKLOG.md and replaced with a one-line summary in the Done section (`F1: Feature Name - completed YYYY-MM-DD`). Previous behavior of copying the full section to archive is replaced by the active file archival above.
+- **Briefing skill readability**: Consolidated information-gathering phases (A/B/C/D) into a single prioritized source table. Condensed section examples, removed redundant Mermaid conversion code blocks, and streamlined overall structure (544 → ~170 lines).
+- **INSTRUCTION-TEMPLATE.md**: Session Start context reads updated to reference `active/` for decisions and `refs/archive/` for completed features. Session End checklist simplified.
+- **decisions-README.md**: Feature-specific decisions now stay in active/archive files; only sprint-wide decisions use this directory.
+- **lessons-README.md**: Feature-specific lessons added to archived active files; only sprint-wide lessons use this directory. Added Lessons Learned template.
+
+---
+
 ## [1.11.0] - 2026-03-10
 
 ### Changed

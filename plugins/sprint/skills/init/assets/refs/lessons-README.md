@@ -1,36 +1,30 @@
 # Lessons
 
-Lessons learned from features and sprint-wide.
+Sprint-wide lessons learned.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `_sprint.md` | Sprint-wide lessons (rare, cross-feature) |
-| `F{n}-{name}.md` | Feature-specific lessons |
-
-## Naming Convention
-
-- `_sprint.md` - Sprint-wide (created by sprint-init)
-- `F{n}-{feature-name}.md` - Per-feature (e.g., `F1-user-auth.md`)
+| `_sprint.md` | Sprint-wide lessons (cross-feature) |
 
 ## When to Create
 
-**Feature file**: When a feature is **completed**, move lessons from `active/F{n}-*.md` here.
-
 **Sprint file**: Only for lessons that apply across multiple features or the entire sprint.
 
-## Template
+**Feature lessons**: Added directly to the active context file (`active/F{n}-*.md`) when the feature completes. The file then moves to `refs/archive/`, preserving lessons alongside decisions and context. No separate feature lesson files needed.
+
+### Lessons Learned Template (added to archived active file)
 
 ```markdown
-# F{n}: {Feature Name} - Lessons
+## Lessons Learned
 
-## What Worked
+### What Worked
 - Pattern or approach that was effective
 
-## What Didn't Work
+### What Didn't Work
 - Approach that failed and why
 
-## For Next Time
+### For Next Time
 - Recommendations for similar work
 ```

@@ -36,7 +36,7 @@ This skill operates in a sprint folder containing:
 
 | Target | Files to Read |
 |--------|---------------|
-| Feature | `refs/designs/F{n}-*`, `refs/decisions/F{n}-*`, `active/F{n}-*` |
+| Feature | `refs/designs/F{n}-*`, `active/F{n}-*` (contains decisions), `refs/archive/F{n}-*` (if prior Feature) |
 | Task | `refs/plans/F{n}-T{m}-*`, related Feature files |
 
 **Sprint-wide (if needed):**
@@ -224,10 +224,10 @@ When user approves the Plan:
 
 Create `refs/plans/F{n}-T{m}-[name].md`
 
-#### 4.3 Update refs/decisions (if needed)
+#### 4.3 Record Decisions (if needed)
 
 Record decisions made during brainstorming:
-- Feature-related → `refs/decisions/F{n}-[name].md`
+- Feature-related → `active/F{n}-*.md` (Decisions Made section)
 - Sprint-wide → `refs/decisions/_sprint.md`
 
 #### 4.4 Update HANDOFF.md (if needed)

@@ -452,12 +452,13 @@ When context compaction occurs during a Claude Code session:
 
 ### On Feature Completion
 
-1. Mark Feature as `done` in BACKLOG.md
-2. Clean up `active/F{n}-*.md` content
-3. Move decisions → `refs/decisions/F{n}-*.md`
-4. Move lessons → `refs/lessons/F{n}-*.md`
-5. Delete `active/F{n}-*.md`
-6. Move Feature content → `refs/archive/F{n}-*.md`
+1. Mark Feature as `[x]` `done` in BACKLOG.md
+2. Move `active/F{n}-*.md` → `refs/archive/F{n}-name.md` (preserve as-is)
+3. Add **Lessons Learned** section to the archived file
+4. Finalize **Decisions Made** section in the archived file
+5. Sprint-wide insights only → `refs/decisions/_sprint.md` or `refs/lessons/_sprint.md`
+6. Remove Feature section from BACKLOG.md, add one-line to Done:
+   `F1: Feature Name - completed YYYY-MM-DD`
 
 ### On Sprint Completion
 

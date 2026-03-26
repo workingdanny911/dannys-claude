@@ -194,6 +194,8 @@ Entering Plan Mode.
 5. Update `active/F{n}-*.md` with review completion notes
 6. Check if Feature is now complete (all Tasks done)
    - If yes: mark Feature `[x]` in BACKLOG.md
+   - Archive: move `active/F{n}-*.md` → `refs/archive/F{n}-name.md`, add Lessons Learned
+   - Clean up BACKLOG.md: remove Feature section, add one-line to Done
 ```
 
 **Wait for user approval.**
@@ -227,13 +229,20 @@ If all Tasks in the Feature are `done`:
 - [x] F1: User Authentication
 ```
 
+Then archive the Feature (see INSTRUCTION.md "Feature Context Management"):
+1. Move `active/F{n}-*.md` → `refs/archive/F{n}-name.md`
+2. Add **Lessons Learned** section to the archived file
+3. Finalize **Decisions Made** section
+4. Remove Feature section from BACKLOG.md, add one-line to Done:
+   `F1: Feature Name - completed YYYY-MM-DD`
+
 #### 7.2 Update HANDOFF.md
 
 Move task from **In Review** to **Recently Done**.
 
 #### 7.3 Update active/F{n}-*.md
 
-Add review completion notes.
+Add review completion notes. (If Feature is done, this happens in the archived file instead.)
 
 ---
 
@@ -252,9 +261,9 @@ Improvements applied:
 - [List of applied improvements]
 
 Updated files:
-- BACKLOG.md - Task marked done
+- BACKLOG.md - Task marked done (Feature archived if complete)
 - HANDOFF.md - Moved to Recently Done
-- active/F{n}-*.md - Review notes added
+- active/F{n}-*.md - Review notes added (moved to refs/archive/ if Feature complete)
 ```
 
 ---

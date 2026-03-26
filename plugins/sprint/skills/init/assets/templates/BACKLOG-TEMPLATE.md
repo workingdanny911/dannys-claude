@@ -103,12 +103,9 @@ backlog ──────► in_progress ──────► review ───
 
 *None yet.*
 
----
-
-## Archiving
-
-When a Feature is `done`:
-
-1. Move full Feature section → `refs/archive/F{n}-name.md`
-2. Leave one-line summary here:
-   - `F1: Feature Name` - completed YYYY-MM-DD
+<!-- When a Feature is `done`:
+1. Remove the Feature section from above
+2. Add one-line summary here: `F1: Feature Name - completed YYYY-MM-DD`
+3. Archive active context: move `active/F{n}-*.md` → `refs/archive/F{n}-name.md`
+   (See INSTRUCTION.md "Feature Context Management" for full steps)
+-->

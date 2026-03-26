@@ -1,6 +1,6 @@
 # Archived Features
 
-Completed features moved from BACKLOG.md to keep it small.
+Completed feature contexts moved from `active/` to keep it clean.
 
 ## Naming Convention
 
@@ -14,8 +14,10 @@ Examples:
 
 When a Feature is fully `done`:
 
-1. Move the full Feature section from BACKLOG.md here
-2. Leave a one-line summary in BACKLOG.md Done section
+1. Move `active/F{n}-*.md` here as-is
+2. Add **Lessons Learned** section to the archived file
+3. Finalize **Decisions Made** section in the archived file
+4. Remove Feature section from BACKLOG.md, add one-line summary to Done
 
 ## Files
 

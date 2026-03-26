@@ -1,6 +1,6 @@
 # F{n}: {Feature Name} - Active Context
 
-> Working context for this feature. Delete when feature is done.
+> Working context for this feature. Move to `refs/archive/` when feature is done.
 
 ---
 
@@ -35,7 +35,7 @@ What we know about this feature right now.
 |----------|-----------|------|
 | | | |
 
-> When feature completes: Move to `refs/decisions/F{n}-*.md`
+> When feature completes: This file moves to `refs/archive/`. Finalize decisions here.
 > Only sprint-wide decisions go to `refs/decisions/_sprint.md`
 
 ---

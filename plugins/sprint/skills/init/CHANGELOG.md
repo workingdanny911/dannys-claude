@@ -11,6 +11,28 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.12.0] - 2026-03-27
+
+### Added
+
+- **Persona system**: 6 preset personas (rook, pixel, dash, slate, echo, thorn) with distinct decision-making styles, communication tones, and domain expertise. Persona files stored in `personas/` directory, copied from plugin assets on sprint init.
+- **Persona loading**: Session Start step 2 in INSTRUCTION-TEMPLATE.md loads `personas/{name}.md` if available. Auto-matching proposes a persona when no name specified.
+- **Persona in Agent Teams**: Team proposals and plan files now include Persona column. Sub-agents receive persona instructions when spawned.
+- **personas/ directory**: Created during sprint init, populated with preset persona files from plugin assets.
+
+### Changed
+
+- **Agent Teams table**: Added Persona column to team composition tables in INSTRUCTION-TEMPLATE.md and TASK-PLAN-TEMPLATE.md
+- **HANDOFF-TEMPLATE.md**: "Agent" column renamed to "Persona" in status tables
+- **BACKLOG-TEMPLATE.md**: Assignment legend updated with persona name examples
+- **Examples and docs**: Agent names updated to persona names throughout WORKFLOW-GUIDE.md, EXAMPLES.md
+
+### Removed
+
+- **WIP Limit**: Removed from INSTRUCTION-TEMPLATE.md, HANDOFF-TEMPLATE.md, CONCEPTS.md, TROUBLESHOOTING.md, and README.md. Personas are character templates usable across multiple sessions; natural constraint is one session = one task.
+
+---
+
 ## [1.10.0] - 2026-03-26
 
 ### Changed

@@ -10,7 +10,7 @@ The Sprint plugin is a kanban-style work management system designed for Claude C
 
 - **Hierarchical Work Structure**: Decompose work into Feature → Task → Sub-task
 - **Multi-Agent Support**: Multiple Claude Code sessions can work simultaneously
-- **WIP Limit**: 1 Task per agent (maintain focus)
+- **Personas**: 6 preset character templates with distinct decision-making styles (rook, pixel, dash, slate, echo, thorn)
 - **Session-Based Work**: Complete one Task per session
 - **Context Management**: Document structure for knowledge transfer between sessions
 - **Worktree Mode**: Isolate Feature work in separate git worktrees while keeping Sprint as Single Source of Truth
@@ -22,6 +22,7 @@ sprints/<sprint-name>/
 ├── BACKLOG.md          # Work items (Feature → Task → Sub-task)
 ├── HANDOFF.md          # Current status board
 ├── INSTRUCTION.md      # Agent guidelines
+├── personas/           # Agent persona files (character templates)
 ├── .sprint-version     # Template version tracking
 ├── active/             # In-progress Feature context
 └── refs/
@@ -68,7 +69,7 @@ Define Features and Tasks through brainstorming.
 ### 3. Start Working
 
 ```
-@sprints/my-sprint/INSTRUCTION.md #danny
+@sprints/my-sprint/INSTRUCTION.md #rook
 ```
 
 Start a session with an agent name and work on Tasks.
@@ -154,7 +155,7 @@ See the [docs/](./docs/) folder for detailed documentation:
 Start Session
     │
     ▼
-@INSTRUCTION.md #agent-name
+@INSTRUCTION.md #persona-name
     │
     ▼
 Complete 1 Task

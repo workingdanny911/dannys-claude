@@ -50,10 +50,10 @@ Step-by-step execution plan:
 
 **Purpose:** {speed | quality | both}
 
-| Agent | Role | Sub-tasks |
-|-------|------|-----------|
-| lead | {role} | {sub-tasks} |
-| worker-1 | {role} | {sub-tasks} |
+| Agent | Persona | Role | Sub-tasks |
+|-------|---------|------|-----------|
+| lead | #{persona} | {role} | {sub-tasks} |
+| worker-1 | #{persona} | {role} | {sub-tasks} |
 
 **Dependencies:** {which sub-tasks block others}
 **Merge point:** {when/how results are integrated}

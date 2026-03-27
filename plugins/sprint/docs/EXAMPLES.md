@@ -105,9 +105,9 @@ Claude: Created refs/designs/F1-authentication.md
 ### Step 3: Work on Tasks
 
 ```
-User: @sprints/user-management-api/INSTRUCTION.md #danny
+User: @sprints/user-management-api/INSTRUCTION.md #rook
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 [Loading context]
 
@@ -119,7 +119,7 @@ Current state:
 
 Claiming and starting T1.1: Login API.
 
-[Updating BACKLOG.md: T1.1 → #danny `in_progress`]
+[Updating BACKLOG.md: T1.1 → #rook `in_progress`]
 [Updating HANDOFF.md: Adding to In Progress]
 [Creating active/F1-authentication.md]
 
@@ -165,15 +165,15 @@ Sprint file updates:
 - active/F1-authentication.md: Progress recorded
 
 Ending session. For next Task:
-@sprints/user-management-api/INSTRUCTION.md #danny
+@sprints/user-management-api/INSTRUCTION.md #rook
 ```
 
 ### Step 4: Next Task
 
 ```
-User: @sprints/user-management-api/INSTRUCTION.md #danny
+User: @sprints/user-management-api/INSTRUCTION.md #rook
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 [Loading context]
 
@@ -262,21 +262,21 @@ Two Claude Code sessions working simultaneously
 
 ```
 # Session 1
-User: @sprints/my-sprint/INSTRUCTION.md #danny
+User: @sprints/my-sprint/INSTRUCTION.md #rook
 
 # Session 2 (different terminal)
-User: @sprints/my-sprint/INSTRUCTION.md #agent-1
+User: @sprints/my-sprint/INSTRUCTION.md #pixel
 ```
 
 ### BACKLOG.md State
 
 ```markdown
 ### F1: Authentication
-- [ ] T1.1: Login API #danny `in_progress`
+- [ ] T1.1: Login API #rook `in_progress`
 - [ ] T1.2: Signup API `backlog`
 
 ### F2: User Profile
-- [ ] T2.1: Get Profile API #agent-1 `in_progress`
+- [ ] T2.1: Get Profile API #pixel `in_progress`
 - [ ] T2.2: Update Profile API `backlog`
 ```
 
@@ -285,19 +285,19 @@ User: @sprints/my-sprint/INSTRUCTION.md #agent-1
 ```markdown
 ## In Progress
 
-| Feature | Task | Agent | Started | Notes |
-|---------|------|-------|---------|-------|
-| F1 | T1.1: Login API | #danny | 2024-01-28 | JWT impl |
-| F2 | T2.1: Get Profile API | #agent-1 | 2024-01-28 | Basic query |
+| Feature | Task | Persona | Started | Notes |
+|---------|------|---------|---------|-------|
+| F1 | T1.1: Login API | #rook | 2024-01-28 | JWT impl |
+| F2 | T2.1: Get Profile API | #pixel | 2024-01-28 | Basic query |
 ```
 
 ### Conflict Prevention
 
 ```
-# #danny modifies only F1 related
+# #rook modifies only F1 related
 active/F1-authentication.md
 
-# #agent-1 modifies only F2 related
+# #pixel modifies only F2 related
 active/F2-user-profile.md
 
 # BACKLOG.md: each modifies only their assigned Task
@@ -529,9 +529,9 @@ User assigns a Feature with multiple independent Tasks. The agent uses agent tea
 ### Step 1: Feature Assignment
 
 ```
-User: @sprints/my-sprint/INSTRUCTION.md #danny, work on Feature F1
+User: @sprints/my-sprint/INSTRUCTION.md #rook, work on Feature F1
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 [Loading context]
 
@@ -559,11 +559,11 @@ T1.1, T1.2, T1.3 are independent — agent teams would improve speed.
 
 Proposed team:
 
-| Agent | Role | Tasks |
-|-------|------|-------|
-| lead (me) | Login + coordination | T1.1 |
-| worker-1 | Signup | T1.2 |
-| worker-2 | Password Reset | T1.3 |
+| Agent | Persona | Role | Tasks |
+|-------|---------|------|-------|
+| lead (me) | #rook | Login + coordination | T1.1 |
+| worker-1 | #pixel | Signup | T1.2 |
+| worker-2 | #dash | Password Reset | T1.3 |
 
 Execution plan:
 1. Parallel phase: T1.1, T1.2, T1.3 simultaneously
@@ -580,8 +580,8 @@ User: Yes
 ```
 Claude: [TeamCreate: f1-auth]
 [TaskCreate: T1.1, T1.2, T1.3]
-[Spawning worker-1, worker-2]
-[Assigning T1.2 → worker-1, T1.3 → worker-2]
+[Spawning #pixel (worker-1), #dash (worker-2)]
+[Assigning T1.2 → #pixel, T1.3 → #dash]
 
 Starting T1.1: Login API...
 
@@ -591,14 +591,14 @@ Starting T1.1: Login API...
 ### Step 4: Teammate Completion
 
 ```
-worker-1 → lead: T1.2 Signup API complete. Files: src/routes/signup.ts,
+#pixel → lead: T1.2 Signup API complete. Files: src/routes/signup.ts,
   src/services/signup.ts. All validation implemented.
 
-Claude: Reviewing worker-1's work on T1.2...
+Claude: Reviewing #pixel's work on T1.2...
 [Updates BACKLOG.md: T1.2 → review]
 [Updates active/F1-authentication.md with T1.2 progress]
 
-[SendMessage to worker-1: shutdown_request]
+[SendMessage to #pixel: shutdown_request]
 ```
 
 ### Step 5: Sequential Phase + Completion
@@ -714,9 +714,9 @@ Claude: Worktree created. Feature added to BACKLOG.md.
 ### Step 3: Work in Worktree
 
 ```
-User: @sprints/payment-api/INSTRUCTION.md #danny
+User: @sprints/payment-api/INSTRUCTION.md #rook
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 [Sprint Root: /Users/.../sprints/payment-api/]
 [Reading BACKLOG.md, HANDOFF.md from Sprint Root]
@@ -733,9 +733,9 @@ Claiming T1.1. Working in worktree: /Users/.../payment-api-worktrees/F1-payment/
 ### Step 4: Merge (Final Task)
 
 ```
-User: @sprints/payment-api/INSTRUCTION.md #danny
+User: @sprints/payment-api/INSTRUCTION.md #rook
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 T1.5: Merge feature/F1-payment and clean up worktree
 

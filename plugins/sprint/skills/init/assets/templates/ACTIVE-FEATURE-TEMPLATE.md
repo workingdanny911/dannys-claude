@@ -8,7 +8,7 @@
 
 - **Phase**: design | implementation | review
 - **Started**: YYYY-MM-DD
-- **Agents**: #agent1, #agent2
+- **Personas**: #rook, #pixel
 <!-- Worktree mode only: -->
 - **Branch**: feature/F{n}-{name}
 - **Worktree**: /path/to/worktree/
@@ -23,9 +23,9 @@ What we know about this feature right now.
 
 ## In-Progress Tasks
 
-| Task | Agent | Status | Notes |
-|------|-------|--------|-------|
-| T{n}.1 | #agent | implementing | |
+| Task | Persona | Status | Notes |
+|------|---------|--------|-------|
+| T{n}.1 | #rook | implementing | |
 
 ---
 

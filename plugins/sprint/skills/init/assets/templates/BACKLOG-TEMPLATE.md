@@ -11,7 +11,7 @@
 
 **Urgent**: Prefix with `[URGENT]` to indicate time-sensitive items.
 
-**Assignment**: `#agent-name` indicates who is working on it.
+**Assignment**: `#persona-name` indicates who is working on it (e.g., `#rook`, `#pixel`, `#dash`).
 
 ---
 
@@ -64,7 +64,7 @@ backlog ──────► in_progress ──────► review ───
 - [ ] T1.1: Task name `backlog`
   - [ ] T1.1.1: Sub-task
   - [ ] T1.1.2: Sub-task
-- [ ] T1.2: Task name #agent-1 `in_progress`
+- [ ] T1.2: Task name #rook `in_progress`
 - [x] T1.3: Task name `done`
 
 ---

@@ -1,7 +1,7 @@
 # Sprint Instructions
 
 > Guidelines for agents working on this sprint.
-> Start a session with: `@INSTRUCTION.md` or `@INSTRUCTION.md #your-name`
+> Start a session with: `@INSTRUCTION.md` or `@INSTRUCTION.md #persona-name`
 
 ---
 
@@ -10,25 +10,30 @@
 When you receive `@INSTRUCTION.md #agent-name`:
 
 1. **Identify yourself** as `#agent-name` (or `#agent` if not specified)
-2. **Read required files**:
+2. **Load persona** (if available):
+   - Check if `personas/{agent-name}.md` exists
+   - If found → read it and adopt its behavioral guidelines for this session
+   - If not found → proceed as basic agent (no persona, backward compatible)
+   - If no name specified → see [Persona Auto-Matching](#persona-auto-matching)
+3. **Read required files**:
    - `BACKLOG.md` - Find your assignment or available work
    - `HANDOFF.md` - Current work status
    - `refs/decisions/_sprint.md` - Sprint-wide constraints (if exists)
    - `refs/lessons/_sprint.md` - Sprint-wide lessons (if exists)
-3. **Determine your assignment**:
-   - User assigned a Feature? → Your assignment is that Feature (scope may narrow — see Step 5)
+4. **Determine your assignment**:
+   - User assigned a Feature? → Your assignment is that Feature (scope may narrow — see Step 6)
    - User assigned a Task? → Your assignment is that Task
    - Nothing specified? → Claim highest priority Task from backlog
-4. **Read context**:
+5. **Read context**:
    - `refs/designs/F{n}-*.md` - Feature design
    - `refs/plans/F{n}-T{m}-*.md` - Task plan (if exists)
    - `active/F{n}-*.md` - Feature working context (contains decisions)
    - `refs/archive/F{n}-*.md` - Archived context from prior Features (if relevant)
-5. **Assess parallelism** — Does your assignment have 2+ independent sub-items?
+6. **Assess parallelism** — Does your assignment have 2+ independent sub-items?
    - Feature with independent Tasks → consider [Agent Teams](#agent-teams)
    - Task with independent Sub-tasks → consider [Agent Teams](#agent-teams)
    - **No agent teams?** → [Narrow scope to a single Task](#scope-narrowing)
-6. **State your assignment and approach** before starting work
+7. **State your assignment and approach** before starting work
 
 ---
 
@@ -78,17 +83,32 @@ Identify yourself as `#yourname` consistently in:
 - HANDOFF.md entries
 - active/ file updates
 
-### WIP Limit
+### Persona
 
-**You may only have 1 assignment in_progress at a time.**
+Personas are named character templates with distinct decision-making styles, communication tones, and domain expertise.
 
-Before claiming new work, verify:
+**Loading**: During Session Start step 2, if `personas/{name}.md` exists, read it and adopt its guidelines.
 
-- [ ] I have NO current assignment in_progress
-- [ ] My previous work is `done`, `review`, or `blocked`
-- [ ] If blocked, I documented it and am NOT claiming another
+**Additive behavior**: Persona instructions add personality. They do NOT override these guidelines or project coding conventions.
 
-> **Violation**: If you have an assignment in_progress, you MUST complete it before claiming another.
+**Fallback**: If no matching persona file found, proceed as a basic agent. No error.
+
+#### Persona Auto-Matching {#persona-auto-matching}
+
+When `@INSTRUCTION.md` is invoked without a `#name`:
+
+1. Read `personas/` directory — collect all available persona traits
+2. Analyze the target task:
+   - Task `type` field (coding/design/docs/general)
+   - Task title and description keywords
+   - Parent Feature's domain context
+3. Match:
+   - `domain` match takes priority
+   - Then `decision_style` fit (new feature → experimental, refactoring → conservative, bug fix → pragmatist)
+   - Then `communication` fit (review → direct, discussion → socratic)
+4. Propose to user:
+   > "이 Task(T1.3: Payment API 설계)에는 #rook(실용주의 백엔드)가 적합합니다. 진행할까요?"
+5. Wait for user approval before adopting the persona
 
 ### Claiming Tasks (Pull)
 
@@ -292,10 +312,10 @@ Present:
 1. Dependency analysis of sub-items (independent vs sequential)
 2. Proposed team composition:
 
-| Agent | Role | Sub-items |
-|-------|------|-----------|
-| lead (me) | {role} + coordination | {sub-items} |
-| worker-1 | {role} | {sub-items} |
+| Agent | Persona | Role | Sub-items |
+|-------|---------|------|-----------|
+| lead (me) | #{persona} | {role} + coordination | {sub-items} |
+| worker-1 | #{persona} | {role} | {sub-items} |
 
 3. Execution plan (parallel phase → sequential phase → completion)
 
@@ -307,7 +327,7 @@ After user approval:
 |------|------|---------|
 | 1 | `TeamCreate` | Create team + task list |
 | 2 | `TaskCreate` | Add work items to team task list |
-| 3 | `Task` (with `team_name`, `name`) | Spawn teammates |
+| 3 | `Task` (with `team_name`, `name`) | Spawn teammates — include in prompt: "Read `personas/{name}.md` and adopt its guidelines" |
 | 4 | `TaskUpdate` (with `owner`) | Assign work to teammates |
 | 5 | `SendMessage` | Communicate with teammates |
 
@@ -334,9 +354,14 @@ When writing a task plan that uses agent teams, document in the plan file:
 
 | Item | Description |
 |------|-------------|
-| **Team composition** | Agent names, roles, and assigned sub-items |
+| **Team composition** | Agent names, personas, roles, and assigned sub-items |
 | **Dependencies** | Which sub-items block others (use `blockedBy` / `blocks`) |
 | **Merge point** | When and how results are integrated |
+
+| Agent | Persona | Role | Sub-tasks |
+|-------|---------|------|-----------|
+| lead | #{persona} | {role} | {sub-tasks} |
+| worker-1 | #{persona} | {role} | {sub-tasks} |
 
 ---
 
@@ -380,6 +405,7 @@ When context compaction occurs (you notice memory loss or conversation reset):
 2. **Restore your state**:
 
    - Identify yourself as the same `#agent-name`
+   - Re-read `personas/{name}.md` if persona was active
    - Continue the assignment you were working on
    - Do NOT claim a new assignment
    - If using agent teams: read team config (`~/.claude/teams/{team-name}/config.json`), check `TaskList` for teammate status
@@ -431,6 +457,6 @@ When writing plan files, always fill in the Sprint Context section of the `refs/
 
 1. **Small, Fast Feedback Loops** - Complete work incrementally, verify often
 2. **Document as You Go** - Keep HANDOFF.md and active/ current
-3. **Respect WIP Limits** - One assignment at a time per agent
+3. **Stay in Character** - Follow persona guidelines when loaded
 4. **Ask Before Deciding** - Unclear? Ask user before making big decisions
 5. **User Approval for Teams** - Never auto-spawn agent teams; always propose and wait for approval

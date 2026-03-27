@@ -5,7 +5,7 @@ description: Initialize a sprint with kanban-style structure for multi-agent col
 
 ## Version
 
-Current: **1.10.0**
+Current: **1.12.0**
 
 > Update this version when templates change:
 > - **Major** (2.0.0): Breaking changes to file structure
@@ -28,6 +28,7 @@ sprints/<sprint-name>/
 ├── BACKLOG.md          # Work items (Feature → Task → Sub-task)
 ├── HANDOFF.md          # Work Board (current status)
 ├── INSTRUCTION.md      # Agent guidelines
+├── personas/           # Agent persona files (character templates)
 ├── active/             # Feature-specific contexts (temporary)
 └── refs/
     ├── designs/        # Feature design documents
@@ -53,7 +54,7 @@ Ask the user:
    - Allow custom path if needed
 
 3. **Team** (optional) - Who will work on this?
-   - Agent names: `#danny`, `#agent-1`, etc.
+   - Persona names: `#rook`, `#pixel`, `#dash`, or custom names
    - If not specified, use default `#agent`
 
 4. **Mode** - How do you want to manage code?
@@ -82,7 +83,6 @@ Create the following files from templates:
 2. **HANDOFF.md** from `assets/templates/HANDOFF-TEMPLATE.md`
    - Work Board format
    - In Progress / In Review tables
-   - WIP limit reminder
 
 3. **INSTRUCTION.md** from `assets/templates/INSTRUCTION-TEMPLATE.md`
    - Multi-agent workflow
@@ -107,6 +107,11 @@ Create the following files from templates:
 7. **.sprint-config**
    - JSON config storing sprint mode and worktree settings
    - Created for both modes (to make mode explicit)
+
+8. **personas/** folder
+   - Copy all persona files from plugin `assets/personas/` to sprint `personas/`
+   - These are character templates agents adopt during sessions
+   - Users can customize or add new personas after init
 
    Default mode:
    ```json
@@ -150,11 +155,11 @@ Sprint created at: sprints/<sprint-name>/
 Files:
 - BACKLOG.md - Add work items with /sprint:add-backlog
 - HANDOFF.md - Work board (current status)
-- INSTRUCTION.md - Start work sessions with @INSTRUCTION.md #agent-name
+- INSTRUCTION.md - Start work sessions with @INSTRUCTION.md #persona-name
 
 Next steps:
 1. Add work items: /sprint:add-backlog
-2. Start working: @INSTRUCTION.md #your-name
+2. Start working: @INSTRUCTION.md #rook
 ```
 
 **Worktree mode:**
@@ -164,14 +169,14 @@ Sprint created at: sprints/<sprint-name>/ (worktree mode)
 Files:
 - BACKLOG.md - Add work items with /sprint:add-backlog
 - HANDOFF.md - Work board (current status)
-- INSTRUCTION.md - Start work sessions with @INSTRUCTION.md #agent-name
+- INSTRUCTION.md - Start work sessions with @INSTRUCTION.md #persona-name
 - .sprint-config - Sprint configuration (mode: worktree)
 
 Sprint path added to .gitignore (sprint files are not git-tracked).
 
 Next steps:
 1. Add work items: /sprint:add-backlog
-2. Start working: @INSTRUCTION.md #your-name
+2. Start working: @INSTRUCTION.md #rook
 ```
 
 ---
@@ -189,3 +194,9 @@ Next steps:
 - `assets/refs/decisions-README.md` - README for decisions folder
 - `assets/refs/lessons-README.md` - README for lessons folder
 - `assets/refs/archive-README.md` - README for archive folder
+- `assets/personas/rook.md` - Pragmatist backend engineer
+- `assets/personas/pixel.md` - Detail-obsessed frontend engineer
+- `assets/personas/dash.md` - Enthusiastic fullstack prototyper
+- `assets/personas/slate.md` - Conservative infrastructure engineer
+- `assets/personas/echo.md` - Socratic discussion facilitator
+- `assets/personas/thorn.md` - Uncompromising code reviewer

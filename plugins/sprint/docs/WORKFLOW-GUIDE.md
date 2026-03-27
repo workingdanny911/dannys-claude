@@ -58,7 +58,7 @@ Claude will ask:
 
 3. **Team (optional)**: Agent names
    ```
-   e.g., #danny, #agent-1, #agent-2
+   e.g., #rook, #pixel, #danny
    ```
 
 ### 1.2a Provide Information (Worktree Mode)
@@ -219,15 +219,15 @@ Claude: I propose the following plan:
 ### 3.1 Start Session
 
 ```
-User: @sprints/payment-system/INSTRUCTION.md #danny
+User: @sprints/payment-system/INSTRUCTION.md #rook
 ```
 
 ### 3.1a Start Session (Worktree Mode)
 
 ```
-User: @sprints/my-sprint/INSTRUCTION.md #danny
+User: @sprints/my-sprint/INSTRUCTION.md #rook
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 [Reading sprint files from Sprint Root: /abs/path/sprints/my-sprint/]
 [Code work in worktree: /abs/path/worktrees/F1-user-auth/]
@@ -236,7 +236,7 @@ Claude: Starting session as #danny.
 ### 3.2 Agent Behavior
 
 ```
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 [Reading BACKLOG.md, HANDOFF.md]
 
@@ -255,12 +255,12 @@ What Claude does:
 
 1. **Update BACKLOG.md**
    ```markdown
-   - [ ] T1.1: Login API #danny `in_progress`
+   - [ ] T1.1: Login API #rook `in_progress`
    ```
 
 2. **Update HANDOFF.md**
    ```markdown
-   | F1 | T1.1: Login API | #danny | 2024-01-28 | JWT impl |
+   | F1 | T1.1: Login API | #rook | 2024-01-28 | JWT impl |
    ```
 
 3. **Create active/ file** (if first Task for Feature)
@@ -297,9 +297,9 @@ Please review when ready. Ending session.
 User reviews the `review` task in the next session:
 
 ```
-User: @sprints/payment-system/INSTRUCTION.md #danny
+User: @sprints/payment-system/INSTRUCTION.md #rook
 
-Claude: Starting session as #danny.
+Claude: Starting session as #rook.
 
 Found T1.1: Login API in `review` status.
 
@@ -322,7 +322,7 @@ Please review. Approve to mark done, or let me know what needs changes.
 Start new session:
 
 ```
-User: @sprints/payment-system/INSTRUCTION.md #danny
+User: @sprints/payment-system/INSTRUCTION.md #rook
 ```
 
 ---
@@ -381,7 +381,7 @@ Claude: Adding following improvement Tasks:
 ```
 ┌────────────────┐     ┌────────────────┐
 │  Session 1     │     │  Session 2     │
-│  #danny        │     │  #agent-1      │
+│  #rook         │     │  #pixel        │
 │  T1.1 work     │     │  T2.1 work     │
 └───────┬────────┘     └───────┬────────┘
         │                      │
@@ -407,18 +407,18 @@ Claude: Adding following improvement Tasks:
 
 ### Handoff Scenario
 
-#danny working, needs to end session → #agent-1 takes over:
+#rook working, needs to end session → #pixel takes over:
 
 ```
-# Session 1: #danny
-@INSTRUCTION.md #danny
+# Session 1: #rook
+@INSTRUCTION.md #rook
 → Start T1.2
 → Need to end session mid-work
 → Record state in active/F1-*.md
 → BACKLOG.md: T1.2 `blocked` (with reason)
 
-# Session 2: #agent-1
-@INSTRUCTION.md #agent-1
+# Session 2: #pixel
+@INSTRUCTION.md #pixel
 → Read active/F1-*.md
 → Check T1.2 status, continue work
 ```

@@ -118,31 +118,6 @@ sprints/my-sprint/
 
 ---
 
-### Q: Says "WIP limit exceeded"
-
-**Symptom**:
-```
-You already have a Task in progress. Complete it before starting another.
-```
-
-**Cause**:
-- Previous Task still in `in_progress` state
-
-**Solution**:
-
-1. **Check BACKLOG.md**
-   ```markdown
-   # Look for this state
-   - [ ] T1.2: Some Task #danny `in_progress`
-   ```
-
-2. **Clean up state**
-   - Completed → Change to `done`
-   - Still working → Continue work
-   - Stopped → Change to `blocked`
-
----
-
 ### Q: How do I clean up a completed Feature?
 
 **Solution**:
@@ -188,6 +163,44 @@ Plan file must include:
 Current state: ...
 Decisions from previous Task: ...
 ```
+
+### Q: Agent doesn't adopt persona personality
+
+**Symptom**:
+Agent starts a session but doesn't follow persona guidelines.
+
+**Cause**:
+- `personas/` directory doesn't exist in the sprint
+- Persona file name doesn't match agent name (e.g., `#rook` needs `personas/rook.md`)
+- Sprint was created before persona system was added
+
+**Solution**:
+1. Check if `personas/` directory exists in your sprint
+2. Verify file name matches: `personas/{agent-name}.md`
+3. If missing, copy persona files from plugin assets or run `/sprint:update-version`
+
+---
+
+### Q: How to create a custom persona
+
+Create a new `.md` file in your sprint's `personas/` directory:
+
+1. Copy an existing persona file as a starting point
+2. Update the frontmatter (`name`, `description`, `traits`)
+3. Rewrite the system prompt sections (Decision Making, Communication Style, Domain Expertise, Quirks)
+4. Use it with: `@INSTRUCTION.md #your-persona-name`
+
+---
+
+### Q: Persona auto-matching chose wrong persona
+
+**Symptom**:
+When starting without a name, the suggested persona doesn't fit the task.
+
+**Solution**:
+1. Decline the suggestion
+2. Specify the persona explicitly: `@INSTRUCTION.md #preferred-name`
+3. Auto-matching uses task type and content analysis — it's a suggestion, not a requirement
 
 ---
 
@@ -269,9 +282,9 @@ F4 (not F1, F2, F3)
 
 3. **Clean In Progress table**
    ```markdown
-   | Feature | Task | Agent | Started | Notes |
-   |---------|------|-------|---------|-------|
-   | F1 | T1.2 | #danny | 2024-01-28 | Actually in progress |
+   | Feature | Task | Persona | Started | Notes |
+   |---------|------|---------|---------|-------|
+   | F1 | T1.2 | #rook | 2024-01-28 | Actually in progress |
    ```
 
 4. **Start new sessions for each agent**

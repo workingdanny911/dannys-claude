@@ -39,3 +39,4 @@ cp -r examples/simple-api sprints/my-sprint
 
 - Examples are for learning purposes
 - For real projects, use `/sprint:init` to create fresh
+- These examples predate the persona system (v1.12.0) and use older conventions (`#agent-1` instead of `#rook`)

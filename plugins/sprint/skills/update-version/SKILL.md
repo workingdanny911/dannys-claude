@@ -64,7 +64,7 @@ Distinguish between **rules sections** and **data sections** in each file.
 | File | Rules Sections | Data Sections (Preserve) |
 |------|----------------|--------------------------|
 | BACKLOG.md | Legend, Numbering, Status & Transitions, Archiving | `## Features` content, `## Done` content |
-| HANDOFF.md | Before You Start, WIP Limit, Quick Actions | Data rows in each table |
+| HANDOFF.md | Before You Start, Quick Actions | Data rows in each table |
 | INSTRUCTION.md | Entire file | Custom sections (## headers not in template) |
 
 #### Diff Display Format

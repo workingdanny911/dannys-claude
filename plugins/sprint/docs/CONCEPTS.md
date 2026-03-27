@@ -88,20 +88,32 @@ backlog ──────► in_progress ──────► review ───
 ### What is an Agent?
 
 - One Claude Code session = one agent
-- Identified by `#agent-name` (e.g., `#danny`, `#agent-1`)
+- Identified by `#persona-name` (e.g., `#rook`, `#pixel`, `#dash`)
 
-### WIP (Work In Progress) Limit
+### Persona
 
-```
-┌─────────────────────────────────────────────┐
-│  Max concurrent assignments per agent: 1    │
-└─────────────────────────────────────────────┘
-```
+A persona is a named character template with:
 
-**Why 1?**
-- Reduce context switching costs
-- Focus until completion
-- Minimize conflict risk
+| Field | Description | Examples |
+|-------|-------------|----------|
+| `decision_style` | How the agent makes decisions | pragmatist, methodical, experimental, conservative, analytical, critical |
+| `communication` | How the agent communicates | concise, detailed, enthusiastic, measured, socratic, direct |
+| `domain` | Area of expertise | backend, frontend, fullstack, infra/data, discussion, review |
+
+**Preset Personas:**
+
+| Name | Style | Tone | Domain | Character |
+|------|-------|------|--------|-----------|
+| rook | pragmatist | concise | backend | Ships fast, codes over talks |
+| pixel | methodical | detailed | frontend | Detail-obsessed, edge case hunter |
+| dash | experimental | enthusiastic | fullstack | Rapid prototyper, "let's try it" |
+| slate | conservative | measured | infra/data | "Can you roll that back?" |
+| echo | analytical | socratic | discussion | Answers with questions |
+| thorn | critical | direct | review | High standards, never wrong |
+
+**Loading**: `personas/{name}.md` is read at session start. Additive to INSTRUCTION.md rules.
+
+**Auto-matching**: When no name given, agent analyzes the task and proposes a matching persona.
 
 ### Agent Session Lifecycle
 
@@ -110,7 +122,12 @@ backlog ──────► in_progress ──────► review ───
 │                     Session Lifecycle                       │
 └─────────────────────────────────────────────────────────────┘
 
-  @INSTRUCTION.md #danny
+  @INSTRUCTION.md #rook
+         │
+         ▼
+  ┌──────────────┐
+  │ Load Persona │ ◄── Read personas/{name}.md (if exists)
+  └──────────────┘
          │
          ▼
   ┌─────────────┐
@@ -188,7 +205,7 @@ Feature Assignment (Tasks in parallel)    Task Assignment (Sub-tasks in parallel
 ### INSTRUCTION.md
 
 - **Role**: Agent guidelines
-- **Contents**: Session start/end procedures, WIP rules, conflict prevention
+- **Contents**: Session start/end procedures, persona system, conflict prevention
 - **Modification**: Rarely (only on template updates)
 
 ### active/F{n}-*.md

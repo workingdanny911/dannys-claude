@@ -12,13 +12,6 @@
 
 ---
 
-## WIP Limit: 1 task per agent
-
-Each agent may only have **one task in_progress** at a time.
-Complete or move to review before claiming another.
-
----
-
 ## Up Next
 
 > Priority-ordered tasks ready to claim. Update when tasks complete or unblock.
@@ -33,19 +26,19 @@ Complete or move to review before claiming another.
 
 ## In Progress
 
-| Feature | Task | Agent | Started | Notes |
-|---------|------|-------|---------|-------|
+| Feature | Task | Persona | Started | Notes |
+|---------|------|---------|---------|-------|
 | | | | | |
 
 <!-- Example:
-| F1 | T1.2: Login API | #danny | 2024-01-28 | JWT implementation |
+| F1 | T1.2: Login API | #rook | 2024-01-28 | JWT implementation |
 -->
 
 ---
 
 ## In Review
 
-| Feature | Task | Agent | Reviewer | Notes |
+| Feature | Task | Persona | Reviewer | Notes |
 |---------|------|-------|----------|-------|
 | | | | | |
 
@@ -76,7 +69,7 @@ Complete or move to review before claiming another.
 
 ## Blockers
 
-| Task | Agent | Blocker | Since |
+| Task | Persona | Blocker | Since |
 |------|-------|---------|-------|
 | | | | |
 
@@ -85,23 +78,23 @@ Complete or move to review before claiming another.
 ## Quick Actions
 
 ### Claim a task
-1. Find unclaimed task in BACKLOG.md (no #agent)
+1. Find unclaimed task in BACKLOG.md (no #persona)
 2. Add `#yourname` to task in BACKLOG.md, change status to `in_progress`
 3. Add entry to **In Progress** table above
 4. Create `active/F{n}-name.md` if first task for that feature
 
 ### Complete a task
 1. Move from **In Progress** to **Recently Done** (or **In Review**)
-2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`, remove `#agent`
+2. Update BACKLOG.md: mark with `[x]`, status to `done` or `review`, remove `#persona`
    - **No detailed notes** - just checkbox and status change
 3. Update **Up Next**: Add newly unblocked tasks with priority
 4. Update `active/F{n}-name.md` with completion notes (details go here)
 5. **END SESSION** - Do NOT claim next task automatically
 
-> One session = One task. Start new session with `@INSTRUCTION.md` for next task.
+> One session = One task. Start new session with `@INSTRUCTION.md #persona-name` for next task.
 
 ### Handle blocker
 1. Add to **Blockers** table above
 2. Document in your In Progress notes
-3. Do NOT claim new task (respect WIP limit)
+3. Do NOT claim new task while blocked
 4. Notify team lead if critical

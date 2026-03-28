@@ -13,6 +13,13 @@
       "version": "1.0.0",
       "source": "./plugins/sprint",
       "category": "productivity"
+    },
+    {
+      "name": "explain",
+      "description": "Explain any subject using storytelling, diagrams, and examples",
+      "version": "1.0.0",
+      "source": "./plugins/explain",
+      "category": "productivity"
     }
   ]
 }

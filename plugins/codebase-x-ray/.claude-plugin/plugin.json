@@ -1,0 +1,8 @@
+{
+  "name": "codebase-x-ray",
+  "version": "1.0.0",
+  "description": "Analyze famous open-source codebases and generate technical biography books that teach software engineering through real code",
+  "author": {
+    "name": "danny"
+  }
+}

@@ -430,9 +430,14 @@ When context compaction occurs (you notice memory loss or conversation reset):
 **When required:**
 
 1. Enter Plan Mode using `EnterPlanMode` tool
-2. Write a plan for the Phase
-3. Wait for user approval
-4. Execute the approved plan
+2. Use `/explain:explain` skill to generate a work briefing (architecture, flow, approach — with storytelling and diagrams)
+3. Write a plan for the Phase — include the explain briefing at the top of the plan file, followed by the execution plan (steps, file paths, validation commands)
+4. Wait for user approval
+5. Execute the approved plan
+
+**When skipped (plan already exists or trivial):**
+
+- Use `/explain:explain` skill to briefly explain what you're about to do before starting work
 
 **Plan File Requirements (IMPORTANT):**
 

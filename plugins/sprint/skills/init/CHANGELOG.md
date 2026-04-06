@@ -11,6 +11,14 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.15.0] - 2026-04-06
+
+### Added
+
+- **Explain skill integration in Plan Mode**: Plan files now include a `/explain:explain` briefing (storytelling + diagrams) at the top, followed by the execution plan. When Plan Mode is skipped, `/explain:explain` is used standalone to brief the user before starting work.
+
+---
+
 ## [1.12.0] - 2026-03-27
 
 ### Added

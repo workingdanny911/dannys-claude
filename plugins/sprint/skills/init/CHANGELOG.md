@@ -19,7 +19,7 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
-## [1.12.0] - 2026-03-27
+## [1.14.0] - 2026-03-27
 
 ### Added
 
@@ -41,7 +41,7 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
-## [1.10.0] - 2026-03-26
+## [1.13.0] - 2026-03-26
 
 ### Changed
 

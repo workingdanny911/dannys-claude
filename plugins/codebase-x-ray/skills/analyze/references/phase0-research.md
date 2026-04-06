@@ -47,6 +47,14 @@ Write in free-form prose. Must include the following:
 
 **Source list** — Tier, URL, and a summary of key insights drawn from each source.
 
+**Downloaded materials** — When a Tier 1 or Tier 2 source is a downloadable file (PDF paper, slides, images, diagrams, etc.), save it to `{project_root}/references/` and record the mapping in `{project_root}/references/sources.md`:
+```
+## Downloaded Materials
+- [filename.pdf](filename.pdf) — description, original URL
+- [diagram.png](diagram.png) — description, original URL
+```
+This ensures materials are preserved even if the original URL goes offline. Do not download Tier 3 sources.
+
 **Unresolved questions** — Things not explained by the official narrative, things that must be verified by reading the code directly. These become the question list for Phase 0b.
 
 ---

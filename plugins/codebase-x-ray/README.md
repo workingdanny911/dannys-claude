@@ -24,9 +24,14 @@ Codebase X-Ray reads an entire codebase — DOOM, Redis, Bitcoin, libuv, Postgre
 
 ### Generated Structure
 
+User provides a project name (e.g., `redis`), then a root path (e.g., `~/research/redis`). Everything lives under that root:
+
 ```
-{output_dir}/
+{project_root}/
 ├── manifest.md              # Progress tracking + project info
+├── source/                  # Cloned repository
+├── references/              # Downloaded materials (papers, slides, images, etc.)
+│   └── sources.md           # URL list + downloaded file mapping
 ├── checkpoints/
 │   ├── phase0a.md           # Web research (author statements, anecdotes)
 │   ├── phase0b.md           # Semantic anchors (worldview, discrepancies)
@@ -97,13 +102,15 @@ To regenerate chapters without re-analyzing:
 ## Usage
 
 ```
-# Korean
-"DOOM x-ray해줘, /tmp/DOOM 에 있고 결과는 /tmp/doom-analysis"
+# Just give a project name — the skill asks for a root path, then clones automatically
+"x-ray redis"
+"DOOM x-ray해줘"
 
-# English
-"x-ray the Redis codebase at ~/code/redis, output to ~/research/redis"
+# Provide root path upfront
+"x-ray redis at ~/research/redis"
 
 # Resume interrupted session
+"continue ~/research/redis"
 "~/research/redis 이어서 해줘"
 ```
 

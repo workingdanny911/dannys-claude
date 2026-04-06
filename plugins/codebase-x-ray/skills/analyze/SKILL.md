@@ -69,8 +69,11 @@ codebase-x-ray/skills/analyze/
 
 Project directory created at runtime:
 ```
-{output_dir}/
+{project_root}/
 ├── manifest.md            ← Progress state + project info (key to restarts)
+├── source/                ← cloned repository
+├── references/            ← downloaded materials from web research (papers, slides, images, etc.)
+│   └── sources.md         ← URL list + downloaded file mapping
 ├── checkpoints/
 │   ├── phase0a.md
 │   ├── phase0b.md
@@ -120,37 +123,58 @@ This section provides step-by-step instructions for the main Claude Code session
 
 ### Start: Initialization
 
-1. Confirm with the user:
-   - **project_name**: Project name (e.g., redis, doom)
-   - **repo_path**: Local repo path or URL to clone
-   - **output_dir**: Path to store results
+1. The user provides a **project_name** (e.g., redis, doom, sqlite). Extract it from their request.
 
-2. **Detect output_language**: Detect the language of the user's request. "DOOM 분석해줘" → Korean, "analyze DOOM" → English. Record in manifest.md and pass in the meta block of every sub-agent prompt.
+2. Ask the user for a **project root path** — a single directory where everything will live.
+   Example: `~/research/redis`, `/tmp/doom-study`
 
-3. If repo_path is a URL, clone it inside output_dir.
+3. **Detect output_language**: Detect the language of the user's request. "DOOM 분석해줘" → Korean, "analyze DOOM" → English. Record in manifest.md and pass in the meta block of every sub-agent prompt.
 
-4. Create directories:
-   ```
-   {output_dir}/checkpoints/phase1/
-   {output_dir}/artifacts/modules/
-   {output_dir}/output/
-   ```
-
-5. Check if `{output_dir}/manifest.md` exists:
+4. Check if `{project_root}/manifest.md` exists:
    - **If yes**: Read it and follow the restart protocol (see "Restart Protocol" section below)
-   - **If no**: Create it and start from Phase 0a
+   - **If no**: Continue to step 5.
 
-Initial manifest.md content:
+5. Create the project directory structure:
+   ```
+   {project_root}/
+   ├── source/              ← repo will be cloned here
+   ├── references/          ← downloaded materials from web research
+   ├── checkpoints/
+   │   └── phase1/
+   ├── artifacts/
+   │   └── modules/
+   └── output/
+   ```
+
+6. **Clone the repository** into `{project_root}/source/`:
+   - If the user provided a repo URL or local path, use that.
+   - If only a project name was given, infer the GitHub URL for well-known projects:
+     - redis → `https://github.com/redis/redis`
+     - doom → `https://github.com/id-Software/DOOM`
+     - sqlite → `https://github.com/sqlite/sqlite`
+     - libuv → `https://github.com/libuv/libuv`
+     - bitcoin → `https://github.com/bitcoin/bitcoin`
+     - For others, ask the user.
+   - Confirm the URL with the user before cloning.
+
+7. Create manifest.md:
+
 ```markdown
 # Codebase X-Ray: {project_name}
 - project: {project_name}
 - language: {output_language}
-- repo: {repo_path}
-- output_dir: {output_dir}
+- repo: {project_root}/source
+- project_root: {project_root}
 - started: {current date/time}
 
 ## Progress
 ```
+
+**Path convention**: Throughout the pipeline, paths are relative to `{project_root}`:
+- `source/` → the cloned repo (used as `repo` in all sub-agent prompts)
+- `checkpoints/` → phase checkpoint files
+- `artifacts/modules/` → module deep dive artifacts
+- `output/` → chapter files, build.sh, book.md
 
 ---
 
@@ -160,7 +184,7 @@ Initial manifest.md content:
 2. Compose the sub-agent prompt from the Phase 0a section content.
 3. Dispatch the Agent:
    - prompt: Phase 0a instructions + project info + meta block
-   - **Instruct the sub-agent to Write results directly to `{output_dir}/checkpoints/phase0a.md`**.
+   - **Instruct the sub-agent to Write results directly to `{project_root}/checkpoints/phase0a.md`**.
    - The sub-agent returns only a completion summary to the main session.
 4. Add to manifest.md: `- Phase 0a: complete`
 
@@ -408,7 +432,7 @@ Similarly, large inputs (full artifact lists, etc.) are not embedded directly in
 
 manifest.md contains all progress state. When restarting after a session interruption:
 
-1. Read `{output_dir}/manifest.md`.
+1. Read `{project_root}/manifest.md`.
 2. Check the Progress section for the last completed step.
 3. Resume from the next step.
 

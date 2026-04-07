@@ -33,6 +33,9 @@ Read the latest templates from the plugin source:
 - `${CLAUDE_PLUGIN_ROOT}/templates/AGENTS.md` (latest AGENTS.md)
 - `${CLAUDE_PLUGIN_ROOT}/skills/` (latest skills)
 - `${CLAUDE_PLUGIN_ROOT}/agents/` (latest agents)
+- `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md` (version history)
+
+Read `CHANGELOG.md` and extract all entries **after** the project's current version. These will be shown to the developer in Step 6.
 
 ### Step 3: Create backup
 
@@ -68,9 +71,22 @@ Parse `.claude/rules/cai.md` using section markers:
 
 These files are fully tool-managed and contain no project-specific content.
 
-### Step 6: Show diff preview
+### Step 6: Show changelog and diff preview
 
-Present a clear diff of all changes:
+First, present the CHANGELOG entries since the project's current version:
+
+```
+📋 Changelog (v0.2.0 → v0.3.0):
+
+### Improved — Confidence Pipeline
+- verification-agent now recommends confidence promotion based on verification results ...
+...
+
+### Upgrade Notes
+- To benefit from confidence promotion, re-verify existing specs via cai-onboard --incremental
+```
+
+Then present a clear diff of all changes:
 
 1. **Rules file**: Show what changed in the TOOL-MANAGED section. Confirm PROJECT-SPECIFIC section is preserved (show it).
 2. **Hook**: Show if the hook script changed.
@@ -111,6 +127,7 @@ Report:
 - PROJECT-SPECIFIC content preserved.
 - New skills/agents added (if any).
 - Backup location for rollback.
+- Upgrade Notes from CHANGELOG (if any) — especially post-upgrade actions like `cai-onboard --incremental`.
 
 ## Output
 

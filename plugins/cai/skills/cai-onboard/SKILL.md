@@ -136,9 +136,9 @@ If `--force-interview`: run even if context docs already exist.
 
 Invoke two agents in parallel:
 
-1. `relationship-mapper` — maps inter-module dependencies and data flows
+1. `relationship-mapper` — maps inter-module dependencies, data flows, and cross-cutting scenarios
    - Input: all spec drafts + source code
-   - Output: updated `_overview.md` files with `depends_on`, `module_dependencies` fields
+   - Output: updated `_overview.md` files with `depends_on`, `module_dependencies` fields + `context/specs/_relationships.md` (dependency graph, data flows, cross-cutting scenarios)
 
 2. `convention-extractor` — identifies repeated patterns across the codebase
    - Input: source code + existing specs
@@ -232,6 +232,7 @@ Display phase transitions clearly:
 | Artifact | Path | Condition |
 |----------|------|-----------|
 | Project overview spec | `context/specs/_overview.md` | Existing project |
+| Module relationships | `context/specs/_relationships.md` | Existing project (Phase 4) |
 | Module specs | `context/specs/{module}/_overview.md` | Existing project |
 | Component specs | `context/specs/{module}/{component}.md` | If modules have clear components |
 | Decisions | `context/decisions/NNN-{slug}.md` | If git history reveals decisions |

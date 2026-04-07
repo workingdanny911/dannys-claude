@@ -27,10 +27,20 @@
 - suggest: stop-tag filtering prevents generic tag snowball expansion
 - All commands: STOP_TAGS filter excludes "auto-generated", "generated", "draft" from tag scoring
 
+### Added — Module Relationships Spec
+- relationship-mapper now generates `context/specs/_relationships.md`
+- Dependency graph, inter-module data flows (types/events/calls), and cross-cutting scenarios
+- Enables budget graph expansion to surface related modules for cross-module tasks
+
+### Improved — cai-upgrade
+- Now reads CHANGELOG.md and presents version changelog before applying updates
+- Post-upgrade summary includes Upgrade Notes
+
 ### Upgrade Notes
 - Run `cai-upgrade` to update agents, skills, and cai.py
 - Existing context documents are unchanged (backward compatible)
 - To benefit from confidence promotion, re-verify existing specs via `cai-onboard --incremental` or `cai-drift-check`
+- To generate `_relationships.md` for existing projects, run `cai-onboard --incremental`
 
 ## [0.2.0] - 2026-03-28
 

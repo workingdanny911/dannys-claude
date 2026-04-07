@@ -54,13 +54,19 @@ ${CLAUDE_PLUGIN_ROOT}/templates/rules/cai.md → .claude/rules/cai.md
 
 Create `.claude/rules/` directory if it does not exist. Do not overwrite if the file already exists (skip with notice), unless `--force`.
 
-### Step 5: Copy hook script
+### Step 5: Copy tools
+
+Copy all files in the tools template:
 
 ```
 ${CLAUDE_PLUGIN_ROOT}/templates/tools/drift-warning.js → tools/drift-warning.js
+${CLAUDE_PLUGIN_ROOT}/templates/tools/cai.py           → tools/cai.py
+${CLAUDE_PLUGIN_ROOT}/templates/tools/requirements.txt → tools/requirements.txt
 ```
 
-Create `tools/` directory if it does not exist. Do not overwrite if the file already exists (skip with notice), unless `--force`.
+Create `tools/` directory if it does not exist. Do not overwrite existing files (skip with notice), unless `--force`.
+
+`cai.py` is the AI-facing CLI for context search/impact analysis (see `docs/designs/cli-design.md`). `requirements.txt` lists its Python dependencies — inform the developer they may need to `pip install -r tools/requirements.txt`.
 
 ### Step 6: Copy AGENTS.md
 
@@ -134,6 +140,32 @@ This project uses CAI.
 - Knowledge base: context/
 - Rules: .claude/rules/cai.md
 - Drift detection: tools/drift-warning.js
+
+### Context CLI — `tools/cai.py`
+
+AI-facing CLI for context/ search, impact analysis, and state management.
+**Always prefer this CLI over ad-hoc grep/glob when exploring context/.**
+
+Setup (one-time): `pip install -r tools/requirements.txt`
+
+Commands:
+- `python tools/cai.py suggest <file|dir|module>` — related context docs + snippets for a target
+- `python tools/cai.py search "<keywords>"` — keyword search across all context docs
+- `python tools/cai.py budget --task "<description>" [-n N]` — top-N most relevant docs for a task (default 10)
+- `python tools/cai.py impact <file|dir|module>` — downstream modules/specs affected by a change
+- `python tools/cai.py status` — overall context health summary
+- `python tools/cai.py list [--type <type>] [--tag <tag>]` — filter docs by type/tag
+- `python tools/cai.py diff <target>` — source changes since a spec's `last_synced`
+- `python tools/cai.py validate [--fix]` — frontmatter schema validation
+- `python tools/cai.py update-synced <target>` — refresh a doc's `last_synced` to today
+
+Append `--json` to any command for JSON output.
+
+When to use which:
+- Starting work on a file/module → `suggest` then `impact`
+- Planning a task from description → `budget --task`
+- Unsure which doc to read → `search`
+- After modifying code that a spec covers → `update-synced`
 ```
 
 Show the proposed block and ask the developer to add it. If CLAUDE.md does not exist, propose creating one with this content plus a basic project section.

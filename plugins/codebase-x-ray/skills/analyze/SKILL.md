@@ -80,8 +80,10 @@ Project directory created at runtime:
 │   ├── phase1/{dirname}.md
 │   ├── phase2.md
 │   ├── phase4.md
-│   ├── verify_phase3.md
-│   └── verify_phase6.md
+│   ├── verify_phase3_pass1_{batch_num}.md
+│   ├── verify_phase3_pass2.md
+│   ├── verify_phase6_pass1_{batch_num}.md
+│   └── verify_phase6_pass2.md
 ├── artifacts/
 │   └── modules/{module}.md
 └── output/
@@ -104,7 +106,8 @@ ANALYSIS PIPELINE
   Phase 1  → Directory Survey (parallel Agents)
   Phase 2  → Boundary Synthesis
   Phase 3  → Module Deep Dive (parallel Agents) + Self-Verify
-  Verifier → Phase 3 structural audit
+  Verifier Pass 1 → Per-artifact audit (parallel batches)
+  Verifier Pass 2 → Cross-module audit (single Agent)
         ↓
   ARTIFACT STORE (reusable)
         ↓
@@ -112,7 +115,8 @@ WRITING PIPELINE
   Phase 4  → Chapter Design
   Phase 5  → Per-Chapter Writing (parallel Agents)
   Phase 6  → Cross-chapter Review → Final Book
-  Verifier → Phase 6 final audit
+  Verifier Pass 1 → Per-chapter audit (parallel batches)
+  Verifier Pass 2 → Cross-chapter audit (single Agent)
 ```
 
 ---
@@ -261,14 +265,27 @@ This section provides step-by-step instructions for the main Claude Code session
 ### Verifier: Phase 3 Structural Audit
 
 1. Read `references/verifier.md`.
-2. Dispatch the Agent:
-   - prompt: Verifier instructions + artifact file path list + repo path + specify "Phase 3 audit"
-   - **Provide paths so the sub-agent can Read artifact files directly** (do not embed all content in the prompt).
-   - Instruct the sub-agent to Write results directly to `checkpoints/verify_phase3.md`.
-3. Check results:
-   - **PASS** or **WARN**: Proceed to next step
-   - **HARD_FAIL**: Re-run Phase 3 only for the flagged modules. Then run the Verifier again.
-4. Update manifest.md.
+
+2. **Pass 1 — Per-Artifact Audit (parallel batches):**
+   - Divide the artifact list into batches of 3–4 artifacts each: `ceil(total_artifacts / 4)` batches.
+   - **Dispatch one Agent per batch in parallel:**
+     - Each agent prompt: Pass 1 instructions (items 1–5) from verifier.md + assigned artifact file paths + repo path + specify "Phase 3 Pass 1"
+     - **Provide paths so the sub-agent can Read artifact files directly.**
+     - Instruct each sub-agent to Write results directly to `checkpoints/verify_phase3_pass1_{batch_num}.md`.
+   - Read all Pass 1 results and collect per-artifact verdicts.
+   - **HARD_FAIL artifacts**: Re-run Phase 3 only for the flagged modules, then re-run Pass 1 only for those artifacts.
+   - Repeat until no HARD_FAIL remains.
+   - Update manifest.md: `- Verify Phase 3 Pass 1: complete`
+
+3. **Pass 2 — Cross-Module Audit (single agent):**
+   - Dispatch one Agent:
+     - prompt: Pass 2 instructions (item 6) from verifier.md + all artifact file paths + repo path + specify "Phase 3 Pass 2"
+     - **Provide paths so the sub-agent can Read artifact files directly.**
+     - Instruct the sub-agent to Write results directly to `checkpoints/verify_phase3_pass2.md`.
+   - Check results:
+     - **PASS** or **WARN**: Proceed to next phase.
+     - **HARD_FAIL**: Re-run Phase 3 for the flagged modules, then re-run from Pass 1.
+   - Update manifest.md: `- Verify Phase 3 Pass 2: complete`
 
 ---
 
@@ -359,14 +376,29 @@ fi
 ### Verifier: Phase 6 Final Audit
 
 1. Read `references/verifier.md`.
-2. Dispatch the Agent:
-   - prompt: Verifier instructions + chapter file path list under `output/` + repo path + specify "Phase 6 final audit"
-   - Include Phase 6 additional audit items (terminology consistency, cross-chapter references, newly added claims)
-   - **Provide paths so the sub-agent can Read chapter files directly**.
-   - Instruct the sub-agent to Write results directly to `checkpoints/verify_phase6.md`.
-3. Check results:
-   - **PASS** or **WARN**: Complete
-   - **HARD_FAIL**: Re-run Phase 5 only for flagged chapters → Re-run Phase 6
+
+2. **Pass 1 — Per-Chapter Audit (parallel batches):**
+   - Divide the chapter list into batches of 3–4 chapters each: `ceil(total_chapters / 4)` batches.
+   - **Dispatch one Agent per batch in parallel:**
+     - Each agent prompt: Pass 1 instructions (items 1–4 base audit + item 9 new claims) from verifier.md + assigned chapter file paths + artifact file paths (for item 9 cross-reference) + repo path + specify "Phase 6 Pass 1"
+     - Note: Item 5 (Self-Verify Summary) is Phase 3-specific and does not apply to chapters.
+     - **Provide paths so the sub-agent can Read chapter files directly.**
+     - Instruct each sub-agent to Write results directly to `checkpoints/verify_phase6_pass1_{batch_num}.md`.
+   - Read all Pass 1 results and collect per-chapter verdicts.
+   - **HARD_FAIL chapters**: Re-run Phase 5 only for flagged chapters, then re-run Pass 1 for those chapters.
+   - Repeat until no HARD_FAIL remains.
+   - Update manifest.md: `- Verify Phase 6 Pass 1: complete`
+
+3. **Pass 2 — Cross-Chapter Audit (single agent):**
+   - Dispatch one Agent:
+     - prompt: Pass 2 instructions (items 6–8: cross-module consistency, terminology, cross-chapter references) from verifier.md + all chapter file paths + repo path + specify "Phase 6 Pass 2"
+     - **Provide paths so the sub-agent can Read chapter files directly.**
+     - Instruct the sub-agent to Write results directly to `checkpoints/verify_phase6_pass2.md`.
+   - Check results:
+     - **PASS** or **WARN**: Complete
+     - **HARD_FAIL**: Re-run Phase 5 for flagged chapters → Re-run Phase 6 → Re-run Verifier
+   - Update manifest.md: `- Verify Phase 6 Pass 2: complete`
+
 4. Record "COMPLETE" in manifest.md.
 5. Notify the user of completion and ask if PDF conversion is needed.
 
@@ -443,11 +475,13 @@ Phases 1, 3, and 5 run multiple agents in parallel. If only some completed:
 - **Phase 1**: Compare the file list in `checkpoints/phase1/` with the repo's directory list. Re-run only the missing ones.
 - **Phase 3**: Compare the file list in `artifacts/modules/` with the module list in manifest.md. Re-run only the missing ones.
 - **Phase 5**: Compare the `[0-9][0-9]-*.md` file list in `output/` with the chapter list in manifest.md. Re-run only the missing ones.
+- **Verifier Pass 1** (Phase 3 or 6): Check which `verify_phase{N}_pass1_*.md` files exist in `checkpoints/`. Re-run only the missing batches.
+- **Verifier Pass 2** (Phase 3 or 6): If `verify_phase{N}_pass2.md` does not exist but all Pass 1 files are present, run Pass 2 only.
 
 ### Re-running Only the Writing Pipeline
 
 If the user wants to re-run only the Writing Pipeline (e.g., "I want to restructure chapters and rewrite"):
-1. Delete `checkpoints/phase4.md`, `checkpoints/verify_phase6.md`, and all files under `output/`.
+1. Delete `checkpoints/phase4.md`, `checkpoints/verify_phase6_pass1_*.md`, `checkpoints/verify_phase6_pass2.md`, and all files under `output/`.
 2. Remove all entries after Phase 4 from the Progress section in manifest.md.
 3. Re-running the skill will resume from Phase 4.
 
@@ -466,11 +500,15 @@ Each Phase 3 sub-agent performs this directly after completing analysis:
 
 This is included in the sub-agent prompt's instructions block (`references/phase3-deep-dive.md`).
 
-### Layer 2: Structural Audit
+### Layer 2: Structural Audit (Two-Pass)
 
-Performed by a separate Verifier agent. Runs twice:
+Performed by separate Verifier agents in two passes. Runs twice in the pipeline:
 - **After Phase 3**: Targets all artifacts
-- **After Phase 6**: Targets the final book.md
+- **After Phase 6**: Targets all chapters
+
+Each run consists of:
+- **Pass 1 (parallel batches)**: Per-artifact/chapter checks (items 1–5, item 9 for Phase 6). Batches of 3–4 artifacts/chapters run in parallel.
+- **Pass 2 (single agent)**: Cross-cutting checks (item 6, items 7–8 for Phase 6). Runs only after all Pass 1 batches clear.
 
 See `references/verifier.md` for detailed Verifier instructions.
 

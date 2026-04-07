@@ -116,12 +116,22 @@ Claims without citations are INVALID and must not appear in output.
 
 ### Tags 규칙
 
-`tags` 필드에는 반드시 **도메인 키워드 + 한국어 동의어**를 포함하라:
-- 모듈/컴포넌트의 핵심 도메인 키워드 (예: auth, payment, notification)
-- 한국어 동의어 (예: 인증, 결제, 알림)
-- `auto-generated` 태그 유지
+`tags` 필드에는 **최소 5개**의 의미 있는 태그를 포함하라. `auto-generated`는 태그에 포함하지 마라 (검색 노이즈를 유발함).
 
-예: `tags: [auth, 인증, security, jwt, auto-generated]`
+태그는 4가지 범주에서 추출하라:
+
+1. **도메인 키워드**: 모듈이 다루는 비즈니스 도메인 (예: auth, payment, grading)
+2. **기능 키워드**: 모듈이 수행하는 행동 (예: token-rotation, score-calculation, notification-dispatch)
+3. **기술 키워드**: 사용하는 핵심 기술/패턴 (예: jwt, redis, event-sourcing, cqrs)
+4. **한국어 동의어**: 위 키워드의 한국어 대응어 (예: 인증, 결제, 첨삭, 알림)
+
+키워드를 코드에서 추출하는 방법:
+- export된 함수/클래스 이름에서 도메인 키워드 추출
+- import 패키지에서 기술 키워드 추출
+- 주요 행동(CRUD, 계산, 검증, 전송 등)에서 기능 키워드 추출
+- README나 코드 주석에서 한국어 용어 추출
+
+예: `tags: [auth, 인증, authentication, token-rotation, jwt, bcrypt, password-hashing, security, 보안]`
 
 ### File: `context/specs/{module}/_overview.md`
 
@@ -130,7 +140,7 @@ Claims without citations are INVALID and must not appear in output.
 type: spec
 level: module
 confidence: draft
-tags: [{domain-keywords}, {한국어-동의어}, auto-generated]
+tags: [{domain-keywords}, {기능-keywords}, {기술-keywords}, {한국어-동의어}]
 last_synced: {today's date, YYYY-MM-DD}
 parent: context/specs/_overview.md
 components: [{component-1}, {component-2}, ...]
@@ -151,8 +161,25 @@ depends_on: []
 |-----------|------|----------|-------------|
 | {name} | {class/function/service} | {path}:{line} | {description} |
 
-## Exports (Public Interface)
-- `{export-name}` — {type and brief description} ({path}:{line})
+## Signatures
+| Export | Signature | Location |
+|--------|-----------|----------|
+| `{name}` | `({params}: {Types}) => {ReturnType}` | {path}:{line} |
+
+For classes, list constructor + public methods.
+For type exports, show the full type definition inline.
+
+## Data Model
+| Entity | Field | Type | Constraint |
+|--------|-------|------|------------|
+| `{EntityName}` | `{field}` | `{type}` | {constraint} |
+
+Skip this section only if the module owns no data structures.
+
+## Behavioral Flow
+1. {entry} calls {dep}.{method}({args}) ({path}:{line})
+2. On success → {next step} ({path}:{line})
+3. On failure → {error path} ({path}:{line})
 
 ## Internal Dependencies
 {How components within this module depend on each other}
@@ -168,7 +195,7 @@ depends_on: []
 type: spec
 level: component
 confidence: draft
-tags: [{domain-keywords}, {한국어-동의어}, auto-generated]
+tags: [{domain-keywords}, {기능-keywords}, {기술-keywords}, {한국어-동의어}]
 last_synced: {today's date, YYYY-MM-DD}
 parent: context/specs/{module}/_overview.md
 ---
@@ -177,11 +204,20 @@ parent: context/specs/{module}/_overview.md
 ## Purpose
 {description with citation}
 
-## Interface
-{public methods/functions with citations}
+## Signatures
+| Export | Signature | Location |
+|--------|-----------|----------|
+| `{name}` | `({params}: {Types}) => {ReturnType}` | {path}:{line} |
 
-## Implementation Notes
-{key algorithms, state management, non-obvious logic — all with citations}
+## Data Model
+| Entity | Field | Type | Constraint |
+|--------|-------|------|------------|
+| `{EntityName}` | `{field}` | `{type}` | {constraint} |
+
+## Behavioral Flow
+1. {entry} calls {dep}.{method}({args}) ({path}:{line})
+2. On success → {next step} ({path}:{line})
+3. On failure → {error path} ({path}:{line})
 ```
 
 ## Referenced Specs
@@ -192,7 +228,7 @@ parent: context/specs/{module}/_overview.md
 ## Constraints
 
 - Do NOT make any technical claim without a source path + line number citation. This is non-negotiable.
-- Do NOT set confidence to anything other than `draft`.
+- Set confidence to `draft`. Verification-agent may promote after validation.
 - Do NOT analyze modules outside the assigned module path.
 - Do NOT fill the `depends_on` field — that is relationship-mapper's job.
 - Do NOT speculate about runtime behavior that cannot be determined from static analysis.

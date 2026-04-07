@@ -152,7 +152,7 @@ The onboarding pipeline runs in four phases:
 | 3. Validation interview | Verify drafts with developer, capture knowledge code cannot reveal | Interactive |
 | 4. Synthesis | Map inter-module dependencies, extract conventions, propose CLAUDE.md updates | Automatic |
 
-All generated documents start with `confidence: draft`. The developer reviews and promotes them.
+All generated documents start with `confidence: draft`. The verification-agent cross-validates claims and automatically promotes specs: all claims confirmed → `verified`, ≥80% confirmed with 0 incorrect → `reviewed`. Remaining specs stay `draft` until re-verified.
 
 ### For a new project
 
@@ -247,7 +247,23 @@ python tools/cai.py validate --fix
 python tools/cai.py update-synced context/specs/auth/_overview.md
 ```
 
-All commands support `--json` for structured output. Default output is text optimized for AI parsing, with relevance levels (high/medium/low) and inline snippets.
+All commands support `--json` for structured output. Default output is text optimized for AI parsing, with relevance levels (high/medium/low/transitive) and inline snippets.
+
+#### Budget Scoring
+
+The `budget` command scores documents using 7 signals:
+
+| Signal | Range | Description |
+|--------|-------|-------------|
+| Tag overlap | 0-5 | Task keywords matching document tags (stop-tags excluded) |
+| Module proximity | 0-5 | Module name match: exact +5, partial +3 |
+| Recency | 0-3 | Days since `last_synced`: ≤7d +3, ≤30d +2, ≤90d +1 |
+| Confidence | -1 to 5 | verified +5, reviewed +3, draft 0, intent -1 |
+| Type weight | 0-3 | spec/convention +3, issue +3, decision +2, roadmap +2 |
+| Body content | 0-4 | Task keywords found in document body text |
+| Draft penalty | ×0.6 | Applied to final score when confidence is `draft` |
+
+**Graph expansion**: When a high-relevance document has `depends_on` or `related_specs` links, those linked documents are automatically included with `transitive` relevance. This supports cross-cutting tasks that span multiple modules.
 
 ---
 
@@ -293,7 +309,7 @@ These remain active after onboarding and run during normal development:
 
 | Agent | Role | Invoked |
 |-------|------|---------|
-| `verification-agent` | Cross-validate spec claims against source code in an independent context window | On every spec create/update |
+| `verification-agent` | Cross-validate spec claims against source code and recommend confidence promotion (draft → verified/reviewed) | On every spec create/update |
 | `context-gardener` | Update stale specs, propose new specs, prune resolved issues and completed roadmaps | Post-change |
 | `code-reviewer` | Detect convention violations in changed code | Post-change |
 | `spec-writer` | Read source code and write specs, verify consistency with existing specs | Ad-hoc |
@@ -349,10 +365,10 @@ All context documents use YAML frontmatter for metadata. Common required fields 
 |-------|---------|---------------|
 | `intent` | Not yet implemented; this is the plan | New project onboarding |
 | `draft` | Auto-generated from code analysis, unverified | Existing project onboarding |
-| `reviewed` | Developer has read and confirmed | After developer review |
-| `verified` | Validated by tests or execution | After test pass |
+| `reviewed` | Mostly verified with minor uncertainties | Verification-agent: ≥80% claims confirmed, 0 incorrect |
+| `verified` | All claims validated by verification-agent | Verification-agent: 100% claims confirmed |
 
-AI behavior adapts to confidence: `intent` documents are treated as target designs that may not match reality; `draft` documents require cross-referencing with source code before trusting.
+AI behavior adapts to confidence: `draft` documents require cross-referencing with source code before trusting; `reviewed` and `verified` documents are treated as authoritative. Confidence promotion happens automatically during onboarding (Phase 1 verification) and when specs are created/updated via `cai-add-spec`.
 
 ---
 
@@ -466,6 +482,8 @@ The full design specification is at [docs/designs/v2.md](docs/designs/v2.md). Ke
 ---
 
 ## Versioning and Upgrade
+
+See [CHANGELOG.md](CHANGELOG.md) for version history and upgrade notes.
 
 Run `/cai-upgrade` to update CAI to the latest version.
 

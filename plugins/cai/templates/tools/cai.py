@@ -262,6 +262,15 @@ def find_by_tags(keywords: list, docs: list) -> list:
     return results
 
 
+# Tags that match everything and add noise — exclude from scoring
+STOP_TAGS = frozenset(["auto-generated", "auto generated", "generated", "draft"])
+
+
+def filter_stop_tags(tags: list) -> list:
+    """Remove generic/noisy tags from scoring."""
+    return [t for t in tags if str(t).lower() not in STOP_TAGS]
+
+
 def find_by_content(keywords: list, docs: list) -> list:
     """Find docs with keyword matches in headings and body. Returns (doc, score, matches)."""
     results = []
@@ -272,10 +281,10 @@ def find_by_content(keywords: list, docs: list) -> list:
         score = 0
         matches = []
         for kw in kw_lower:
-            # Check tags (weight 3)
+            # Check tags (weight 3) — excluding stop-tags
             tags = doc["frontmatter"].get("tags", [])
             if isinstance(tags, list):
-                for t in tags:
+                for t in filter_stop_tags(tags):
                     if kw in str(t).lower():
                         score += 3
                         break
@@ -357,8 +366,8 @@ def _format_result_text(result: dict) -> str:
     doc_type = fm.get("type", "unknown")
     confidence = fm.get("confidence", fm.get("status", ""))
     relevance = result.get("relevance", "med")
-    tag = {"high": "high", "medium": "med", "low": "low"}.get(relevance, relevance)
-    padding = " " * (4 - len(tag))
+    tag = {"high": "high", "medium": "med", "low": "low", "transitive": "trans"}.get(relevance, relevance)
+    padding = " " * max(0, 5 - len(tag))
     header = f"[{tag}]{padding} {rel} ({doc_type}"
     if confidence:
         header += f", {confidence}"
@@ -418,7 +427,7 @@ def _format_results(results: list, as_json: bool) -> str:
     for r in results:
         counts[r.get("relevance", "medium")] += 1
     summary_parts = []
-    for level in ("high", "medium", "low"):
+    for level in ("high", "medium", "low", "transitive"):
         if counts[level]:
             summary_parts.append(f"{counts[level]} {level}")
     lines.append(f"{len(results)} documents found ({', '.join(summary_parts)})")
@@ -462,12 +471,12 @@ def cmd_suggest(args, project_root, config):
         for doc in find_by_convention(target_info["path"], config["source_roots"], context_dir):
             _add(doc, "medium", f"convention-based mapping: {module}")
 
-    # 3. tag-based expansion
+    # 3. tag-based expansion (excluding stop-tags to prevent noise snowball)
     collected_tags = set()
     for r in results:
         tags = r.get("frontmatter", {}).get("tags", [])
         if isinstance(tags, list):
-            for t in tags:
+            for t in filter_stop_tags(tags):
                 collected_tags.add(str(t).lower())
     if collected_tags:
         tag_kw = list(collected_tags)
@@ -496,12 +505,12 @@ def cmd_search(args, project_root, config):
     scored = find_by_content(keywords, docs)
     results = []
     for doc, score, matches in scored:
+        if score < 2:
+            continue  # filter out noise
         if score >= 4:
             relevance = "high"
-        elif score >= 2:
-            relevance = "medium"
         else:
-            relevance = "low"
+            relevance = "medium"
         # Find best matching snippet
         snippets = []
         best_lines = set()
@@ -540,10 +549,11 @@ def cmd_budget(args, project_root, config):
         fm = doc["frontmatter"]
         score = 0
 
-        # 1. Tag overlap (0-5)
+        # 1. Tag overlap (0-5) — excluding stop-tags
         tags = fm.get("tags", [])
         if isinstance(tags, list):
-            tags_lower = [str(t).lower() for t in tags]
+            tags_filtered = filter_stop_tags(tags)
+            tags_lower = [str(t).lower() for t in tags_filtered]
             tag_overlap = sum(1 for kw in task_keywords if kw in tags_lower)
             score += min(tag_overlap, 5)
 
@@ -575,34 +585,71 @@ def cmd_budget(args, project_root, config):
             except (ValueError, TypeError):
                 pass
 
-        # 4. Confidence (0-2)
+        # 4. Confidence (-1 to 5)
         confidence = fm.get("confidence", "")
-        confidence_scores = {"verified": 2, "reviewed": 1, "draft": 0, "intent": 0}
+        confidence_scores = {"verified": 5, "reviewed": 3, "draft": 0, "intent": -1}
         score += confidence_scores.get(str(confidence), 0)
 
-        # 5. Type weight (0-3)
+        # 5. Type weight (0-3) — issue and roadmap promoted
         doc_type = fm.get("type", "")
-        type_scores = {"spec": 3, "convention": 3, "decision": 2, "issue": 1, "roadmap": 0, "glossary": 1, "project": 1}
-        score += type_scores.get(str(doc_type), 0)
+        type_scores = {"spec": 3, "convention": 3, "decision": 2, "issue": 3, "roadmap": 2, "glossary": 1, "project": 1}
+        doc_type_score = type_scores.get(str(doc_type), 0)
+        if doc_type == "roadmap" and fm.get("status") == "completed":
+            doc_type_score = 0
+        score += doc_type_score
+
+        # 6. Body content match (0-4)
+        body_lines = doc.get("body_lines", [])
+        body_start = doc.get("body_start", 0)
+        body_text = "\n".join(body_lines[body_start:]).lower()
+        body_hits = sum(1 for kw in task_keywords if kw in body_text)
+        score += min(body_hits, 4)
+
+        # 7. Draft penalty: reduce noise from unverified docs
+        if str(confidence) == "draft":
+            score = int(score * 0.6)
 
         scored_docs.append((doc, score))
 
     scored_docs.sort(key=lambda x: x[1], reverse=True)
     top_n = scored_docs[:n]
 
+    # Graph expansion: follow depends_on/related_specs from high-relevance docs
+    existing_paths = {str(d["rel_path"]) for d, _ in top_n}
+    expanded_docs = []
+    for doc, score in top_n:
+        if score >= 12:
+            fm = doc["frontmatter"]
+            links = []
+            for field in ("depends_on", "related_specs"):
+                val = fm.get(field, [])
+                if isinstance(val, list):
+                    links.extend(str(v) for v in val)
+            for link in links:
+                if link not in existing_paths:
+                    for d in docs:
+                        if d["rel_path"] == link or d["rel_path"].endswith(link):
+                            expanded_docs.append(d)
+                            existing_paths.add(d["rel_path"])
+                            break
+    for d in expanded_docs:
+        top_n.append((d, -1))  # -1 signals transitive relevance
+
     results = []
     for doc, score in top_n:
         snippet = _best_snippet_for_doc(doc, task_keywords)
-        if score >= 10:
+        if score == -1:
+            relevance = "transitive"
+        elif score >= 12:
             relevance = "high"
-        elif score >= 5:
+        elif score >= 6:
             relevance = "medium"
         else:
             relevance = "low"
         results.append({
             **doc,
             "relevance": relevance,
-            "reason": f"budget score: {score}",
+            "reason": f"budget score: {score}" if score >= 0 else "transitive (via depends_on/related_specs)",
             "snippets": [snippet],
         })
 

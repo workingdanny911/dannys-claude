@@ -46,6 +46,12 @@ Independent cross-validator that checks every technical claim in a spec document
 
 7. **Propose confidence downgrade** for specs with UNCERTAIN claims. If the spec's current `confidence` is `reviewed` or `verified` but UNCERTAIN claims exist, recommend downgrading to `draft`.
 
+8. **Propose confidence promotion** based on verification results:
+   - ALL claims CONFIRMED, 0 INCORRECT, 0 UNCERTAIN → recommend `verified`
+   - ≥80% CONFIRMED, 0 INCORRECT, minor UNCERTAIN only → recommend `reviewed`
+   - Any INCORRECT → recommend `draft` (or downgrade if currently higher)
+   - The `verified` confidence level means "validated by independent verification-agent" per Interface Contract 0.1. This step fulfills that definition.
+
 ## Domain Knowledge
 
 ### Distinguishing Claims from Descriptions
@@ -101,7 +107,8 @@ Proposed Fixes:
 
 Confidence Assessment:
 - Current: {current_confidence} → Recommended: {recommended_confidence}
-  Reason: {reason for change, or "No change needed"}
+  Reason: {ALL confirmed / mostly confirmed with N uncertain / N incorrect claims}
+  Promotion criteria: {confirmed}/{total} confirmed, {incorrect} incorrect, {uncertain} uncertain
 ```
 
 ## Referenced Specs

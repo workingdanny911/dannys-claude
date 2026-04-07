@@ -76,10 +76,12 @@ Verification passed?
 
 1. Write the spec file to its target path
 2. Update `last_synced` to today's date (ISO 8601: YYYY-MM-DD)
-3. If creating a new spec:
-   - Set `confidence: draft` (unless verification was clean, then `reviewed`)
-   - If component-level, ensure parent module's `_overview.md` lists this component in `components` field
-4. Report completion to user
+3. Apply verification-agent's recommended confidence level:
+   - All claims confirmed → `verified`
+   - Mostly confirmed (≥80%), 0 incorrect → `reviewed`
+   - Any incorrect claims → `draft`
+4. If component-level, ensure parent module's `_overview.md` lists this component in `components` field
+5. Report completion to user
 
 ## Agent Invocations
 

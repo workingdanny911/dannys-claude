@@ -73,15 +73,22 @@ Invoke the `verification-agent` to cross-validate all generated spec drafts agai
 - Input: all draft specs from E1-E2
 - Output: verification report (✓ confirmed / ✗ incorrect / ? uncertain), corrected drafts
 
-Display verification results to user in this format before proceeding:
+After verification completes:
+1. Apply the verification-agent's confidence recommendations to each spec:
+   - For each spec where recommendation is `verified` or `reviewed`: update the spec's frontmatter `confidence` field accordingly.
+   - For specs with INCORRECT claims that were auto-corrected: keep as `draft` and re-verify if significant corrections were made.
+2. Display verification results to user in this format before proceeding:
+
 ```
 [Verification] 30 specs 검증 완료
   ✓ Confirmed: 85 claims
   ✗ Incorrect: 3 claims (자동 수정됨)
-  ? Uncertain: 5 claims (confidence 하향)
+  ? Uncertain: 5 claims
+  📈 Promoted: 22 specs (draft→verified), 5 specs (draft→reviewed)
+  📎 Remaining draft: 3 specs
 ```
 
-Do NOT proceed to E4 until verification is complete and results are displayed.
+Do NOT proceed to E4 until verification is complete, confidence promotions are applied, and results are displayed.
 
 #### Phase 2: Automated Draft Generation — Non-Spec Documents
 

@@ -121,7 +121,12 @@ Read `.claude/settings.json` if it exists. Propose adding the drift-warning hook
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
-        "command": "node tools/drift-warning.js \"$TOOL_INPUT\""
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node tools/drift-warning.js \"$TOOL_INPUT\""
+          }
+        ]
       }
     ]
   }

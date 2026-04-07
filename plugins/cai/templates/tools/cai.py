@@ -128,23 +128,48 @@ def resolve_target(target: str, project_root: Path, config: dict) -> dict:
     """
     target_path = Path(target)
     abs_path = (project_root / target_path) if not target_path.is_absolute() else target_path
+    context_dir = project_root / config["context_dir"]
 
     if abs_path.is_file():
-        module = _extract_module_from_path(str(target), config["source_roots"])
+        module = (
+            _resolve_module_via_specs(str(target), context_dir)
+            or _extract_module_from_path(str(target), config["source_roots"])
+        )
         return {"type": "file", "path": str(target), "module": module}
 
     if abs_path.is_dir():
-        module = _extract_module_from_path(str(target).rstrip("/") + "/", config["source_roots"])
+        module = (
+            _resolve_module_via_specs(str(target), context_dir)
+            or _extract_module_from_path(str(target).rstrip("/") + "/", config["source_roots"])
+        )
         return {"type": "dir", "path": str(target), "module": module}
 
     # Check if it's a module name (specs/{name}/_overview.md exists)
-    context_dir = project_root / config["context_dir"]
     overview = context_dir / "specs" / target / "_overview.md"
     if overview.is_file():
         return {"type": "module", "path": str(target), "module": target}
 
     # Fallback: treat as module name even without overview
     return {"type": "module", "path": str(target), "module": target}
+
+
+def _resolve_module_via_specs(path_str: str, context_dir: Path) -> str:
+    """Resolve a filesystem path to a module name by matching against existing
+    spec directories. Walks path segments from leaf to root and returns the
+    first segment that has a corresponding ``specs/{name}/_overview.md``.
+
+    This is the authoritative resolver: it bypasses the fragile
+    ``source_roots``/heuristic logic for nested monorepo layouts like
+    ``packages/contexts/auth``.
+    """
+    specs_dir = context_dir / "specs"
+    if not specs_dir.is_dir():
+        return ""
+    parts = [p for p in path_str.replace("\\", "/").strip("/").split("/") if p]
+    for seg in reversed(parts):
+        if (specs_dir / seg / "_overview.md").is_file():
+            return seg
+    return ""
 
 
 def _extract_module_from_path(filepath: str, source_roots: list) -> str:

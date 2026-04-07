@@ -37,17 +37,21 @@ If `context/decisions/` is empty or has no numbered files, start at `001`.
 ```
 Is the decision content already available in the current conversation context?
 ├── YES → Use it directly (Step 3)
-└── NO  → Invoke context-interviewer to gather details (Step 2a)
+└── NO  → Invoke the cai:interview skill (Step 2a)
 ```
 
 **2a. Interview for Decision Content**
 
-Invoke the `context-interviewer` agent to collect:
-- What was decided?
-- What problem does this solve?
-- What alternatives were considered?
-- Why was this alternative chosen over others?
-- What are the consequences (positive and negative)?
+Invoke the `cai:interview` skill. Pass:
+- **Goal**: Collect the details needed to write an ADR.
+- **What is already known**: Anything inferred from the current conversation or git history.
+- **Output target**: This skill's working memory — answers feed Step 3.
+- **Seed questions**:
+  - What was decided?
+  - What problem does this solve?
+  - What alternatives were considered?
+  - Why this alternative over the others?
+  - Consequences (positive and negative)?
 
 ### 3. Write ADR Document
 
@@ -95,10 +99,9 @@ The `{slug}` is derived from the decision title: lowercase, words joined by hyph
 
 Present the generated ADR to the user for review before writing to disk. Apply any requested changes.
 
-## Agent Invocations
+## Skill Invocations
 
-- Agent: `context-interviewer` — Collects decision details from the user when not already available
-  - Invocation: `Task("Interview the user about an architecture decision. Gather: background, decision, alternatives considered, and consequences.", agent="agents/context-interviewer.md")`
+- Skill: `cai:interview` — Collects decision details from the user when not already available (see Step 2a).
 
 ## Output
 

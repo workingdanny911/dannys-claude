@@ -6,7 +6,7 @@ description: "Use when recording a future plan or direction. Triggers: 'cai-add-
 
 ## Overview
 
-Creates a roadmap entry documenting a future plan, direction, or initiative. Uses the context-interviewer to collect details since future plans cannot be inferred from code.
+Creates a roadmap entry documenting a future plan, direction, or initiative. Uses the `cai:interview` skill to collect details since future plans cannot be inferred from code.
 
 ## When to Use
 
@@ -33,17 +33,21 @@ Ask or infer the roadmap item's current status:
 ```
 Is there sufficient context in the current conversation?
 ├── YES → Use it directly (Step 3)
-└── NO  → Invoke context-interviewer (Step 2a)
+└── NO  → Invoke the cai:interview skill (Step 2a)
 ```
 
 **2a. Interview for Roadmap Content**
 
-Invoke the `context-interviewer` agent to collect:
-- What is being planned?
-- Why is this needed? (motivation, business driver)
-- What is the target timeline? (optional)
-- Which existing modules/specs are affected?
-- What are the known risks or dependencies?
+Invoke the `cai:interview` skill. Pass:
+- **Goal**: Collect the details needed to write a roadmap entry.
+- **What is already known**: Anything mentioned earlier in the conversation.
+- **Output target**: This skill's working memory — answers feed Step 3.
+- **Seed questions**:
+  - What is being planned?
+  - Why is this needed? (motivation, business driver)
+  - Target timeline? (optional)
+  - Which existing modules/specs are affected?
+  - Known risks or dependencies?
 
 ### 3. Auto-Link Related Specs
 
@@ -92,10 +96,9 @@ The `{slug}` is derived from the title: lowercase, words joined by hyphens (e.g.
 
 Present the generated roadmap item for review. Write to disk only after approval.
 
-## Agent Invocations
+## Skill Invocations
 
-- Agent: `context-interviewer` — Collects roadmap details from the user
-  - Invocation: `Task("Interview the user about a future plan/roadmap item. Gather: what is planned, why, timeline, affected areas, and risks.", agent="agents/context-interviewer.md")`
+- Skill: `cai:interview` — Collects roadmap details from the user (see Step 2a).
 
 ## Output
 

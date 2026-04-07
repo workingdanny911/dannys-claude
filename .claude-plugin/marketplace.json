@@ -24,8 +24,15 @@
     {
       "name": "cai",
       "description": "Persistent memory for AI coding agents — Context As Infrastructure",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/cai",
+      "category": "productivity"
+    },
+    {
+      "name": "codebase-x-ray",
+      "description": "Analyze famous open-source codebases and generate technical biography books",
+      "version": "1.0.0",
+      "source": "./plugins/codebase-x-ray",
       "category": "productivity"
     }
   ]

@@ -264,6 +264,7 @@ All commands support `--json` for structured output. Default output is text opti
 | `cai-upgrade` | Upgrade plugin to latest version | Developer | Rare |
 | `cai-add-agent` | Create a new custom domain agent | Developer or AI | Rare |
 | `cai-add-roadmap` | Record a future plan or initiative | AI (knowledge capture) | Rare |
+| `interview` | Conversational sub-skill that gathers user input for the skills above | Other cai skills | As needed |
 
 Most skills are called by the AI internally. The rules file defines **when** each skill fires; the skill defines **how** it executes; agents define **who** does the work.
 
@@ -282,7 +283,6 @@ These run during `cai-onboard` to bootstrap context from an existing codebase:
 | `structure-scanner` | Analyze directory/file structure, identify module boundaries | 1 (auto) |
 | `module-analyst` | Analyze internals of a single module (runs N in parallel) | 1 (auto) |
 | `draft-generator` | Generate decisions, issues, project.md from git history and code analysis | 2 (auto) |
-| `context-interviewer` | Validate drafts, interview developer for knowledge code cannot reveal | 3 (interactive) |
 | `relationship-mapper` | Map inter-module dependencies and data flows | 4 (auto) |
 | `convention-extractor` | Extract recurring patterns (naming, error handling, etc.) | 4 (auto) |
 | `constitution-assembler` | Synthesize all outputs and propose CLAUDE.md updates | 4 (auto) |
@@ -297,7 +297,8 @@ These remain active after onboarding and run during normal development:
 | `context-gardener` | Update stale specs, propose new specs, prune resolved issues and completed roadmaps | Post-change |
 | `code-reviewer` | Detect convention violations in changed code | Post-change |
 | `spec-writer` | Read source code and write specs, verify consistency with existing specs | Ad-hoc |
-| `context-interviewer` | Author documents requiring human knowledge (ADRs, roadmaps) via interview | Ad-hoc |
+
+> Note: Interview-driven document authoring (ADRs, roadmaps, onboarding context) is handled by the `cai:interview` **skill**, run directly by the main agent rather than dispatched as a subagent.
 
 Projects can also define **custom domain agents** (e.g., `payment-specialist`, `auth-reviewer`) that accumulate domain-specific failure modes and code patterns over time, following the emergence pattern described in the paper.
 
@@ -376,12 +377,12 @@ project-root/
 │   │   ├── cai-add-roadmap/SKILL.md
 │   │   ├── cai-capture-lesson/SKILL.md
 │   │   ├── cai-drift-check/SKILL.md
-│   │   └── cai-upgrade/SKILL.md
+│   │   ├── cai-upgrade/SKILL.md
+│   │   └── interview/SKILL.md
 │   ├── agents/
 │   │   ├── structure-scanner.md        # Onboarding (tool-managed)
 │   │   ├── module-analyst.md
 │   │   ├── draft-generator.md
-│   │   ├── context-interviewer.md
 │   │   ├── relationship-mapper.md
 │   │   ├── convention-extractor.md
 │   │   ├── constitution-assembler.md

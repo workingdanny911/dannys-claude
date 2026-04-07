@@ -1,6 +1,6 @@
 {
   "name": "cai",
   "description": "Persistent memory for AI coding agents — Context As Infrastructure",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": { "name": "danny" }
 }

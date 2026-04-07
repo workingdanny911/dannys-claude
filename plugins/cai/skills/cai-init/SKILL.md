@@ -88,13 +88,12 @@ Create `.claude/skills/` directories as needed. Skip existing files with notice 
 
 ### Step 8: Copy agents
 
-Copy all 11 agents from the plugin to the target project:
+Copy all 10 agents from the plugin to the target project:
 
 ```
 ${CLAUDE_PLUGIN_ROOT}/agents/structure-scanner.md      → .claude/agents/structure-scanner.md
 ${CLAUDE_PLUGIN_ROOT}/agents/module-analyst.md         → .claude/agents/module-analyst.md
 ${CLAUDE_PLUGIN_ROOT}/agents/draft-generator.md        → .claude/agents/draft-generator.md
-${CLAUDE_PLUGIN_ROOT}/agents/context-interviewer.md    → .claude/agents/context-interviewer.md
 ${CLAUDE_PLUGIN_ROOT}/agents/relationship-mapper.md    → .claude/agents/relationship-mapper.md
 ${CLAUDE_PLUGIN_ROOT}/agents/convention-extractor.md   → .claude/agents/convention-extractor.md
 ${CLAUDE_PLUGIN_ROOT}/agents/constitution-assembler.md → .claude/agents/constitution-assembler.md

@@ -110,9 +110,9 @@ When a proposal is approved, invoke the corresponding skill:
 | Situation | Skill | Notes |
 |-----------|-------|-------|
 | Spec creation/update needed | cai-add-spec | Invokes spec-writer agent, then verification-agent |
-| New decision discovered | cai-add-decision | Invokes context-interviewer for ADR |
+| New decision discovered | cai-add-decision | Invokes cai:interview skill for ADR details |
 | Failure mode/pattern discovered | cai-capture-lesson | Routes to appropriate doc (issue/spec/convention) |
-| New roadmap item discovered | cai-add-roadmap | Invokes context-interviewer for roadmap entry |
+| New roadmap item discovered | cai-add-roadmap | Invokes cai:interview skill for roadmap details |
 | Stale spec needs update | cai-drift-check | Drift assessment then update proposal |
 | New agent needed | cai-add-agent | Creates agent .md + adds trigger table row |
 

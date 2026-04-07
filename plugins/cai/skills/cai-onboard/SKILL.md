@@ -4,6 +4,9 @@ description: "Use when onboarding a project into CAI. Triggers: 'cai-onboard', '
 ---
 # CAI Onboard
 
+> ⛔ **HARD RULE — Interview is NEVER a subagent.**
+> Phase 3 (E5) and New Project Flow (N1) interviews are delegated to the `cai:interview` skill, which the main agent runs directly in the current conversation. Do NOT dispatch the interview as a Task subagent — that severs the user's conversational context.
+
 ## Overview
 
 Orchestrates the full onboarding pipeline: analyzes an existing codebase (or bootstraps a new project) and generates a complete set of CAI documents.
@@ -101,20 +104,22 @@ If `--resume`: skip document types where files already exist.
 
 **E5. Context Interview**
 
-Invoke the `context-interviewer` agent in interactive mode.
+Invoke the `cai:interview` skill. The main agent runs it directly — the interview skill itself forbids subagent dispatch.
 
-- Present Phase 1-2 drafts to the user for validation:
-  - "Git history suggests these architecture decisions. Are they accurate?"
-  - "These issues were detected in code. Any missing context?"
-- Collect knowledge that cannot be extracted from code:
-  - Project vision and constraints
-  - Business rules and domain knowledge
-  - Future plans and direction
-  - Team conventions not visible in code
-- Output:
-  - Validated/corrected drafts
-  - `context/roadmap/*.md` documents (code cannot infer future plans)
-  - Additional decisions, issues, conventions from user input
+Pass the following to the interview skill:
+- **Goal**: Validate Phase 1-2 drafts and collect knowledge code cannot reveal (vision, constraints, future plans, unwritten conventions).
+- **What is already known**: All Phase 1-2 drafts (`context/specs/*`, `context/decisions/*` drafts, `context/issues/*` drafts, `context/project.md` draft).
+- **Output targets**:
+  - Validated / corrected existing drafts
+  - New `context/roadmap/*.md` files (code cannot infer future plans)
+  - Additional decisions / issues / conventions discovered during the interview
+- **Seed question flow**:
+  1. Present discovered decisions and ask the user to confirm.
+  2. Project type (multiple choice: internal tool / SaaS / open source / other).
+  3. Vision — follow-up shaped by the previous answer.
+  4. Future plans (multiple choice: yes / no / later).
+  5. Team conventions invisible in code (multiple choice).
+  6. Final open prompt: any other important context.
 
 If `--force-interview`: run even if context docs already exist.
 
@@ -150,14 +155,17 @@ Present the proposed CLAUDE.md content to the user for approval. Do NOT modify C
 
 **N1. Context Interview (BLOCKING)**
 
-Invoke the `context-interviewer` agent immediately.
+Invoke the `cai:interview` skill. Pass:
 
-- Interview topics:
-  - "What are you building?" → `context/project.md`
-  - "What's the tech stack?" → `context/project.md` + `context/conventions/` drafts
-  - "Key architecture decisions?" → `context/decisions/*.md`
-  - "Known risks or constraints?" → `context/issues/*.md`
-  - "Future plans?" → `context/roadmap/*.md`
+- **Goal**: Bootstrap a brand-new project's context documents from scratch (no prior code analysis to draw from).
+- **What is already known**: Nothing — this is `--new` mode.
+- **Output targets**: `context/project.md`, `context/conventions/*`, `context/decisions/*`, `context/issues/*`, `context/roadmap/*`.
+- **Seed question flow**:
+  1. "What are you building?" (open) → `context/project.md`
+  2. Tech stack (multiple choice) → `context/project.md` + `context/conventions/` drafts
+  3. Architecture style (multiple choice, shaped by stack) → `context/decisions/*.md`
+  4. Known risks or constraints (multiple choice: yes / no / later) → `context/issues/*.md`
+  5. First milestone or roadmap (multiple choice) → `context/roadmap/planned/*.md`
 
 **N2. Initial Constitution Assembly**
 
@@ -201,8 +209,7 @@ Display phase transitions clearly:
 - Agent: `draft-generator` — Generates decisions, issues, project.md from git/code analysis
   - Invocation: `Task("Generate context document drafts for project at {project_root}", agent="agents/draft-generator.md")`
 
-- Agent: `context-interviewer` — Interactive interview for human knowledge (BLOCKING)
-  - Invocation: `Task("Interview the user to validate drafts and collect missing context. Drafts: {draft_summary}", agent="agents/context-interviewer.md")`
+- (Phase 3 interview is delegated to the `cai:interview` skill — see E5 / N1. It is run by the main agent and never dispatched as a subagent.)
 
 - Agent: `relationship-mapper` — Maps inter-module dependencies
   - Invocation: `Task("Map relationships between modules. Specs: {spec_paths}", agent="agents/relationship-mapper.md")`

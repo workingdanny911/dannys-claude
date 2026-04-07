@@ -23,6 +23,14 @@ Identify the target file(s) or module to document. Resolve to a spec path using 
 - Module-level: `context/specs/{module}/_overview.md`
 - Component-level: `context/specs/{module}/{component}.md`
 
+If the target, scope, or intent is ambiguous (e.g., the user said "add a spec for auth" but the auth area spans multiple modules, or it is unclear which behaviors should be documented), invoke the `cai:interview` skill before proceeding. Pass:
+- **Goal**: Clarify spec scope and intent.
+- **What is already known**: The candidate target paths and any existing specs nearby.
+- **Output target**: This skill's working memory — answers will shape Step 2 onward, not a file directly.
+- **Seed questions**: Which files/modules to cover; module vs. component level; any behaviors to emphasize or exclude.
+
+Skip the interview when the target is unambiguous.
+
 ### 2. Check Existing Spec
 
 ```

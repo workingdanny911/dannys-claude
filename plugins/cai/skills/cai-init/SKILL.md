@@ -135,10 +135,12 @@ If `.claude/settings.json` already exists with other hooks, propose **merging** 
 Do **not** modify CLAUDE.md directly. Propose adding a `Context Infrastructure` section:
 
 ```markdown
+@.claude/rules/cai.md
+
 ## Context Infrastructure
 This project uses CAI.
 - Knowledge base: context/
-- Rules: .claude/rules/cai.md
+- Rules: .claude/rules/cai.md (imported above — auto-loaded every session)
 - Drift detection: tools/drift-warning.js
 
 ### Context CLI — `tools/cai.py`
@@ -167,6 +169,8 @@ When to use which:
 - Unsure which doc to read → `search`
 - After modifying code that a spec covers → `update-synced`
 ```
+
+The first line (`@.claude/rules/cai.md`) is critical: Claude Code does not auto-load `.claude/rules/`, so this import is what activates the CAI behavior rules every session. Without it, the rules file is dead weight.
 
 Show the proposed block and ask the developer to add it. If CLAUDE.md does not exist, propose creating one with this content plus a basic project section.
 

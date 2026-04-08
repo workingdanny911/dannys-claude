@@ -304,7 +304,60 @@ Every Feature includes a final review/refactor Task:
 
 ---
 
-## 8. Context Preservation
+## 8. Automated Feature Execution
+
+### What is `/sprint:work-on-feature`?
+
+An orchestrator skill that automatically executes all Tasks in a Feature — spawning agents, running reviews, and verifying quality.
+
+### Manual vs Automated Execution
+
+| | Manual (`@INSTRUCTION.md`) | Automated (`/sprint:work-on-feature`) |
+|-|---------------------------|--------------------------------------|
+| Session control | User starts each session | Orchestrator manages all sessions |
+| Task selection | Agent claims from backlog | Orchestrator assigns sequentially/parallel |
+| Review | User triggers `/review-work` | Worker runs review, Lead selects fixes |
+| Verification | User triggers `/review-backlog` | Verifier Agent (thorn) auto-verifies |
+| Sprint files | Agent updates | Lead (orchestrator) updates |
+| R&R Task | Manual session | Auto — ends at `review` for user approval |
+
+### Execution Flow
+
+```
+/sprint:work-on-feature F{n}
+    │
+    ▼
+Briefing? ──Yes──► /explain
+    │
+    ▼
+Execution Plan (persona matching + batch grouping)
+    │
+    ▼
+User Approval
+    │
+    ▼
+┌──────────────── Batch Loop ────────────────┐
+│  Worker Agent ──► /review-work ──► Lead     │
+│       │                            │        │
+│       │◄─── fix instructions ◄─────┘        │
+│       │                                     │
+│       ▼                                     │
+│  Verifier Agent (thorn) ──► done            │
+│       │                                     │
+│       ▼                                     │
+│  Learning ──► refs/lessons/                 │
+└─────────────────────────────────────────────┘
+    │
+    ▼
+R&R Agent (thorn) ──► /review-backlog (immediate-fix)
+    │
+    ▼
+Task → review (user final approval)
+```
+
+---
+
+## 9. Context Preservation
 
 ### Problem: Knowledge Loss Between Sessions
 
@@ -343,7 +396,7 @@ Claude Code sessions are independent → no knowledge of previous sessions
 
 ---
 
-## 9. Worktree Mode
+## 10. Worktree Mode
 
 ### What is Worktree Mode?
 

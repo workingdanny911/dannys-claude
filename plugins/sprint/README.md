@@ -44,6 +44,7 @@ sprints/<sprint-name>/
 | plan-backlog | `/sprint:plan-backlog` | Design detailed sub-tasks for backlog items |
 | review-backlog | `/sprint:review-backlog` | Review completed tasks/features |
 | review-work | `/sprint:review-work` | Review and improve work in same session, then mark done |
+| work-on-feature | `/sprint:work-on-feature` | Automatically execute all Tasks in a Feature with review and verification |
 | update-version | `/sprint:update-version` | Update sprint to latest template version |
 
 ---
@@ -73,6 +74,14 @@ Define Features and Tasks through brainstorming.
 ```
 
 Start a session with an agent name and work on Tasks.
+
+### 3a. Auto-Execute Feature (Alternative)
+
+```
+/sprint:work-on-feature F1
+```
+
+Automatically executes all Tasks with matched personas, reviews, and verification.
 
 ### 4. After Completion
 

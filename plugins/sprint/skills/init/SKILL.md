@@ -5,7 +5,7 @@ description: Initialize a sprint with kanban-style structure for multi-agent col
 
 ## Version
 
-Current: **1.15.0**
+Current: **1.16.0**
 
 > Update this version when templates change:
 > - **Major** (2.0.0): Breaking changes to file structure

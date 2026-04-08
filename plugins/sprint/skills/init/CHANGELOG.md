@@ -11,6 +11,16 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.16.0] - 2026-04-08
+
+### Added
+
+- **`/sprint:work-on-feature` skill**: Feature-level automated orchestrator. Parses Feature Tasks, matches personas, groups into parallel batches, spawns Worker agents with review-work, Verifier agents (thorn) for third-party quality checks, and R&R agent for comprehensive Feature audit. Includes learning loop (refs/lessons/), resume mechanism, and parallel execution with file-overlap safety.
+- **Immediate-fix mode for `/sprint:review-backlog`**: New execution mode that fixes issues directly in-session instead of creating improvement Tasks. Used by `/sprint:work-on-feature` R&R step. Mode selection prompt added after findings report.
+- **Learning loop**: Verifier and R&R agents record repeated issue patterns to `refs/lessons/F{n}-lessons.md`. Lessons feed forward to subsequent Worker agent prompts within the same Feature execution.
+
+---
+
 ## [1.15.0] - 2026-04-06
 
 ### Added

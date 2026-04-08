@@ -1,6 +1,6 @@
 ---
 name: review-backlog
-description: "Review completed Task or Feature deliverables. Uses type-specific checklists (coding/docs/ideation/general) for quality review. If issues found, creates improvement plan in Plan mode and adds improvement Tasks to BACKLOG.md. Triggers: 'review task', 'review feature', 'review backlog'"
+description: "Review completed Task or Feature deliverables. Uses type-specific checklists (coding/docs/ideation/general) for quality review. Two modes: default (creates improvement Tasks) and immediate-fix (fixes issues directly). Triggers: 'review task', 'review feature', 'review backlog'"
 ---
 
 # Sprint Review Backlog Skill
@@ -20,6 +20,31 @@ This skill operates in a sprint folder containing:
 - `HANDOFF.md` - Current progress status
 - `INSTRUCTION.md` - Agent guidelines
 - `refs/` - Reference documents
+
+---
+
+## Execution Modes
+
+This skill supports two modes:
+
+| Aspect | Default Mode | Immediate-Fix Mode |
+|--------|-------------|-------------------|
+| **When** | Manual review, post-completion | Called from `/sprint:work-on-feature` R&R step |
+| **Trigger** | User runs `/sprint:review-backlog` | R&R Agent selects "immediate-fix" when prompted |
+| **Output** | New improvement Tasks in BACKLOG.md | Issues fixed directly in code |
+| **Post-review** | Tasks for next session | R&R Agent reports fixes to Lead |
+| **Sprint files** | Updates BACKLOG.md with Tasks | Does NOT touch sprint files (Lead handles) |
+
+**Mode selection:**
+After Step 4 (Report Results), ask:
+
+```
+How would you like to handle the findings?
+1. Create improvement Tasks (default) — adds Tasks to BACKLOG.md for next session
+2. Fix issues directly (immediate-fix) — fix all issues now in this session
+```
+
+If the agent is running as part of `/sprint:work-on-feature`, it should select option 2.
 
 ---
 
@@ -146,7 +171,9 @@ Would you like to create an improvement plan for Critical/Improvement items?
 
 ---
 
-### Step 5: Create Improvement Plan (When Issues Found)
+### Step 5: Handle Findings
+
+#### Mode A: Default — Create Improvement Tasks
 
 > **Enter Plan Mode if Critical or Improvement items exist and user agrees.**
 
@@ -191,22 +218,51 @@ Entering Plan Mode to create an improvement plan.
 
 **Wait for user approval.**
 
-> **CRITICAL: This skill only handles review and planning. It does NOT perform actual improvement work.**
+> **CRITICAL: In default mode, this skill only handles review and planning. It does NOT perform actual improvement work.**
 >
 > When the user approves the Plan:
-> 1. Update BACKLOG.md
+> 1. Update BACKLOG.md (Step 6A)
 > 2. **End the skill**
->
-> Do NOT say "Plan approved. Starting improvement work now." and begin work.
-> Improvement work happens in the next session via `@INSTRUCTION.md`.
+
+#### Mode B: Immediate-Fix — Fix Issues Directly
+
+> **Fix all Critical, Improvement, and Minor issues in this session.**
+
+1. For each issue (Critical first, then Improvement, then Minor):
+   - Identify the file and location
+   - Apply the fix
+   - Verify the fix is correct
+2. Run tests if applicable (coding type)
+3. Report results:
+
+```
+## Immediate-Fix Results
+
+Fixed:
+- 🔴 Critical: N/N items fixed
+- 🟡 Improvement: N/N items fixed
+- 🟢 Minor: N/N items fixed
+- 💡 Suggestion: N items (skipped — future consideration)
+
+Unfixable (if any):
+- [Issue]: [Why it cannot be fixed]
+
+Files modified:
+- [list of files]
+```
+
+> **In immediate-fix mode, do NOT modify sprint files (BACKLOG.md, HANDOFF.md, active/).
+> The Lead (orchestrator) handles sprint file updates.**
 
 ---
 
-### Step 6: Post-Approval Updates
+### Step 6: Post-Action Updates
+
+#### Step 6A: Default Mode — Post-Approval Updates
 
 > **IMPORTANT: After user approval, only update files and end the skill. Do not start improvement work.**
 
-#### 6.1 Update BACKLOG.md
+##### 6A.1 Update BACKLOG.md
 
 **Add improvement Tasks:**
 ```markdown
@@ -221,7 +277,7 @@ Entering Plan Mode to create an improvement plan.
 - [ ] F1: Login System  ← changed from [x] to [ ]
 ```
 
-#### 6.2 Update HANDOFF.md
+##### 6A.2 Update HANDOFF.md
 
 Add to `## Context for Next Session`:
 ```markdown
@@ -231,9 +287,18 @@ Add to `## Context for Next Session`:
 - Work from Plan file - no Plan Mode needed
 ```
 
+#### Step 6B: Immediate-Fix Mode — No Sprint File Updates
+
+In immediate-fix mode, the skill ends after fixing issues and reporting results.
+Sprint file updates are handled by the Lead (orchestrator from `/sprint:work-on-feature`).
+
+**End the skill.**
+
 ---
 
 ### Step 7: Completion Report
+
+#### Default Mode:
 
 ```
 [Item name] review complete.
@@ -251,16 +316,35 @@ Updated files:
 Call @INSTRUCTION.md in your next session to start improvement work.
 ```
 
+#### Immediate-Fix Mode:
+
+```
+[Item name] review and fix complete.
+
+Review results:
+- 🔴 Critical: N found, N fixed
+- 🟡 Improvement: N found, N fixed
+- 🟢 Minor: N found, N fixed
+- 💡 Suggestion: N items (noted)
+
+Files modified:
+- [list]
+
+[If unfixable issues exist:]
+⚠️ Unfixable issues:
+- [issue and reason]
+```
+
 ---
 
 ## Key Principles
 
-- **Type-specific checklists** - Different criteria for coding/docs/ideation/general
-- **Classification and prioritization** - Categorize findings by severity
-- **Plan-based improvements** - Planned improvements, not ad-hoc fixes
-- **Add as new Tasks** - Create improvement Tasks instead of reopening existing ones
-- **Reopen Feature** - Reopen if Feature was in completed state
-- **Plan file reference required** - Always reference generated Plan file during improvement work
+- **Type-specific checklists** — Different criteria for coding/docs/ideation/general
+- **Classification and prioritization** — Categorize findings by severity
+- **Two execution modes** — Default (create Tasks) for manual workflows, immediate-fix for automated orchestration
+- **Default mode: Plan-based** — Planned improvements, not ad-hoc fixes; create improvement Tasks
+- **Immediate-fix mode: Direct action** — Fix all fixable issues in-session; no sprint file modifications
+- **Reopen Feature** — Reopen if Feature was in completed state (default mode only)
 
 ---
 

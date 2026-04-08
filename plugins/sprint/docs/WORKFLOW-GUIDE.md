@@ -327,6 +327,83 @@ User: @sprints/payment-system/INSTRUCTION.md #rook
 
 ---
 
+## Phase 3.5: Automated Feature Execution (Alternative)
+
+Instead of manually starting sessions for each Task, use `/sprint:work-on-feature` to automate the entire Feature.
+
+### Run
+
+```
+User: /sprint:work-on-feature F1
+```
+
+### What Happens
+
+```
+Claude: This Feature has 5 Tasks:
+- T1.1: Login API
+- T1.2: Signup API
+- T1.3: Password Reset API
+- T1.4: Auth Integration Tests
+- T1.5: Review & Refactor F1
+
+Would you like a detailed explanation first?
+
+User: No
+
+Claude: ## Execution Plan for F1: User Authentication
+
+**Batch 1** (parallel)
+| Task | Persona | Type | Plan |
+|------|---------|------|------|
+| T1.1: Login API | rook | coding | refs/plans/F1-T1-plan.md |
+| T1.2: Signup API | rook | coding | none |
+
+**Batch 2** (after Batch 1)
+| Task | Persona | Type | Plan |
+|------|---------|------|------|
+| T1.3: Password Reset API | rook | coding | none |
+| T1.4: Auth Integration Tests | rook | coding | none |
+
+**Review & Refactor**
+| T1.5: R&R | thorn | review | (auto) |
+
+Proceed?
+
+User: Yes
+
+Claude: ✓ T1.1 done (rook) — 1 review fix, 0 verification fixes
+✓ T1.2 done (rook) — 0 review fixes, 1 verification fix
+✓ T1.3 done (rook) — 2 review fixes, 0 verification fixes
+✓ T1.4 done (rook) — 0 review fixes, 0 verification fixes
+
+Running Review & Refactor...
+
+## Feature F1: User Authentication — Execution Complete
+
+| Task | Persona | Review Fixes | Verification Fixes | Status |
+|------|---------|-------------|-------------------|--------|
+| T1.1 | rook | 1 | 0 | ✓ done |
+| T1.2 | rook | 0 | 1 | ✓ done |
+| T1.3 | rook | 2 | 0 | ✓ done |
+| T1.4 | rook | 0 | 0 | ✓ done |
+| T1.5 R&R | thorn | 3 | — | ⏳ review |
+
+R&R Task is in review status. Please verify and mark done.
+```
+
+### Resume After Failure
+
+If execution stops due to an error, re-run the same command:
+
+```
+User: /sprint:work-on-feature F1
+```
+
+The orchestrator detects completed Tasks and resumes from where it stopped.
+
+---
+
 ## Phase 4: Review
 
 ### 4.1 Run Review

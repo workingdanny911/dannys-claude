@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.1] - 2026-04-08
+
+### Improved — CLI-first Pre-work Rule
+- Pre-work section now mandates `./tools/cai.py` (budget/suggest/search) BEFORE source code exploration
+- Prevents AI from skipping context documents and going straight to grep/glob
+- CLAUDE.md template updated to reinforce "always run CLI before reading source code"
+
+### Changed — Shebang-based Invocation
+- All `python tools/cai.py` references replaced with `./tools/cai.py` (shebang: `#!/usr/bin/env python3`)
+- `cai.py` template now ships with execute permission
+- Eliminates `python` vs `python3` ambiguity
+
+### Upgrade Notes
+- Run `cai-upgrade` to update rules and CLI references
+- Existing context documents are unchanged
+
 ## [0.3.0] - 2026-04-07
 
 ### Improved — Confidence Pipeline

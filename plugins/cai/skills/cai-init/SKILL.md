@@ -151,24 +151,24 @@ This project uses CAI.
 ### Context CLI — `tools/cai.py`
 
 AI-facing CLI for context/ search, impact analysis, and state management.
-**Always prefer this CLI over ad-hoc grep/glob when exploring context/.**
+**Always run this CLI BEFORE exploring source code.** Ad-hoc grep/glob misses context that only exists in documents (roadmap, decisions, rationale).
 
 Setup (one-time): `pip install -r tools/requirements.txt`
 
 Commands:
-- `python tools/cai.py suggest <file|dir|module>` — related context docs + snippets for a target
-- `python tools/cai.py search "<keywords>"` — keyword search across all context docs
-- `python tools/cai.py budget --task "<description>" [-n N]` — top-N most relevant docs for a task (default 10)
-- `python tools/cai.py impact <file|dir|module>` — downstream modules/specs affected by a change
-- `python tools/cai.py status` — overall context health summary
-- `python tools/cai.py list [--type <type>] [--tag <tag>]` — filter docs by type/tag
-- `python tools/cai.py diff <target>` — source changes since a spec's `last_synced`
-- `python tools/cai.py validate [--fix]` — frontmatter schema validation
-- `python tools/cai.py update-synced <target>` — refresh a doc's `last_synced` to today
+- `./tools/cai.py suggest <file|dir|module>` — related context docs + snippets for a target
+- `./tools/cai.py search "<keywords>"` — keyword search across all context docs
+- `./tools/cai.py budget --task "<description>" [-n N]` — top-N most relevant docs for a task (default 10)
+- `./tools/cai.py impact <file|dir|module>` — downstream modules/specs affected by a change
+- `./tools/cai.py status` — overall context health summary
+- `./tools/cai.py list [--type <type>] [--tag <tag>]` — filter docs by type/tag
+- `./tools/cai.py diff <target>` — source changes since a spec's `last_synced`
+- `./tools/cai.py validate [--fix]` — frontmatter schema validation
+- `./tools/cai.py update-synced <target>` — refresh a doc's `last_synced` to today
 
 Append `--json` to any command for JSON output.
 
-When to use which:
+When to use which (always BEFORE reading source code):
 - Starting work on a file/module → `suggest` then `impact`
 - Planning a task from description → `budget --task`
 - Unsure which doc to read → `search`

@@ -23,7 +23,7 @@ Python CLI 도구 (`tools/cai.py`)를 제공. AI가 Bash tool로 호출하여 co
 |---|------|------|
 | 1 | 사용자: AI only | 개발자는 직접 호출하지 않음. 출력은 AI 파싱 최적화. |
 | 2 | Python + pyyaml | frontmatter 파싱이 핵심. regex보다 pyyaml이 견고. 외부 패키지는 이것만. |
-| 3 | 서브커맨드 스타일 | `python tools/cai.py <command> [args]` |
+| 3 | 서브커맨드 스타일 | `./tools/cai.py <command> [args]` |
 | 4 | 기본 텍스트 + `--json` | 텍스트가 기본, `--json` 플래그로 JSON 전환 |
 | 5 | Positional argument 자동 감지 | 파일/디렉토리/모듈 이름을 자동 판별 |
 | 6 | 검색 결과에 snippet 포함 | 경로만이 아니라 매칭된 라인 범위 + 본문 미리보기 |
@@ -37,9 +37,9 @@ Python CLI 도구 (`tools/cai.py`)를 제공. AI가 Bash tool로 호출하여 co
 파일, 디렉토리, 또는 모듈 이름을 받아 관련 context 문서 + snippet 반환.
 
 ```bash
-python tools/cai.py suggest src/auth/service.ts    # 파일
-python tools/cai.py suggest src/auth/              # 디렉토리
-python tools/cai.py suggest auth                   # 모듈 이름
+./tools/cai.py suggest src/auth/service.ts    # 파일
+./tools/cai.py suggest src/auth/              # 디렉토리
+./tools/cai.py suggest auth                   # 모듈 이름
 ```
 
 로직:
@@ -58,7 +58,7 @@ Target 판별:
 키워드/개념 기반 검색. 여러 키워드는 공백 구분, OR 검색. 매칭 키워드 수가 많을수록 relevance 상승.
 
 ```bash
-python tools/cai.py search "환불 refund"
+./tools/cai.py search "환불 refund"
 ```
 
 로직:
@@ -75,7 +75,7 @@ python tools/cai.py search "환불 refund"
 태스크 설명 기반으로 가장 관련 높은 TOP N 문서 반환 (기본 10).
 
 ```bash
-python tools/cai.py budget --task "결제 환불 플로우 수정" -n 5
+./tools/cai.py budget --task "결제 환불 플로우 수정" -n 5
 ```
 
 로직:
@@ -94,8 +94,8 @@ python tools/cai.py budget --task "결제 환불 플로우 수정" -n 5
 변경 시 영향받는 모듈/spec을 전체 의존성 그래프에서 추적. target은 파일, 디렉토리, 모듈 이름 모두 가능.
 
 ```bash
-python tools/cai.py impact src/auth/service.ts
-python tools/cai.py impact auth
+./tools/cai.py impact src/auth/service.ts
+./tools/cai.py impact auth
 ```
 
 로직:
@@ -130,7 +130,7 @@ Impact graph:
 전체 context 건강 상태 요약.
 
 ```bash
-python tools/cai.py status
+./tools/cai.py status
 ```
 
 출력: 전체 문서 수, type별 분포, stale/draft/verified 비율, 마지막 onboarding 날짜.
@@ -140,9 +140,9 @@ python tools/cai.py status
 문서 목록 필터링.
 
 ```bash
-python tools/cai.py list --type spec
-python tools/cai.py list --tag auth
-python tools/cai.py list --type decision --tag payment
+./tools/cai.py list --type spec
+./tools/cai.py list --tag auth
+./tools/cai.py list --type decision --tag payment
 ```
 
 #### `diff <target>`
@@ -150,8 +150,8 @@ python tools/cai.py list --type decision --tag payment
 spec의 last_synced 이후 관련 소스 코드의 변경 내역.
 
 ```bash
-python tools/cai.py diff context/specs/auth/_overview.md
-python tools/cai.py diff auth
+./tools/cai.py diff context/specs/auth/_overview.md
+./tools/cai.py diff auth
 ```
 
 로직:
@@ -166,8 +166,8 @@ python tools/cai.py diff auth
 frontmatter 스키마 검증. 필수 필드 누락, enum 값 오류 등.
 
 ```bash
-python tools/cai.py validate
-python tools/cai.py validate --fix    # 자동 수정 가능한 것은 수정
+./tools/cai.py validate
+./tools/cai.py validate --fix    # 자동 수정 가능한 것은 수정
 ```
 
 #### `update-synced <target>`
@@ -175,7 +175,7 @@ python tools/cai.py validate --fix    # 자동 수정 가능한 것은 수정
 특정 문서의 last_synced를 오늘로 갱신.
 
 ```bash
-python tools/cai.py update-synced context/specs/auth/_overview.md
+./tools/cai.py update-synced context/specs/auth/_overview.md
 ```
 
 ## 5. Output Format
@@ -226,16 +226,16 @@ python tools/cai.py update-synced context/specs/auth/_overview.md
 ```markdown
 ## Pre-work: Context loading
 파일을 수정하기 전, CLI로 관련 context를 확인하라:
-  python tools/cai.py suggest <대상 파일 또는 모듈>
+  ./tools/cai.py suggest <대상 파일 또는 모듈>
 결과에서 high/medium 문서를 읽고 패턴을 따르라.
 
 복잡한 작업이면 budget으로 우선순위를 확인:
-  python tools/cai.py budget --task "<작업 설명>"
+  ./tools/cai.py budget --task "<작업 설명>"
 
 변경 범위가 넓으면 impact로 영향 범위를 파악:
-  python tools/cai.py impact <대상>
+  ./tools/cai.py impact <대상>
 
-전체 사용법: python tools/cai.py --help
+전체 사용법: ./tools/cai.py --help
 ```
 
 ## 7. CLAUDE.md 연동
@@ -247,7 +247,7 @@ cai-init이 CLAUDE.md에 제안하는 블록:
 이 프로젝트는 CAI를 사용합니다.
 - Knowledge base: context/
 - Rules: .claude/rules/cai.md
-- CLI: python tools/cai.py <command> (suggest, search, budget, impact, diff, status, list, validate, update-synced)
+- CLI: ./tools/cai.py <command> (suggest, search, budget, impact, diff, status, list, validate, update-synced)
 ```
 
 ## 8. Installation

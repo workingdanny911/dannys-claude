@@ -216,35 +216,35 @@ The AI proposes context updates at the right moments -- after completing work, w
 
 ```bash
 # Find context related to a file, directory, or module
-python tools/cai.py suggest src/auth/service.ts
+./tools/cai.py suggest src/auth/service.ts
 
 # Keyword/concept search across all context
-python tools/cai.py search "refund webhook"
+./tools/cai.py search "refund webhook"
 
 # Task-based budget: top N most relevant documents
-python tools/cai.py budget --task "add refund flow to payment module" -n 5
+./tools/cai.py budget --task "add refund flow to payment module" -n 5
 
 # Impact analysis: what modules are affected by a change
-python tools/cai.py impact src/auth/service.ts
+./tools/cai.py impact src/auth/service.ts
 ```
 
 #### Status and Management
 
 ```bash
 # Health overview: document counts, type distribution, stale ratio
-python tools/cai.py status
+./tools/cai.py status
 
 # Filtered document listing
-python tools/cai.py list --type spec --tag auth
+./tools/cai.py list --type spec --tag auth
 
 # Show source changes since last spec sync
-python tools/cai.py diff context/specs/auth/_overview.md
+./tools/cai.py diff context/specs/auth/_overview.md
 
 # Validate frontmatter schemas (with optional auto-fix)
-python tools/cai.py validate --fix
+./tools/cai.py validate --fix
 
 # Update a document's last_synced to today
-python tools/cai.py update-synced context/specs/auth/_overview.md
+./tools/cai.py update-synced context/specs/auth/_overview.md
 ```
 
 All commands support `--json` for structured output. Default output is text optimized for AI parsing, with relevance levels (high/medium/low/transitive) and inline snippets.

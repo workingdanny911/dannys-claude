@@ -12,18 +12,25 @@ Source roots: [src/]
 
 ## Pre-work: Context loading
 
-Before modifying any file, check for related context documents:
+Before starting any task (code changes, analysis, design, review), load related context.
+**Use `tools/cai.py` BEFORE exploring source code.** Do not skip this step — ad-hoc grep/glob misses context that only exists in documents (roadmap, decisions, rationale).
 
-1. Determine which module the target file belongs to using **Source roots** above.
-2. Search `context/specs/` for a matching spec:
-   - First, check specs with a `covers` field that includes the target path.
+0. **CLI-first discovery** — run one of these based on task type:
+   - Task described in words → `./tools/cai.py budget --task "<description>"`
+   - Specific file/module work → `./tools/cai.py suggest <file|dir|module>`
+   - Keyword search → `./tools/cai.py search "<keywords>"`
+   Then read the documents the CLI recommends before touching source code.
+1. Identify the relevant modules using **Source roots** above.
+2. Search `context/specs/` for matching specs:
+   - First, check specs with a `covers` field that includes the target path or module.
    - If none found, use convention-based mapping: `context/specs/{module}/` maps to `{source_root}/{module}/`.
-3. If a spec exists, read it and follow its patterns.
+3. If specs exist, read them and follow their patterns.
    - `confidence: draft` or `intent` — reference only; cross-check against source code.
    - `confidence: reviewed` or `verified` — follow as authoritative.
 4. Check `context/conventions/` for applicable rules.
 5. Check `context/issues/` — do not worsen known problems.
 6. Check `context/decisions/` — respect accepted decisions.
+7. For analysis or design tasks, also check `context/project.md` for project-level context.
 
 ---
 

@@ -123,6 +123,33 @@ When a proposal is approved, invoke the corresponding skill:
 | Stale spec needs update | cai-drift-check | Drift assessment then update proposal |
 | New agent needed | cai-add-agent | Creates agent .md + adds trigger table row |
 
+---
+
+## Sub-Agent / Agent Teams — Mandatory CAI usage
+
+The CAI protocol applies to **all execution contexts** without exception: direct sessions, Sub-Agents, and Agent Teams members.
+
+When spawning a Sub-Agent or Agent Teams member, **always include the following in the prompt**:
+
+> **CAI Protocol — follow before and after any code work.**
+>
+> This project has a `context/` knowledge base. You must use it — ad-hoc grep/glob misses architectural decisions, conventions, known issues, and rationale that only exist in context documents.
+>
+> **Pre-work (before touching source code):**
+> 1. Run `./tools/cai.py budget --task "<your task>"` (or `suggest <target>` / `search "<keywords>"`) to discover relevant docs.
+> 2. Read the recommended docs from `context/` — specs, conventions, decisions, issues.
+> 3. Follow the rules in `.claude/rules/cai.md` (pre-work steps 1–7, context type behavior, hallucination prevention).
+>
+> **During work:**
+> - `context/conventions/` — always apply matching rules.
+> - `context/decisions/` (accepted) — do not reverse.
+> - `context/issues/` — do not worsen known problems.
+> - `context/specs/` — follow patterns (check `confidence` level).
+>
+> **Post-work:**
+> - If your change contradicts a spec, propose an update.
+> - If you created a non-trivial pattern with no spec, propose documenting it.
+
 <!-- TOOL-MANAGED:END -->
 
 <!-- PROJECT-SPECIFIC:START -->

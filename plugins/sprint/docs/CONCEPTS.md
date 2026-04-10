@@ -308,16 +308,18 @@ Every Feature includes a final review/refactor Task:
 
 ### What is `/sprint:work-on-feature`?
 
-An orchestrator skill that automatically executes all Tasks in a Feature — spawning agents, running reviews, and verifying quality.
+An orchestrator skill that creates an **Agent Team** to automatically execute all Tasks in a Feature — with bidirectional communication between Lead, Workers, and Verifiers.
 
 ### Manual vs Automated Execution
 
 | | Manual (`@INSTRUCTION.md`) | Automated (`/sprint:work-on-feature`) |
 |-|---------------------------|--------------------------------------|
-| Session control | User starts each session | Orchestrator manages all sessions |
-| Task selection | Agent claims from backlog | Orchestrator assigns sequentially/parallel |
-| Review | User triggers `/review-work` | Worker runs review, Lead selects fixes |
-| Verification | User triggers `/review-backlog` | Verifier Agent (thorn) auto-verifies |
+| Session control | User starts each session | Lead manages Agent Team |
+| Architecture | Independent sessions | Agent Team (TeamCreate + SendMessage) |
+| Task selection | Agent claims from backlog | Lead assigns via shared task board |
+| Review | User triggers `/review-work` | Lead directs Worker to run review, selects "all" |
+| Verification | User triggers `/review-backlog` | Verifier teammate (thorn) auto-verifies |
+| Communication | File-based handoff | Bidirectional SendMessage (Lead ↔ Worker ↔ Verifier) |
 | Sprint files | Agent updates | Lead (orchestrator) updates |
 | R&R Task | Manual session | Auto — ends at `review` for user approval |
 
@@ -336,20 +338,30 @@ Execution Plan (persona matching + batch grouping)
 User Approval
     │
     ▼
+TeamCreate("feature-F{n}")
+    │
+    ▼
 ┌──────────────── Batch Loop ────────────────┐
-│  Worker Agent ──► /review-work ──► Lead     │
-│       │                            │        │
-│       │◄─── fix instructions ◄─────┘        │
+│  Lead ──SendMessage──► Worker: "implement"  │
+│       ◄──SendMessage── Worker: "done"       │
+│  Lead ──SendMessage──► Worker: "review-work"│
+│       ◄──SendMessage── Worker: findings     │
+│  Lead ──SendMessage──► Worker: "fix all"    │
+│       ◄──SendMessage── Worker: fixed        │
 │       │                                     │
-│       ▼                                     │
-│  Verifier Agent (thorn) ──► done            │
+│  Lead spawns Verifier teammate              │
+│  Verifier ◄──SendMessage──► Worker (Q&A)    │
+│  Verifier ──SendMessage──► Lead: PASS/FAIL  │
 │       │                                     │
-│       ▼                                     │
-│  Learning ──► refs/lessons/                 │
+│  Lead: shutdown Worker + Verifier           │
+│  Lead: learning ──► refs/lessons/           │
 └─────────────────────────────────────────────┘
     │
     ▼
-R&R Agent (thorn) ──► /review-backlog (immediate-fix)
+R&R teammate (thorn) ──► /review-backlog (immediate-fix)
+    │
+    ▼
+Broadcast shutdown ──► all teammates
     │
     ▼
 Task → review (user final approval)

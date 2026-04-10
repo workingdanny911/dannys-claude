@@ -329,7 +329,7 @@ User: @sprints/payment-system/INSTRUCTION.md #rook
 
 ## Phase 3.5: Automated Feature Execution (Alternative)
 
-Instead of manually starting sessions for each Task, use `/sprint:work-on-feature` to automate the entire Feature.
+Instead of manually starting sessions for each Task, use `/sprint:work-on-feature` to automate the entire Feature with an **Agent Team**.
 
 ### Run
 
@@ -353,43 +353,66 @@ User: No
 
 Claude: ## Execution Plan for F1: User Authentication
 
+**Team**: feature-F1
+**Model**: opus (all teammates)
+
 **Batch 1** (parallel)
-| Task | Persona | Type | Plan |
-|------|---------|------|------|
-| T1.1: Login API | rook | coding | refs/plans/F1-T1-plan.md |
-| T1.2: Signup API | rook | coding | none |
+| Task | Teammate | Persona | Type | Plan |
+|------|----------|---------|------|------|
+| T1.1: Login API | worker-T1.1 | rook | coding | refs/plans/F1-T1-plan.md |
+| T1.2: Signup API | worker-T1.2 | rook | coding | none |
 
 **Batch 2** (after Batch 1)
-| Task | Persona | Type | Plan |
-|------|---------|------|------|
-| T1.3: Password Reset API | rook | coding | none |
-| T1.4: Auth Integration Tests | rook | coding | none |
+| Task | Teammate | Persona | Type | Plan |
+|------|----------|---------|------|------|
+| T1.3: Password Reset API | worker-T1.3 | rook | coding | none |
+| T1.4: Auth Integration Tests | worker-T1.4 | rook | coding | none |
 
-**Review & Refactor**
-| T1.5: R&R | thorn | review | (auto) |
+**Verifier**: verifier (thorn, spawned per verification cycle)
+**Review & Refactor**: reviewer-F1 (thorn)
 
 Proceed?
 
 User: Yes
 
-Claude: ✓ T1.1 done (rook) — 1 review fix, 0 verification fixes
-✓ T1.2 done (rook) — 0 review fixes, 1 verification fix
-✓ T1.3 done (rook) — 2 review fixes, 0 verification fixes
-✓ T1.4 done (rook) — 0 review fixes, 0 verification fixes
+Claude: [Creates Agent Team "feature-F1"]
+[Spawns worker-T1.1, worker-T1.2 as teammates (opus)]
+
+✓ T1.1 done (rook) — 3 self-review fixes, 0 verification fixes
+✓ T1.2 done (rook) — 1 self-review fix, 1 verification fix
+✓ T1.3 done (rook) — 2 self-review fixes, 0 verification fixes
+✓ T1.4 done (rook) — 0 self-review fixes, 0 verification fixes
 
 Running Review & Refactor...
 
 ## Feature F1: User Authentication — Execution Complete
 
-| Task | Persona | Review Fixes | Verification Fixes | Status |
-|------|---------|-------------|-------------------|--------|
-| T1.1 | rook | 1 | 0 | ✓ done |
-| T1.2 | rook | 0 | 1 | ✓ done |
-| T1.3 | rook | 2 | 0 | ✓ done |
-| T1.4 | rook | 0 | 0 | ✓ done |
-| T1.5 R&R | thorn | 3 | — | ⏳ review |
+**Team**: feature-F1 (shutdown)
+
+| Task | Teammate | Persona | Review Fixes | Verification Fixes | Status |
+|------|----------|---------|-------------|-------------------|--------|
+| T1.1 | worker-T1.1 | rook | 3 self-review | 0 | ✓ done |
+| T1.2 | worker-T1.2 | rook | 1 self-review | 1 | ✓ done |
+| T1.3 | worker-T1.3 | rook | 2 self-review | 0 | ✓ done |
+| T1.4 | worker-T1.4 | rook | 0 | 0 | ✓ done |
+| T1.5 R&R | reviewer-F1 | thorn | 3 | — | ⏳ review |
 
 R&R Task is in review status. Please verify and mark done.
+```
+
+### Agent Team Communication Flow
+
+```
+Lead ──SendMessage──► worker-T1.1: "implement task"
+     ◄──SendMessage── worker-T1.1: "implementation complete, files: [...]"
+Lead ──SendMessage──► worker-T1.1: "run /sprint:review-work"
+     ◄──SendMessage── worker-T1.1: "findings: 🔴 1, 🟡 1, 🟢 1, 💡 0"
+Lead ──SendMessage──► worker-T1.1: "fix all (including suggestions)"
+     ◄──SendMessage── worker-T1.1: "all fixed, updated files: [...]"
+Lead spawns verifier-T1.1 (thorn, opus)
+     verifier ◄──SendMessage──► worker-T1.1  (design intent Q&A)
+     ◄──SendMessage── verifier-T1.1: "PASS"
+Lead ──shutdown──► worker-T1.1, verifier-T1.1
 ```
 
 ### Resume After Failure

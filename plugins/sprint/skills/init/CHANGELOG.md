@@ -11,6 +11,19 @@ Versioning: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.17.0] - 2026-04-10
+
+### Changed
+
+- **`/sprint:work-on-feature`: Agent Teams architecture**: Replaced standalone Sub-Agent spawning with Agent Teams (TeamCreate). All Workers and Verifiers are now teammates in a shared team (`feature-F{n}`) with bidirectional communication via SendMessage. Verifiers can ask Workers about design intent before assuming bugs.
+- **`/sprint:work-on-feature`: Lead-directed review-work cycle**: Lead instructs Worker to run `/sprint:review-work`, receives findings, then sends "all" selection. Workers no longer self-review autonomously — Lead drives the review cycle as decision-maker.
+- **`/sprint:work-on-feature`: Fix all review items including Suggestions**: "all" selection now includes 💡 Suggestions. Workers fix every category: 🔴 Critical, 🟡 Improvement, 🟢 Minor, and 💡 Suggestion.
+- **`/sprint:work-on-feature`: Opus model default**: All spawned teammates use `model: "opus"` for maximum capability.
+- **`/sprint:work-on-feature`: Clean shutdown**: Teammates are gracefully shut down via `shutdown_request` after their work is verified, with a broadcast shutdown at Feature completion.
+- **`/sprint:review-work`: "all" includes Suggestions**: Selecting "all" now fixes everything including 💡 Suggestions (previously excluded). 💡 category description updated from "Future consideration only" to "Nice to have — low priority but included when 'all' is selected".
+
+---
+
 ## [1.16.0] - 2026-04-08
 
 ### Added

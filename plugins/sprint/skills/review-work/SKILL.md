@@ -95,7 +95,7 @@ Leverage information already in the session. Read additional files as needed:
 | 🔴 **Critical** | Must fix — goal not met, acceptance criteria failed, bugs, security issues, broken functionality. **Failure to meet goals or acceptance criteria is always Critical.** |
 | 🟡 **Improvement** | Should fix — readability, maintainability, quality |
 | 🟢 **Minor** | Nice to fix — naming, formatting, small cleanups |
-| 💡 **Suggestion** | Future consideration only — not for this session |
+| 💡 **Suggestion** | Nice to have — low priority but included when "all" is selected |
 
 **Report format:**
 
@@ -125,7 +125,7 @@ Leverage information already in the session. Read additional files as needed:
 Which items would you like to fix before marking done?
 - Enter numbers (e.g., "all critical, improvement 1, 3")
 - Enter "none" to mark done as-is
-- Enter "all" to fix everything except suggestions
+- Enter "all" to fix everything (including suggestions)
 ```
 
 **If no issues found:**

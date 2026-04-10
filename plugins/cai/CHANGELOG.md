@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.3] - 2026-04-10
+
+### Fixed — Interview Skill Naming Consistency
+- Renamed `interview` skill to `cai-interview` for consistency with other skills (`cai-add-spec`, `cai-onboard`, etc.)
+- Updated all `cai:interview` references to `cai:cai-interview` across skills, rules template, README, and docs
+- Added `cai-interview` to cai-init Step 7 copy list (was missing — plugin-free installs couldn't use it)
+
+### Upgrade Notes
+- Run `cai-upgrade` to update skills and rules
+- Projects with existing `.claude/rules/cai.md` will need the `cai:interview` → `cai:cai-interview` reference updated
+
 ## [0.3.2] - 2026-04-09
 
 ### Added — Mandatory CAI Usage for Sub-Agents and Agent Teams

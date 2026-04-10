@@ -1,5 +1,5 @@
 ---
-name: interview
+name: cai-interview
 description: "Use when gathering information from the user through conversational dialogue — onboarding context collection, spec scope clarification, decision rationale gathering. Triggers: 'interview', 'cai-interview'"
 ---
 # CAI Interview

@@ -280,7 +280,7 @@ The `budget` command scores documents using 7 signals:
 | `cai-upgrade` | Upgrade plugin to latest version | Developer | Rare |
 | `cai-add-agent` | Create a new custom domain agent | Developer or AI | Rare |
 | `cai-add-roadmap` | Record a future plan or initiative | AI (knowledge capture) | Rare |
-| `interview` | Conversational sub-skill that gathers user input for the skills above | Other cai skills | As needed |
+| `cai-interview` | Conversational sub-skill that gathers user input for the skills above | Other cai skills | As needed |
 
 Most skills are called by the AI internally. The rules file defines **when** each skill fires; the skill defines **how** it executes; agents define **who** does the work.
 
@@ -314,7 +314,7 @@ These remain active after onboarding and run during normal development:
 | `code-reviewer` | Detect convention violations in changed code | Post-change |
 | `spec-writer` | Read source code and write specs, verify consistency with existing specs | Ad-hoc |
 
-> Note: Interview-driven document authoring (ADRs, roadmaps, onboarding context) is handled by the `cai:interview` **skill**, run directly by the main agent rather than dispatched as a subagent.
+> Note: Interview-driven document authoring (ADRs, roadmaps, onboarding context) is handled by the `cai:cai-interview` **skill**, run directly by the main agent rather than dispatched as a subagent.
 
 Projects can also define **custom domain agents** (e.g., `payment-specialist`, `auth-reviewer`) that accumulate domain-specific failure modes and code patterns over time, following the emergence pattern described in the paper.
 
@@ -394,7 +394,7 @@ project-root/
 │   │   ├── cai-capture-lesson/SKILL.md
 │   │   ├── cai-drift-check/SKILL.md
 │   │   ├── cai-upgrade/SKILL.md
-│   │   └── interview/SKILL.md
+│   │   └── cai-interview/SKILL.md
 │   ├── agents/
 │   │   ├── structure-scanner.md        # Onboarding (tool-managed)
 │   │   ├── module-analyst.md

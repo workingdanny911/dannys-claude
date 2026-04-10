@@ -5,7 +5,7 @@ description: "Use when onboarding a project into CAI. Triggers: 'cai-onboard', '
 # CAI Onboard
 
 > ⛔ **HARD RULE — Interview is NEVER a subagent.**
-> Phase 3 (E5) and New Project Flow (N1) interviews are delegated to the `cai:interview` skill, which the main agent runs directly in the current conversation. Do NOT dispatch the interview as a Task subagent — that severs the user's conversational context.
+> Phase 3 (E5) and New Project Flow (N1) interviews are delegated to the `cai:cai-interview` skill, which the main agent runs directly in the current conversation. Do NOT dispatch the interview as a Task subagent — that severs the user's conversational context.
 
 ## Overview
 
@@ -111,7 +111,7 @@ If `--resume`: skip document types where files already exist.
 
 **E5. Context Interview**
 
-Invoke the `cai:interview` skill. The main agent runs it directly — the interview skill itself forbids subagent dispatch.
+Invoke the `cai:cai-interview` skill. The main agent runs it directly — the interview skill itself forbids subagent dispatch.
 
 Pass the following to the interview skill:
 - **Goal**: Validate Phase 1-2 drafts and collect knowledge code cannot reveal (vision, constraints, future plans, unwritten conventions).
@@ -162,7 +162,7 @@ Present the proposed CLAUDE.md content to the user for approval. Do NOT modify C
 
 **N1. Context Interview (BLOCKING)**
 
-Invoke the `cai:interview` skill. Pass:
+Invoke the `cai:cai-interview` skill. Pass:
 
 - **Goal**: Bootstrap a brand-new project's context documents from scratch (no prior code analysis to draw from).
 - **What is already known**: Nothing — this is `--new` mode.
@@ -216,7 +216,7 @@ Display phase transitions clearly:
 - Agent: `draft-generator` — Generates decisions, issues, project.md from git/code analysis
   - Invocation: `Task("Generate context document drafts for project at {project_root}", agent="agents/draft-generator.md")`
 
-- (Phase 3 interview is delegated to the `cai:interview` skill — see E5 / N1. It is run by the main agent and never dispatched as a subagent.)
+- (Phase 3 interview is delegated to the `cai:cai-interview` skill — see E5 / N1. It is run by the main agent and never dispatched as a subagent.)
 
 - Agent: `relationship-mapper` — Maps inter-module dependencies
   - Invocation: `Task("Map relationships between modules. Specs: {spec_paths}", agent="agents/relationship-mapper.md")`

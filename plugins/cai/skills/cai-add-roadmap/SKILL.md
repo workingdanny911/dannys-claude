@@ -6,7 +6,7 @@ description: "Use when recording a future plan or direction. Triggers: 'cai-add-
 
 ## Overview
 
-Creates a roadmap entry documenting a future plan, direction, or initiative. Uses the `cai:interview` skill to collect details since future plans cannot be inferred from code.
+Creates a roadmap entry documenting a future plan, direction, or initiative. Uses the `cai:cai-interview` skill to collect details since future plans cannot be inferred from code.
 
 ## When to Use
 
@@ -33,12 +33,12 @@ Ask or infer the roadmap item's current status:
 ```
 Is there sufficient context in the current conversation?
 ├── YES → Use it directly (Step 3)
-└── NO  → Invoke the cai:interview skill (Step 2a)
+└── NO  → Invoke the cai:cai-interview skill (Step 2a)
 ```
 
 **2a. Interview for Roadmap Content**
 
-Invoke the `cai:interview` skill. Pass:
+Invoke the `cai:cai-interview` skill. Pass:
 - **Goal**: Collect the details needed to write a roadmap entry.
 - **What is already known**: Anything mentioned earlier in the conversation.
 - **Output target**: This skill's working memory — answers feed Step 3.
@@ -98,7 +98,7 @@ Present the generated roadmap item for review. Write to disk only after approval
 
 ## Skill Invocations
 
-- Skill: `cai:interview` — Collects roadmap details from the user (see Step 2a).
+- Skill: `cai:cai-interview` — Collects roadmap details from the user (see Step 2a).
 
 ## Output
 

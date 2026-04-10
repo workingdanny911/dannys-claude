@@ -78,16 +78,17 @@ Do not overwrite if the file already exists (skip with notice), unless `--force`
 
 ### Step 7: Copy daily-use skills
 
-Copy these 7 skills from the plugin to the target project:
+Copy these 8 skills from the plugin to the target project:
 
 ```
-${CLAUDE_PLUGIN_ROOT}/skills/cai-onboard/SKILL.md    → .claude/skills/cai-onboard/SKILL.md
-${CLAUDE_PLUGIN_ROOT}/skills/cai-add-spec/SKILL.md   → .claude/skills/cai-add-spec/SKILL.md
+${CLAUDE_PLUGIN_ROOT}/skills/cai-onboard/SKILL.md      → .claude/skills/cai-onboard/SKILL.md
+${CLAUDE_PLUGIN_ROOT}/skills/cai-add-spec/SKILL.md     → .claude/skills/cai-add-spec/SKILL.md
 ${CLAUDE_PLUGIN_ROOT}/skills/cai-add-decision/SKILL.md → .claude/skills/cai-add-decision/SKILL.md
-${CLAUDE_PLUGIN_ROOT}/skills/cai-add-agent/SKILL.md  → .claude/skills/cai-add-agent/SKILL.md
-${CLAUDE_PLUGIN_ROOT}/skills/cai-add-roadmap/SKILL.md → .claude/skills/cai-add-roadmap/SKILL.md
+${CLAUDE_PLUGIN_ROOT}/skills/cai-add-agent/SKILL.md    → .claude/skills/cai-add-agent/SKILL.md
+${CLAUDE_PLUGIN_ROOT}/skills/cai-add-roadmap/SKILL.md  → .claude/skills/cai-add-roadmap/SKILL.md
 ${CLAUDE_PLUGIN_ROOT}/skills/cai-capture-lesson/SKILL.md → .claude/skills/cai-capture-lesson/SKILL.md
-${CLAUDE_PLUGIN_ROOT}/skills/cai-drift-check/SKILL.md → .claude/skills/cai-drift-check/SKILL.md
+${CLAUDE_PLUGIN_ROOT}/skills/cai-drift-check/SKILL.md  → .claude/skills/cai-drift-check/SKILL.md
+${CLAUDE_PLUGIN_ROOT}/skills/cai-interview/SKILL.md    → .claude/skills/cai-interview/SKILL.md
 ```
 
 Create `.claude/skills/` directories as needed. Skip existing files with notice unless `--force`.

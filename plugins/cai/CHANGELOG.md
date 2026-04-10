@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.2] - 2026-04-09
+
+### Added — Mandatory CAI Usage for Sub-Agents and Agent Teams
+- Rules template (`cai.md`) now includes copy-paste prompt block for Sub-Agent / Agent Teams spawning
+- Full CAI protocol embedded: pre-work (cai.py discovery), during-work (conventions/decisions/issues), post-work (spec proposals)
+- Applies to all execution contexts without exception
+
+### Improved — AGENTS.md Template
+- Added concrete `cai.py` commands and structured workflow guidance
+
+### Upgrade Notes
+- Run `cai-upgrade` to update rules and AGENTS.md
+- Existing context documents are unchanged
+
 ## [0.3.1] - 2026-04-08
 
 ### Improved — CLI-first Pre-work Rule

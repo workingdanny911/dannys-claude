@@ -4,13 +4,25 @@ A personal plugin marketplace for Claude Code.
 
 ## Installation
 
-```bash
-# Add marketplace
-/plugin marketplace add dannys-claude https://github.com/workingdanny911/dannys-claude
+### Option A — Curated marketplace (all plugins)
 
-# Install plugin
+```bash
+/plugin marketplace add dannys-claude https://github.com/workingdanny911/dannys-claude
 /plugin install sprint@dannys-claude
 ```
+
+### Option B — Standalone repos (per plugin)
+
+Each plugin is also mirrored to its own repo, installable on its own:
+
+| Plugin | Standalone repo | Install |
+|---|---|---|
+| `sprint` | [workingdanny911/sprint](https://github.com/workingdanny911/sprint) | `/plugin marketplace add workingdanny911/sprint` |
+| `cai` | [workingdanny911/cai](https://github.com/workingdanny911/cai) | `/plugin marketplace add workingdanny911/cai` |
+| `codebase-x-ray` | [workingdanny911/codebase-x-ray](https://github.com/workingdanny911/codebase-x-ray) | `/plugin marketplace add workingdanny911/codebase-x-ray` |
+| `explain` | — (monorepo only) | via Option A |
+
+> Standalone repos are **read-only mirrors**. Source of truth for development is this monorepo — mirroring is automated by `scripts/mirror-plugins.sh`.
 
 ## Plugins
 

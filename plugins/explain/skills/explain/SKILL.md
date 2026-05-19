@@ -7,7 +7,9 @@ description: "Explain any subject — architecture, technical concepts, decision
 
 Explain any subject deeply using storytelling, diagrams, and examples.
 
-## Top-Level Principle
+## Top-Level Principles
+
+### 1) No Hallucination
 
 > **Hallucination is absolutely forbidden.**
 >
@@ -15,6 +17,22 @@ Explain any subject deeply using storytelling, diagrams, and examples.
 > - If you don't know, say "I don't know."
 > - If it's a guess, say "This is a guess."
 > - Never present uncertainty as fact. No exceptions.
+
+### 2) High-Level Only Until Asked
+
+> **Never explain code-level or low-level details unless the user explicitly asks.**
+>
+> By default, stay at the high-level layer: purpose, responsibilities, boundaries, flows, relationships, trade-offs.
+>
+> **Do NOT include unless requested:**
+> - Source code snippets, function signatures, method bodies
+> - Specific file paths, line numbers, variable names
+> - Implementation details, algorithms step-by-step, library internals
+> - Concrete API request/response payloads, SQL queries, config syntax
+>
+> **Single exception — Models.** Data models, domain models, schemas, and ML models MAY be explained without being asked, but **only at the high level** (entities, relationships, roles, cardinality, conceptual shape). Do not drop down to column types, ORM code, migration scripts, or hyperparameters unless asked.
+>
+> When the user wants code-level depth, they will say so ("show me the code", "어떻게 구현돼 있어", "deeper", "low-level"). That triggers Step 4 (Drill-Down).
 
 ---
 
@@ -97,6 +115,8 @@ Examine the subject from **multiple perspectives (facets)**. Identify facets bas
 
 Facets are **not fixed** — choose what fits the subject. 1 facet or 10 facets, whatever is needed.
 
+> **Detail-level reminder:** Every facet block stays high-level. Describe *what* and *why*, not *how it's coded*. Code snippets, file paths, and implementation specifics are forbidden here — they belong in Drill-Down (Step 4), and only when the user asks. Models are the lone exception, and even then keep them conceptual (entities, relationships, roles).
+
 **Every facet block MUST include all three elements:**
 
 ```
@@ -124,6 +144,8 @@ Prerequisites — what you need to know to understand this subject.
 #### 4) Drill-Down (optional, user-initiated)
 
 After the overview, if the user wants to go deeper into a specific part, explain that part with the same structure: story + diagrams + examples.
+
+**This is the only place code-level / low-level detail belongs.** Source snippets, function signatures, file paths, algorithm steps, query syntax — all of it stays out of the overview and facet blocks, and only appears here, and only when the user has asked. If the user has not asked, do not preempt with code.
 
 ---
 
@@ -199,6 +221,7 @@ After the explanation, ask if the user wants to save it as a document.
 | Principle | Description |
 |-----------|-------------|
 | **No hallucination** | Don't know → say so. Guess → say so. Top priority. |
+| **High-level only until asked** | No code/low-level details in the default explanation. Models OK at high level. Drill-Down is opt-in. |
 | **Understanding over brevity** | Good explanation = understood, not short. No length limit. |
 | **High-level first** | Always start with the big picture. Overview → facets → concepts → drill-down |
 | **Story + Diagram + Example** | Every explanation block includes all three |

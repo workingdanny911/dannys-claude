@@ -20,7 +20,7 @@
     {
       "name": "explain",
       "description": "Explain any subject using storytelling, diagrams, and examples",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "source": "./plugins/explain",
       "category": "productivity"
     },

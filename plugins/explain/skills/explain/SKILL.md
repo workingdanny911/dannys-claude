@@ -18,7 +18,26 @@ Explain any subject deeply using storytelling, diagrams, and examples.
 > - If it's a guess, say "This is a guess."
 > - Never present uncertainty as fact. No exceptions.
 
-### 2) High-Level Only Until Asked
+### 2) Think First — What Actually Matters?
+
+> **Before writing anything, pause and ask: "What is the one thing this person most needs to walk away understanding?"**
+>
+> Sources tell you *what exists*. They do not tell you *what matters*. That second step is on you, and it must happen before generation begins.
+>
+> **Do this every time, in order:**
+> 1. List 3–7 candidate points you *could* cover.
+> 2. Rank them by what changes the listener's mental model the most. The top 1–3 are the spine of the explanation.
+> 3. Decide what to deliberately leave out. Completeness is not a goal — clarity of the essential is.
+> 4. Lead with the essentials. Everything else exists to support them, not to compete with them.
+>
+> **Symptoms you skipped this step:**
+> - The overview reads like a feature list.
+> - Every facet feels equally weighted.
+> - You cannot answer "if the reader only remembers one sentence, which one should it be?"
+>
+> If any of these are true, stop and re-prioritize before writing.
+
+### 3) High-Level Only Until Asked
 
 > **Never explain code-level or low-level details unless the user explicitly asks.**
 >
@@ -62,6 +81,8 @@ What is the user asking to understand?
 
 > **CRITICAL: Read ALL sources BEFORE generating any explanation.**
 > Do not start explaining until sources are sufficiently gathered.
+
+> **And before you generate, apply Top-Level Principle 2: think about what truly matters.** Sources gathered ≠ explanation ready. Decide the top 1–3 essentials and what to leave out *first*. Then write.
 
 ### Fact Verification
 
@@ -221,6 +242,7 @@ After the explanation, ask if the user wants to save it as a document.
 | Principle | Description |
 |-----------|-------------|
 | **No hallucination** | Don't know → say so. Guess → say so. Top priority. |
+| **Think first, then explain** | Before writing, identify the 1–3 things that truly matter. Lead with them. Drop the rest. |
 | **High-level only until asked** | No code/low-level details in the default explanation. Models OK at high level. Drill-Down is opt-in. |
 | **Understanding over brevity** | Good explanation = understood, not short. No length limit. |
 | **High-level first** | Always start with the big picture. Overview → facets → concepts → drill-down |
